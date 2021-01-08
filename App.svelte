@@ -1,6 +1,6 @@
 <script>
   import Scene from './components/Scene.svelte';
-  import Emitter from './components/Emitter.svelte';
+  import Emitter from './components/mograph/Emitter.svelte';
   import { Cube, Icosahedron, Octahedron, Sphere, Tetrahedron, Torus, TorusKnot } from './components/primitives';
   import { AmbientLight, DirectionalLight } from './components/lights';
 
@@ -11,7 +11,7 @@
 <svelte:window bind:innerWidth={width} bind:innerHeight={height}/>
 
 {#if width && height}
-  <Scene background='#eee' {width} {height}>
+  <Scene background='#111' {width} {height}>
     <AmbientLight />
     <DirectionalLight />
     <Emitter
@@ -109,5 +109,5 @@
 {/if}
 
 <style>
-  :global(body) { background-color: #eee; }
+  :global(body) { background-color: #111; }
 </style>

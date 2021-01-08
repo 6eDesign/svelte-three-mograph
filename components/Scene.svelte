@@ -12,8 +12,8 @@
 	scene.background = new Color(background);
 	const camera = new PerspectiveCamera(75, width/height, 0.1, 1000);
 	const renderer = new WebGLRenderer({
-		// alpha: true,
-		// antialias: true
+		alpha: true,
+		antialias: true
 	});
 
 	camera.position.z = 5;
