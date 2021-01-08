@@ -13,7 +13,6 @@
   export let zRotation = 0;
   export let renderFn;
 
-  console.log(size);
   const geometry = new Geometry(...size);
   const material = new MeshPhongMaterial({color: Math.random() * 0xffffff});
   const mesh = new Mesh(geometry, material);
