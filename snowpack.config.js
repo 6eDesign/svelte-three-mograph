@@ -4,8 +4,19 @@ module.exports = {
     /* ... */
   },
   plugins: [
-    /* ... */
-    '@snowpack/plugin-svelte'
+    '@snowpack/plugin-svelte',
+    "@snowpack/plugin-webpack",
+    [
+      "snowpack-plugin-baseurl-handler",
+      {
+        "exts": [
+          ".html",
+          ".js",
+          ".css"
+        ],
+        "baseUrl": "/svelte-three-mograph"
+      }
+    ]
   ],
   install: [
     /* ... */
@@ -18,6 +29,7 @@ module.exports = {
   },
   buildOptions: {
     /* ... */
+    out: 'docs'
   },
   proxy: {
     /* ... */

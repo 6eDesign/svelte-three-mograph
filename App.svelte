@@ -8,7 +8,7 @@
   let height;
 
   const gravity = {
-    direction: [0, -0.002, 0],
+    direction: [0, -0.009, 0],
     rotation: [0, 0, 0]
   };
 </script>
@@ -29,8 +29,8 @@
       position={[0,0,0]}
       size={[1,1,0]}
       particlesPerSecond={155}
-      velocity={.1}
-      direction={[0,1,1]}
+      velocity={.19}
+      direction={[0,1,.09]}
       forces={[ gravity ]}
     >
       <!-- CUBE Example: -->

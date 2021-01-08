@@ -1,12 +1,31 @@
 {
+  "name": "@6edesign/svelte-three",
+  "svelte": "src/components/index.js",
+  "main": "src/components/index.js",
+  "version": "0.0.1",
+  "license": "MIT",
+  "keywords": [
+    "svelte",
+    "calendar",
+    "datepicker",
+    "svelte-datepicker",
+    "svelte-calendar"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "start": "snowpack dev",
     "build": "snowpack build",
     "test": "echo \"This template does not include a test runner by default.\" && exit 1"
   },
   "devDependencies": {
+    "@semantic-release/changelog": "^5.0.1",
+    "@semantic-release/git": "^9.0.0",
+    "@semantic-release/npm": "^7.0.9",
     "@snowpack/plugin-svelte": "^3.4.1",
-    "snowpack": "^2.18.4"
+    "snowpack": "^2.18.4",
+    "snowpack-plugin-baseurl-handler": "0.0.3"
   },
   "dependencies": {
     "svelte": "^3.31.2",
