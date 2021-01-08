@@ -5,7 +5,6 @@ module.exports = {
   },
   plugins: [
     '@snowpack/plugin-svelte',
-    "@snowpack/plugin-webpack",
     [
       "snowpack-plugin-baseurl-handler",
       {
