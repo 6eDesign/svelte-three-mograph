@@ -1,0 +1,20 @@
+# 1.0.0 (2021-01-08)
+
+
+### Bug Fixes
+
+* formatting ([7d27ea5](https://github.com/6eDesign/svelte-three-mograph/commit/7d27ea5055dd90839cc3455149df7c68e60329dd))
+* remove comment ([cc0c1f8](https://github.com/6eDesign/svelte-three-mograph/commit/cc0c1f855413ffd5cc267f63c1a5e519847c32f7))
+* remove comments ([e229289](https://github.com/6eDesign/svelte-three-mograph/commit/e229289930155c55d6416db172fd6da385c86b20))
+* restructure ([4d5436a](https://github.com/6eDesign/svelte-three-mograph/commit/4d5436ac2fb1fd3f30d5a8a095bbbc8dfa2a1d0e))
+* snowpack config ([f5fc83d](https://github.com/6eDesign/svelte-three-mograph/commit/f5fc83d42ade7295b3ec3024db82e5fa94c861e9))
+* update readme ([01f22fb](https://github.com/6eDesign/svelte-three-mograph/commit/01f22fb4879de770a2fa9b4f865b08e8035294af))
+
+
+### Features
+
+* add Forces component and power emitter with Forces ([0698b81](https://github.com/6eDesign/svelte-three-mograph/commit/0698b81cc4674e328c180703e2d83e3a12d4e7ab))
+* Add more primitives ([35bf7fa](https://github.com/6eDesign/svelte-three-mograph/commit/35bf7fa8703107e08bab9b7af8583e5263ce6c1c))
+* add some basic primitives (cube, lights, emitter, scene) ([bc7bca4](https://github.com/6eDesign/svelte-three-mograph/commit/bc7bca401a69a730154327755235080a2ece0512))
+* ci/cd ([2ec9871](https://github.com/6eDesign/svelte-three-mograph/commit/2ec9871056afd3d518f84c94c8776f923927d191))
+* more primitives, export structure ([ce93a8a](https://github.com/6eDesign/svelte-three-mograph/commit/ce93a8a5927ba801240ec13ba870d0de80de83e0))
