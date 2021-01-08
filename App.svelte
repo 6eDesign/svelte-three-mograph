@@ -6,6 +6,11 @@
 
   let width;
   let height;
+
+  const gravity = {
+    direction: [0, -0.002, 0],
+    rotation: [0, 0, 0]
+  };
 </script>
 
 <svelte:window bind:innerWidth={width} bind:innerHeight={height}/>
@@ -15,16 +20,18 @@
     <AmbientLight />
     <DirectionalLight />
     <Emitter
-      z={-4}
       let:x
       let:y
       let:z
       let:xRotation
       let:yRotation
       let:zRotation
-      size={[10,1,0]}
+      position={[0,0,0]}
+      size={[1,1,0]}
       particlesPerSecond={155}
-      velocity={.09}
+      velocity={.1}
+      direction={[0,1,1]}
+      forces={[ gravity ]}
     >
       <!-- CUBE Example: -->
       <!-- <Cube
