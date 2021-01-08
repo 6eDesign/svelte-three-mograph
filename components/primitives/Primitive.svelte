@@ -1,8 +1,9 @@
 <script>
 	import { getContext, onMount } from 'svelte';
-	import { BoxBufferGeometry, MeshPhongMaterial, Mesh } from 'three';
+	import { MeshPhongMaterial, Mesh } from 'three';
 
-  export let size = .4;
+  export let Geometry;
+  export let size;
 	export let color = '#fff';
 	export let x = 0;
 	export let y = 0;
@@ -12,10 +13,11 @@
   export let zRotation = 0;
   export let renderFn;
 
-  const geometry = new BoxBufferGeometry(size, size, size);
+  console.log(size);
+  const geometry = new Geometry(...size);
   const material = new MeshPhongMaterial({color: Math.random() * 0xffffff});
   const mesh = new Mesh(geometry, material);
-	const cube = new Mesh(mesh, material);
+	const primitive = new Mesh(mesh, material);
 
   $: mesh.position.set(x, y, z);
   $: mesh.rotation.set(xRotation, yRotation, zRotation);
