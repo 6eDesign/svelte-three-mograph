@@ -3,7 +3,6 @@
   import { Vector3 } from 'three';
   import Forces from './Forces.svelte';
 
-
   export let position = [ 0, 0, 0 ];
   export let rotation = [ 0, 0, 0 ];
   export let velocity = .04;
