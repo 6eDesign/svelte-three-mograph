@@ -41,7 +41,6 @@
         id: particleCount,
         dies: now + lifespan,
         position: [
-          // 0,0,0,
           addVariance(size[0]/2)(position[0]),
           addVariance(size[1]/2)(position[1]),
           addVariance(size[2]/2)(position[2]),
@@ -70,22 +69,6 @@
   addParticle();
 
   const sceneCtx = getContext('sceneCtx');
-  // sceneCtx.renderFns = [
-  //   ...sceneCtx.renderFns,
-  //   (t) => {
-  //     particles = particles.map(
-  //       particle => ({
-  //         ...particle,
-  //         xRotation: particle.xRotation + 0.05,
-  //         yRotation: particle.yRotation + 0.05,
-  //         zRotation: particle.zRotation + 0.05,
-  //         x: particle.x + particle.velocity[0],
-  //         y: particle.y+ particle.velocity[1],
-  //         z: particle.z + particle.velocity[2],
-  //       })
-  //     );
-  //   }
-  // ];
 
 </script>
 
