@@ -9,7 +9,6 @@
   export let rotation = [0,0,0];
   export let velocity = [0,0,0];
   export let rotationalVelocity = [0,0,0];
-  // console.log(position);
 
   const { subscribe, update, set } = writable({
     directionalForce: new Vector3(),
