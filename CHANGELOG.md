@@ -1,3 +1,11 @@
+## [1.0.1](https://github.com/6eDesign/svelte-three-mograph/compare/v1.0.0...v1.0.1) (2021-01-09)
+
+
+### Bug Fixes
+
+* snowpack config ([caecd78](https://github.com/6eDesign/svelte-three-mograph/commit/caecd78cd2d4739f3e4420fb30a24a1bd525d389))
+* snowpack config updates ([d95745a](https://github.com/6eDesign/svelte-three-mograph/commit/d95745af52733a47160f3f2bea8ab2cba06e84ff))
+
 # 1.0.0 (2021-01-08)
 
 
