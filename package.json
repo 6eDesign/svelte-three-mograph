@@ -2,7 +2,7 @@
   "name": "@6edesign/svelte-three",
   "svelte": "src/components/index.js",
   "main": "src/components/index.js",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "license": "MIT",
   "keywords": [
     "svelte",
