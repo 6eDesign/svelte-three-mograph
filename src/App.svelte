@@ -16,7 +16,7 @@
 <svelte:window bind:innerWidth={width} bind:innerHeight={height}/>
 
 {#if width && height}
-  <Scene background='#111' {width} {height}>
+  <Scene background='#eee' {width} {height}>
     <AmbientLight />
     <DirectionalLight />
     <Emitter
@@ -116,5 +116,5 @@
 {/if}
 
 <style>
-  :global(body) { background-color: #111; }
+  :global(body) { background-color: #eee; }
 </style>
