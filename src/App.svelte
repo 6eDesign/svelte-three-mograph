@@ -1,120 +1,67 @@
 <script>
   import Scene from './components/Scene.svelte';
-  import Emitter from './components/mograph/Emitter.svelte';
-  import { Cube, Icosahedron, Octahedron, Sphere, Tetrahedron, Torus, TorusKnot } from './components/primitives';
+  import { Emitter, Forces } from './components/mograph';
+  import {
+    Cube,
+    Icosahedron,
+    Octahedron,
+    Sphere,
+    Tetrahedron,
+    Torus,
+    TorusKnot,
+  } from './components/primitives';
   import { AmbientLight, DirectionalLight } from './components/lights';
 
   let width;
   let height;
+  let sceneCtx;
 
+  const emitterPosition = [0, 0, -10];
   const gravity = {
-    direction: [0, -0.009, 0],
-    rotation: [0, 0, 0]
+    direction: [0, -0.01, 0],
+    rotation: [0, 0, 0],
   };
+
+  $: sceneCtx &&
+    sceneCtx.time.subscribe((t) => {
+      emitterPosition[0] = Math.sin(t / 1000);
+    });
 </script>
 
-<svelte:window bind:innerWidth={width} bind:innerHeight={height}/>
+<svelte:window bind:innerWidth={width} bind:innerHeight={height} />
 
 {#if width && height}
-  <Scene background='#eee' {width} {height}>
+  <Scene background="#111" {width} {height} bind:ctx={sceneCtx}>
     <AmbientLight />
     <DirectionalLight />
     <Emitter
-      let:x
-      let:y
-      let:z
-      let:xRotation
-      let:yRotation
-      let:zRotation
-      position={[0,0,0]}
-      size={[1,1,0]}
-      particlesPerSecond={155}
-      velocity={.19}
-      direction={[0,1,.09]}
-      forces={[ gravity ]}
+      let:position
+      let:rotation
+      position={emitterPosition}
+      size={[0.5, 0.5, 0.5]}
+      particlesPerSecond={50}
+      velocity={0.14}
+      direction={[0, 2, 1]}
+      forces={[gravity]}
+      directionVariance={0.4}
+      lifespan={3000}
     >
-      <!-- CUBE Example: -->
-      <!-- <Cube
-        size={.05}
-        {x}
-        {y}
-        {z}
-        {xRotation}
-        {yRotation}
-        {zRotation}
-      /> -->
-
-      <!-- ICOSAHEDROM Example: -->
-      <Icosahedron
-        size={.05}
-        {x}
-        {y}
-        {z}
-        {xRotation}
-        {yRotation}
-        {zRotation}
-      />
-
-      <!-- OCTAHEDRON Example: -->
-      <!-- <Octahedron
-        size={.05}
-        {x}
-        {y}
-        {z}
-        {xRotation}
-        {yRotation}
-        {zRotation}
-      /> -->
-
-      <!-- SPHERE Example: -->
-      <!-- <Sphere
-        radius={.05}
-        {x}
-        {y}
-        {z}
-        {xRotation}
-        {yRotation}
-        {zRotation}
-      /> -->
-
-      <!-- TETRAHEDRON Example: -->
-      <!-- <Tetrahedron
-        size={.05}
-        {x}
-        {y}
-        {z}
-        {xRotation}
-        {yRotation}
-        {zRotation}
-      /> -->
-
-      <!-- TORUS Example: -->
-      <!-- <Torus
-        radius={0.05}
-        tube={0.01}
-        {x}
-        {y}
-        {z}
-        {xRotation}
-        {yRotation}
-        {zRotation}
-      /> -->
-
-      <!-- TORUSKNOT Example: -->
-      <!-- <TorusKnot
-        radius={0.05}
-        tube={0.01}
-        {x}
-        {y}
-        {z}
-        {xRotation}
-        {yRotation}
-        {zRotation}
-      /> -->
+      <Icosahedron size={0.09} {position} {rotation} />
     </Emitter>
+
+    <Forces
+      rotation={[0.2, 0.2, 0.2]}
+      velocity={[0, 0, 0]}
+      rotationalVelocity={[0.02, 0.02, 0.09]}
+      let:rotation
+    >
+      <Cube color="#f7901e" size={1} {rotation} position={[0, 0, -2]} />
+    </Forces>
   </Scene>
 {/if}
 
 <style>
-  :global(body) { background-color: #eee; }
+  :global(body) {
+    background-color: #111;
+  }
 </style>

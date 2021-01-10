@@ -6,7 +6,7 @@ import { getContext } from "../../../web_modules/svelte.js";
 
 function instance($$self, $$props, $$invalidate) {
 	let { position = [0, 10, 0] } = $$props;
-	let { targetPosition = [-5, 0, 0] } = $$props;
+	let { targetPosition = [0, 0, 0] } = $$props;
 	const sceneCtx = getContext("sceneCtx");
 	const light = new DirectionalLight(16777215, 0.5);
 	sceneCtx.scene.add(light);

@@ -26,6 +26,13 @@
     "@snowpack/app-scripts-svelte": "^1.9.2",
     "@snowpack/plugin-svelte": "^3.4.1",
     "@snowpack/plugin-webpack": "^2.2.0",
+    "eslint": "^7.17.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-prettier": "^7.1.0",
+    "eslint-plugin-prettier": "^3.3.1",
+    "eslint-plugin-svelte3": "^3.0.0",
+    "prettier": "^2.2.1",
+    "prettier-plugin-svelte": "^2.0.3",
     "snowpack": "^2.18.4",
     "snowpack-plugin-baseurl-handler": "0.0.3"
   },
