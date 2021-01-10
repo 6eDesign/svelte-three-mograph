@@ -15,19 +15,19 @@ import { getContext, setContext } from "../../../web_modules/svelte.js";
 import { Vector3 } from "../../../web_modules/three.js";
 
 const get_default_slot_changes = dirty => ({
-	position: dirty & /*$forceCtx*/ 1,
-	rotation: dirty & /*$forceCtx*/ 1
+	position: dirty & /*posArray*/ 1,
+	rotation: dirty & /*rotArray*/ 2
 });
 
 const get_default_slot_context = ctx => ({
-	position: /*$forceCtx*/ ctx[0].position,
-	rotation: /*$forceCtx*/ ctx[0].rotation
+	position: /*posArray*/ ctx[0],
+	rotation: /*rotArray*/ ctx[1]
 });
 
 function create_fragment(ctx) {
 	let current;
-	const default_slot_template = /*#slots*/ ctx[9].default;
-	const default_slot = create_slot(default_slot_template, ctx, /*$$scope*/ ctx[8], get_default_slot_context);
+	const default_slot_template = /*#slots*/ ctx[11].default;
+	const default_slot = create_slot(default_slot_template, ctx, /*$$scope*/ ctx[10], get_default_slot_context);
 
 	return {
 		c() {
@@ -42,8 +42,8 @@ function create_fragment(ctx) {
 		},
 		p(ctx, [dirty]) {
 			if (default_slot) {
-				if (default_slot.p && dirty & /*$$scope, $forceCtx*/ 257) {
-					update_slot(default_slot, default_slot_template, ctx, /*$$scope*/ ctx[8], dirty, get_default_slot_changes, get_default_slot_context);
+				if (default_slot.p && dirty & /*$$scope, posArray, rotArray*/ 1027) {
+					update_slot(default_slot, default_slot_template, ctx, /*$$scope*/ ctx[10], dirty, get_default_slot_changes, get_default_slot_context);
 				}
 			}
 		},
@@ -64,6 +64,8 @@ function create_fragment(ctx) {
 
 function instance($$self, $$props, $$invalidate) {
 	let combinedForces;
+	let posArray;
+	let rotArray;
 	let $forceCtx;
 	let { $$slots: slots = {}, $$scope } = $$props;
 	let { forces = [] } = $$props;
@@ -98,23 +100,23 @@ function instance($$self, $$props, $$invalidate) {
 		})
 	};
 
-	component_subscribe($$self, forceCtx, value => $$invalidate(0, $forceCtx = value));
+	component_subscribe($$self, forceCtx, value => $$invalidate(9, $forceCtx = value));
 	const { time } = getContext("sceneCtx");
 	time.subscribe(forceCtx.tick);
 	setContext("forceCtx", forceCtx);
 
 	$$self.$$set = $$props => {
-		if ("forces" in $$props) $$invalidate(2, forces = $$props.forces);
-		if ("position" in $$props) $$invalidate(3, position = $$props.position);
-		if ("rotation" in $$props) $$invalidate(4, rotation = $$props.rotation);
-		if ("velocity" in $$props) $$invalidate(5, velocity = $$props.velocity);
-		if ("rotationalVelocity" in $$props) $$invalidate(6, rotationalVelocity = $$props.rotationalVelocity);
-		if ("$$scope" in $$props) $$invalidate(8, $$scope = $$props.$$scope);
+		if ("forces" in $$props) $$invalidate(3, forces = $$props.forces);
+		if ("position" in $$props) $$invalidate(4, position = $$props.position);
+		if ("rotation" in $$props) $$invalidate(5, rotation = $$props.rotation);
+		if ("velocity" in $$props) $$invalidate(6, velocity = $$props.velocity);
+		if ("rotationalVelocity" in $$props) $$invalidate(7, rotationalVelocity = $$props.rotationalVelocity);
+		if ("$$scope" in $$props) $$invalidate(10, $$scope = $$props.$$scope);
 	};
 
 	$$self.$$.update = () => {
-		if ($$self.$$.dirty & /*forces*/ 4) {
-			$: $$invalidate(7, combinedForces = forces.reduce(
+		if ($$self.$$.dirty & /*forces*/ 8) {
+			$: $$invalidate(8, combinedForces = forces.reduce(
 				({ directional, rotational }, { direction, rotation }) => ({
 					directional: directional.add(new Vector3(...direction)),
 					rotational: rotational.add(new Vector3(...rotation))
@@ -126,17 +128,26 @@ function instance($$self, $$props, $$invalidate) {
 			));
 		}
 
-		if ($$self.$$.dirty & /*combinedForces*/ 128) {
+		if ($$self.$$.dirty & /*combinedForces*/ 256) {
 			$: update(state => ({
 				...state,
 				directionalForce: combinedForces.directional,
 				rotationalForce: combinedForces.rotational
 			}));
 		}
+
+		if ($$self.$$.dirty & /*$forceCtx*/ 512) {
+			$: $$invalidate(0, posArray = [$forceCtx.position.x, $forceCtx.position.y, $forceCtx.position.z]);
+		}
+
+		if ($$self.$$.dirty & /*$forceCtx*/ 512) {
+			$: $$invalidate(1, rotArray = [$forceCtx.rotation.x, $forceCtx.rotation.y, $forceCtx.rotation.z]);
+		}
 	};
 
 	return [
-		$forceCtx,
+		posArray,
+		rotArray,
 		forceCtx,
 		forces,
 		position,
@@ -144,6 +155,7 @@ function instance($$self, $$props, $$invalidate) {
 		velocity,
 		rotationalVelocity,
 		combinedForces,
+		$forceCtx,
 		$$scope,
 		slots
 	];
@@ -154,11 +166,11 @@ class Forces extends SvelteComponent {
 		super();
 
 		init(this, options, instance, create_fragment, safe_not_equal, {
-			forces: 2,
-			position: 3,
-			rotation: 4,
-			velocity: 5,
-			rotationalVelocity: 6
+			forces: 3,
+			position: 4,
+			rotation: 5,
+			velocity: 6,
+			rotationalVelocity: 7
 		});
 	}
 }

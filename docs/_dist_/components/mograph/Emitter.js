@@ -31,24 +31,16 @@ function get_each_context(ctx, list, i) {
 }
 
 const get_default_slot_changes = dirty => ({
-	x: dirty & /*position*/ 2,
-	y: dirty & /*position*/ 2,
-	z: dirty & /*position*/ 2,
-	xRotation: dirty & /*rotation*/ 4,
-	yRotation: dirty & /*rotation*/ 4,
-	zRotation: dirty & /*rotation*/ 4
+	position: dirty & /*position*/ 2,
+	rotation: dirty & /*rotation*/ 4
 });
 
 const get_default_slot_context = ctx => ({
-	x: /*position*/ ctx[1].x,
-	y: /*position*/ ctx[1].y,
-	z: /*position*/ ctx[1].z,
-	xRotation: /*rotation*/ ctx[2].x,
-	yRotation: /*rotation*/ ctx[2].y,
-	zRotation: /*rotation*/ ctx[2].z
+	position: /*position*/ ctx[1],
+	rotation: /*rotation*/ ctx[2]
 });
 
-// (75:2) <Forces     forces={[...forces]}     position={particle.position}     velocity={particle.velocity}     rotationalVelocity={particle.rotationalVelocity}     let:position     let:rotation   >
+// (79:2) <Forces     forces={[...forces]}     position={particle.position}     velocity={particle.velocity}     rotationalVelocity={particle.rotationalVelocity}     let:position     let:rotation   >
 function create_default_slot(ctx) {
 	let t;
 	let current;
@@ -91,7 +83,7 @@ function create_default_slot(ctx) {
 	};
 }
 
-// (74:0) {#each particles as particle (particle.id)}
+// (78:0) {#each particles as particle (particle.id)}
 function create_each_block(key_1, ctx) {
 	let first;
 	let forces_1;

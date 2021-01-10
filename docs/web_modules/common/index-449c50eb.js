@@ -114,6 +114,9 @@ function get_current_component() {
 function onMount(fn) {
     get_current_component().$$.on_mount.push(fn);
 }
+function onDestroy(fn) {
+    get_current_component().$$.on_destroy.push(fn);
+}
 function setContext(key, context) {
     get_current_component().$$.context.set(key, context);
 }
@@ -135,6 +138,9 @@ function schedule_update() {
 }
 function add_render_callback(fn) {
     render_callbacks.push(fn);
+}
+function add_flush_callback(fn) {
+    flush_callbacks.push(fn);
 }
 let flushing = false;
 const seen_callbacks = new Set();
@@ -338,6 +344,14 @@ function get_spread_update(levels, updates) {
 function get_spread_object(spread_props) {
     return typeof spread_props === 'object' && spread_props !== null ? spread_props : {};
 }
+
+function bind(component, name, callback) {
+    const index = component.$$.props[name];
+    if (index !== undefined) {
+        component.$$.bound[index] = callback;
+        callback(component.$$.ctx[index]);
+    }
+}
 function create_component(block) {
     block && block.c();
 }
@@ -463,4 +477,4 @@ class SvelteComponent {
     }
 }
 
-export { get_spread_update as A, binding_callbacks as B, element as C, noop as D, SvelteComponent as S, add_render_callback as a, create_component as b, check_outros as c, destroy_component as d, detach as e, empty as f, getContext as g, group_outros as h, init as i, insert as j, safe_not_equal as k, listen as l, mount_component as m, space as n, onMount as o, transition_out as p, create_slot as q, outro_and_destroy_block as r, setContext as s, transition_in as t, update_keyed_each as u, update_slot as v, component_subscribe as w, assign as x, exclude_internal_props as y, get_spread_object as z };
+export { component_subscribe as A, assign as B, exclude_internal_props as C, get_spread_object as D, get_spread_update as E, element as F, noop as G, SvelteComponent as S, onMount as a, add_flush_callback as b, add_render_callback as c, bind as d, binding_callbacks as e, check_outros as f, getContext as g, create_component as h, destroy_component as i, detach as j, empty as k, group_outros as l, init as m, insert as n, onDestroy as o, listen as p, mount_component as q, safe_not_equal as r, setContext as s, space as t, transition_in as u, transition_out as v, create_slot as w, outro_and_destroy_block as x, update_keyed_each as y, update_slot as z };

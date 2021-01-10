@@ -22,8 +22,8 @@ function create_fragment(ctx) {
 	let div;
 	let t;
 	let current;
-	const default_slot_template = /*#slots*/ ctx[5].default;
-	const default_slot = create_slot(default_slot_template, ctx, /*$$scope*/ ctx[4], null);
+	const default_slot_template = /*#slots*/ ctx[6].default;
+	const default_slot = create_slot(default_slot_template, ctx, /*$$scope*/ ctx[5], null);
 
 	return {
 		c() {
@@ -33,7 +33,7 @@ function create_fragment(ctx) {
 		},
 		m(target, anchor) {
 			insert(target, div, anchor);
-			/*div_binding*/ ctx[6](div);
+			/*div_binding*/ ctx[7](div);
 			insert(target, t, anchor);
 
 			if (default_slot) {
@@ -44,8 +44,8 @@ function create_fragment(ctx) {
 		},
 		p(ctx, [dirty]) {
 			if (default_slot) {
-				if (default_slot.p && dirty & /*$$scope*/ 16) {
-					update_slot(default_slot, default_slot_template, ctx, /*$$scope*/ ctx[4], dirty, null, null);
+				if (default_slot.p && dirty & /*$$scope*/ 32) {
+					update_slot(default_slot, default_slot_template, ctx, /*$$scope*/ ctx[5], dirty, null, null);
 				}
 			}
 		},
@@ -60,7 +60,7 @@ function create_fragment(ctx) {
 		},
 		d(detaching) {
 			if (detaching) detach(div);
-			/*div_binding*/ ctx[6](null);
+			/*div_binding*/ ctx[7](null);
 			if (detaching) detach(t);
 			if (default_slot) default_slot.d(detaching);
 		}
@@ -76,10 +76,7 @@ function instance($$self, $$props, $$invalidate) {
 	const scene = new Scene();
 	scene.background = new Color(background);
 	const camera = new PerspectiveCamera(75, width / height, 0.1, 1000);
-
-	const renderer = new WebGLRenderer({}); // alpha: true,
-	// antialias: true
-
+	const renderer = new WebGLRenderer({ alpha: true, antialias: true });
 	camera.position.z = 5;
 	renderer.setSize(width, height);
 
@@ -117,7 +114,7 @@ function instance($$self, $$props, $$invalidate) {
 		if ("width" in $$props) $$invalidate(1, width = $$props.width);
 		if ("height" in $$props) $$invalidate(2, height = $$props.height);
 		if ("background" in $$props) $$invalidate(3, background = $$props.background);
-		if ("$$scope" in $$props) $$invalidate(4, $$scope = $$props.$$scope);
+		if ("$$scope" in $$props) $$invalidate(5, $$scope = $$props.$$scope);
 	};
 
 	$$self.$$.update = () => {
@@ -126,13 +123,23 @@ function instance($$self, $$props, $$invalidate) {
 		}
 	};
 
-	return [target, width, height, background, $$scope, slots, div_binding];
+	return [target, width, height, background, ctx, $$scope, slots, div_binding];
 }
 
 class Scene_1 extends SvelteComponent {
 	constructor(options) {
 		super();
-		init(this, options, instance, create_fragment, safe_not_equal, { width: 1, height: 2, background: 3 });
+
+		init(this, options, instance, create_fragment, safe_not_equal, {
+			width: 1,
+			height: 2,
+			background: 3,
+			ctx: 4
+		});
+	}
+
+	get ctx() {
+		return this.$$.ctx[4];
 	}
 }
 
