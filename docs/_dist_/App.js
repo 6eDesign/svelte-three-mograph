@@ -47,7 +47,7 @@ function create_if_block(ctx) {
 	}
 
 	let scene_props = {
-		background: "#111",
+		background: "#000",
 		width: /*width*/ ctx[1],
 		height: /*height*/ ctx[2],
 		$$slots: { default: [create_default_slot] },
@@ -101,7 +101,7 @@ function create_if_block(ctx) {
 	};
 }
 
-// (37:4) <Emitter       let:position       let:rotation       position={emitterPosition}       size={[0.5, 0.5, 0.5]}       particlesPerSecond={50}       velocity={0.14}       direction={[0, 2, 1]}       forces={[gravity]}       directionVariance={0.4}       lifespan={3000}     >
+// (37:4) <Emitter       let:position       let:rotation       position={emitterPosition}       size={[22, 3, 0.5]}       particlesPerSecond={350}       velocity={0.25}       direction={[0, 0, 2]}       forces={[gravity]}       directionVariance={0.4}       lifespan={3000}     >
 function create_default_slot_2(ctx) {
 	let icosahedron;
 	let current;
@@ -185,7 +185,7 @@ function create_default_slot_1(ctx) {
 	};
 }
 
-// (34:2) <Scene background="#111" {width} {height} bind:ctx={sceneCtx}>
+// (34:2) <Scene background="#000" {width} {height} bind:ctx={sceneCtx}>
 function create_default_slot(ctx) {
 	let ambientlight;
 	let t0;
@@ -201,10 +201,10 @@ function create_default_slot(ctx) {
 	emitter = new Emitter({
 			props: {
 				position: /*emitterPosition*/ ctx[3],
-				size: [0.5, 0.5, 0.5],
-				particlesPerSecond: 50,
-				velocity: 0.14,
-				direction: [0, 2, 1],
+				size: [22, 3, 0.5],
+				particlesPerSecond: 350,
+				velocity: 0.25,
+				direction: [0, 0, 2],
 				forces: [/*gravity*/ ctx[4]],
 				directionVariance: 0.4,
 				lifespan: 3000,
@@ -368,10 +368,10 @@ function instance($$self, $$props, $$invalidate) {
 	let width;
 	let height;
 	let sceneCtx;
-	const emitterPosition = [0, 0, -10];
+	const emitterPosition = [0, 0, -100];
 
 	const gravity = {
-		direction: [0, -0.01, 0],
+		direction: [0, -0.0001, 0],
 		rotation: [0, 0, 0]
 	};
 

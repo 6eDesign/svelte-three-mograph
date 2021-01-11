@@ -1,3 +1,10 @@
+## [1.0.7](https://github.com/6eDesign/svelte-three-mograph/compare/v1.0.6...v1.0.7) (2021-01-11)
+
+
+### Bug Fixes
+
+* update demo ([8fbea89](https://github.com/6eDesign/svelte-three-mograph/commit/8fbea892f1a24ed67398ed6ed903012ddf239dfa))
+
 ## [1.0.6](https://github.com/6eDesign/svelte-three-mograph/compare/v1.0.5...v1.0.6) (2021-01-10)
 
 
