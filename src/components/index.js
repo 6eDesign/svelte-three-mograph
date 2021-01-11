@@ -1,11 +1,6 @@
-import Scene from './Scene.svelte';
-import lights from './lights';
-import mograph from './mograph';
-import primitives from './primitives';
+import SceneComponent from './Scene.svelte';
+export * as lights from './lights';
+export * as mograph from './mograph';
+export * as primitives from './primitives';
 
-export {
-  Scene,
-  lights,
-  mograph,
-  primitives,
-}
+export const Scene = SceneComponent;

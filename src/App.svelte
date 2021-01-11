@@ -1,7 +1,8 @@
 <script>
-  import Scene from './components/Scene.svelte';
-  import { Emitter, Forces } from './components/mograph';
-  import {
+  import { Scene, lights, mograph, primitives } from './components';
+
+  const { Emitter, Forces } = mograph;
+  const {
     Cube,
     Icosahedron,
     Octahedron,
@@ -9,8 +10,8 @@
     Tetrahedron,
     Torus,
     TorusKnot,
-  } from './components/primitives';
-  import { AmbientLight, DirectionalLight } from './components/lights';
+  } = primitives;
+  const { AmbientLight, DirectionalLight } = lights;
 
   let width;
   let height;
