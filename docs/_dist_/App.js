@@ -143,12 +143,12 @@ function create_default_slot_2(ctx) {
 	};
 }
 
-// (52:4) <Forces       rotation={[0.2, 0.2, 0.2]}       velocity={[0, 0, 0]}       rotationalVelocity={[0.02, 0.02, 0.09]}       let:rotation     >
+// (52:4) <Forces       rotation={[0.2, 0.2, 0.2]}       velocity={[0, 0, 0]}       rotationalVelocity={[0.01, 0.01, 0.03]}       let:rotation     >
 function create_default_slot_1(ctx) {
-	let cube;
+	let icosahedron;
 	let current;
 
-	cube = new Cube({
+	icosahedron = new Icosahedron({
 			props: {
 				color: "#f7901e",
 				size: 1,
@@ -159,28 +159,28 @@ function create_default_slot_1(ctx) {
 
 	return {
 		c() {
-			create_component(cube.$$.fragment);
+			create_component(icosahedron.$$.fragment);
 		},
 		m(target, anchor) {
-			mount_component(cube, target, anchor);
+			mount_component(icosahedron, target, anchor);
 			current = true;
 		},
 		p(ctx, dirty) {
-			const cube_changes = {};
-			if (dirty & /*rotation*/ 128) cube_changes.rotation = /*rotation*/ ctx[7];
-			cube.$set(cube_changes);
+			const icosahedron_changes = {};
+			if (dirty & /*rotation*/ 128) icosahedron_changes.rotation = /*rotation*/ ctx[7];
+			icosahedron.$set(icosahedron_changes);
 		},
 		i(local) {
 			if (current) return;
-			transition_in(cube.$$.fragment, local);
+			transition_in(icosahedron.$$.fragment, local);
 			current = true;
 		},
 		o(local) {
-			transition_out(cube.$$.fragment, local);
+			transition_out(icosahedron.$$.fragment, local);
 			current = false;
 		},
 		d(detaching) {
-			destroy_component(cube, detaching);
+			destroy_component(icosahedron, detaching);
 		}
 	};
 }
@@ -223,7 +223,7 @@ function create_default_slot(ctx) {
 			props: {
 				rotation: [0.2, 0.2, 0.2],
 				velocity: [0, 0, 0],
-				rotationalVelocity: [0.02, 0.02, 0.09],
+				rotationalVelocity: [0.01, 0.01, 0.03],
 				$$slots: {
 					default: [
 						create_default_slot_1,

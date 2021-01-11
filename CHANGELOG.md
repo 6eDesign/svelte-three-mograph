@@ -1,3 +1,10 @@
+## [1.0.8](https://github.com/6eDesign/svelte-three-mograph/compare/v1.0.7...v1.0.8) (2021-01-11)
+
+
+### Bug Fixes
+
+* slow rotation of cube and change to icosahedron ([e6b1cb3](https://github.com/6eDesign/svelte-three-mograph/commit/e6b1cb308355986c79de0a4ab459f1d805833919))
+
 ## [1.0.7](https://github.com/6eDesign/svelte-three-mograph/compare/v1.0.6...v1.0.7) (2021-01-11)
 
 
