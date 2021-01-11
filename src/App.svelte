@@ -52,10 +52,10 @@
     <Forces
       rotation={[0.2, 0.2, 0.2]}
       velocity={[0, 0, 0]}
-      rotationalVelocity={[0.02, 0.02, 0.09]}
+      rotationalVelocity={[0.01, 0.01, 0.03]}
       let:rotation
     >
-      <Cube color="#f7901e" size={1} {rotation} position={[0, 0, -2]} />
+      <Icosahedron color="#f7901e" size={1} {rotation} position={[0, 0, -2]} />
     </Forces>
   </Scene>
 {/if}
