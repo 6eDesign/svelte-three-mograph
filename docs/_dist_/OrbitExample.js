@@ -19,14 +19,15 @@ import {
 
 import { Scene, lights, mograph, primitives } from "./components/index.js";
 import { Vector3 } from "../web_modules/three.js";
+import { random, addVariance } from "./utils/index.js";
 
 function get_each_context(ctx, list, i) {
 	const child_ctx = ctx.slice();
-	child_ctx[18] = list[i];
+	child_ctx[20] = list[i];
 	return child_ctx;
 }
 
-// (61:0) <Forces rotationalVelocity={[0.03, 0.03, 0.03]} let:rotation let:position>
+// (63:0) <Forces rotationalVelocity={[0.03, 0.03, 0.03]} let:rotation let:position>
 function create_default_slot_1(ctx) {
 	let icosahedron;
 	let current;
@@ -35,7 +36,7 @@ function create_default_slot_1(ctx) {
 			props: {
 				color: "#f7901e",
 				size: 1,
-				rotation: /*rotation*/ ctx[21],
+				rotation: /*rotation*/ ctx[23],
 				position: /*position*/ ctx[0]
 			}
 		});
@@ -50,7 +51,7 @@ function create_default_slot_1(ctx) {
 		},
 		p(ctx, dirty) {
 			const icosahedron_changes = {};
-			if (dirty & /*rotation*/ 2097152) icosahedron_changes.rotation = /*rotation*/ ctx[21];
+			if (dirty & /*rotation*/ 8388608) icosahedron_changes.rotation = /*rotation*/ ctx[23];
 			if (dirty & /*position*/ 1) icosahedron_changes.position = /*position*/ ctx[0];
 			icosahedron.$set(icosahedron_changes);
 		},
@@ -69,7 +70,7 @@ function create_default_slot_1(ctx) {
 	};
 }
 
-// (66:2) <Forces     position={[orbiter.position.x, orbiter.position.y, orbiter.position.z]}     velocity={[orbiter.velocity.x, orbiter.velocity.y, orbiter.velocity.z]}     rotationalVelocity={[0.02, 0.02, 0.02]}     forces={[orbit(orbiter.radius, [0, 0, 0])]}     let:position     let:rotation   >
+// (68:2) <Forces     position={[orbiter.position.x, orbiter.position.y, orbiter.position.z]}     velocity={[orbiter.velocity.x, orbiter.velocity.y, orbiter.velocity.z]}     rotationalVelocity={[0.02, 0.02, 0.02]}     forces={[orbit(orbiter.radius, [0, 0, 0])]}     let:position     let:rotation   >
 function create_default_slot(ctx) {
 	let icosahedron;
 	let t;
@@ -79,7 +80,7 @@ function create_default_slot(ctx) {
 			props: {
 				size: 0.01 + Math.random() * 0.05,
 				position: /*position*/ ctx[0],
-				rotation: /*rotation*/ ctx[21]
+				rotation: /*rotation*/ ctx[23]
 			}
 		});
 
@@ -96,7 +97,7 @@ function create_default_slot(ctx) {
 		p(ctx, dirty) {
 			const icosahedron_changes = {};
 			if (dirty & /*position*/ 1) icosahedron_changes.position = /*position*/ ctx[0];
-			if (dirty & /*rotation*/ 2097152) icosahedron_changes.rotation = /*rotation*/ ctx[21];
+			if (dirty & /*rotation*/ 8388608) icosahedron_changes.rotation = /*rotation*/ ctx[23];
 			icosahedron.$set(icosahedron_changes);
 		},
 		i(local) {
@@ -115,7 +116,7 @@ function create_default_slot(ctx) {
 	};
 }
 
-// (65:0) {#each orbiters as orbiter}
+// (67:0) {#each orbiters as orbiter}
 function create_each_block(ctx) {
 	let forces;
 	let current;
@@ -123,22 +124,22 @@ function create_each_block(ctx) {
 	forces = new /*Forces*/ ctx[1]({
 			props: {
 				position: [
-					/*orbiter*/ ctx[18].position.x,
-					/*orbiter*/ ctx[18].position.y,
-					/*orbiter*/ ctx[18].position.z
+					/*orbiter*/ ctx[20].position.x,
+					/*orbiter*/ ctx[20].position.y,
+					/*orbiter*/ ctx[20].position.z
 				],
 				velocity: [
-					/*orbiter*/ ctx[18].velocity.x,
-					/*orbiter*/ ctx[18].velocity.y,
-					/*orbiter*/ ctx[18].velocity.z
+					/*orbiter*/ ctx[20].velocity.x,
+					/*orbiter*/ ctx[20].velocity.y,
+					/*orbiter*/ ctx[20].velocity.z
 				],
 				rotationalVelocity: [0.02, 0.02, 0.02],
-				forces: [/*orbit*/ ctx[4](/*orbiter*/ ctx[18].radius, [0, 0, 0])],
+				forces: [/*orbit*/ ctx[4](/*orbiter*/ ctx[20].radius, [0, 0, 0])],
 				$$slots: {
 					default: [
 						create_default_slot,
-						({ position, rotation }) => ({ 0: position, 21: rotation }),
-						({ position, rotation }) => (position ? 1 : 0) | (rotation ? 2097152 : 0)
+						({ position, rotation }) => ({ 0: position, 23: rotation }),
+						({ position, rotation }) => (position ? 1 : 0) | (rotation ? 8388608 : 0)
 					]
 				},
 				$$scope: { ctx }
@@ -156,7 +157,7 @@ function create_each_block(ctx) {
 		p(ctx, dirty) {
 			const forces_changes = {};
 
-			if (dirty & /*$$scope, position, rotation*/ 6291457) {
+			if (dirty & /*$$scope, position, rotation*/ 25165825) {
 				forces_changes.$$scope = { dirty, ctx };
 			}
 
@@ -189,8 +190,8 @@ function create_fragment(ctx) {
 				$$slots: {
 					default: [
 						create_default_slot_1,
-						({ rotation, position }) => ({ 21: rotation, 0: position }),
-						({ rotation, position }) => (rotation ? 2097152 : 0) | (position ? 1 : 0)
+						({ rotation, position }) => ({ 23: rotation, 0: position }),
+						({ rotation, position }) => (rotation ? 8388608 : 0) | (position ? 1 : 0)
 					]
 				},
 				$$scope: { ctx }
@@ -233,13 +234,13 @@ function create_fragment(ctx) {
 		p(ctx, [dirty]) {
 			const forces_changes = {};
 
-			if (dirty & /*$$scope, rotation, position*/ 6291457) {
+			if (dirty & /*$$scope, rotation, position*/ 25165825) {
 				forces_changes.$$scope = { dirty, ctx };
 			}
 
 			forces.$set(forces_changes);
 
-			if (dirty & /*orbiters, orbit, Math, position, rotation*/ 2097177) {
+			if (dirty & /*orbiters, orbit, Math, position, rotation*/ 8388633) {
 				each_value = /*orbiters*/ ctx[3];
 				let i;
 
@@ -304,12 +305,14 @@ function instance($$self, $$props, $$invalidate) {
 	let { velocity = 0.008 } = $$props;
 	let { velocityVariance = 0.09 } = $$props;
 	let { radiusVariance = 0.8 } = $$props;
-	const randomUnitVector = () => new Vector3(Math.random(), Math.random(), Math.random()).normalize();
+	const varyRadius = addVariance(radiusVariance);
+	const varyVelocity = addVariance(velocityVariance);
+	const randomUnitVector = () => new Vector3(random(1), random(1), random(1)).normalize();
 
 	const orbiters = new Array(orbitingCount).fill(0).map(() => {
 		const center = new Vector3(...position);
-		const orbitingRadius = Math.random() * radiusVariance + radius;
-		const orbitingVelocityScalar = Math.random() * velocityVariance + velocity;
+		const orbitingRadius = varyRadius(radius);
+		const orbitingVelocityScalar = varyVelocity(velocity);
 		const orbitingPosition = center.clone().add(randomUnitVector().multiplyScalar(orbitingRadius));
 		const orbitingVelocity = randomUnitVector().cross(center.clone().sub(orbitingPosition)).normalize().multiplyScalar(orbitingVelocityScalar);
 
@@ -333,8 +336,6 @@ function instance($$self, $$props, $$invalidate) {
 		if ("velocityVariance" in $$props) $$invalidate(8, velocityVariance = $$props.velocityVariance);
 		if ("radiusVariance" in $$props) $$invalidate(9, radiusVariance = $$props.radiusVariance);
 	};
-
-	$: console.log(orbiters);
 
 	return [
 		position,

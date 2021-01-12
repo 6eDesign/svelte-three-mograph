@@ -23,10 +23,11 @@ import {
 import { getContext } from "../../../web_modules/svelte.js";
 import { Vector3 } from "../../../web_modules/three.js";
 import Forces from "./Particle.js";
+import { addVariance } from "../../utils/index.js";
 
 function get_each_context(ctx, list, i) {
 	const child_ctx = ctx.slice();
-	child_ctx[26] = list[i];
+	child_ctx[24] = list[i];
 	return child_ctx;
 }
 
@@ -40,7 +41,7 @@ const get_default_slot_context = ctx => ({
 	rotation: /*rotation*/ ctx[2]
 });
 
-// (79:2) <Forces     forces={[...forces]}     position={particle.position}     velocity={particle.velocity}     rotationalVelocity={particle.rotationalVelocity}     let:position     let:rotation   >
+// (77:2) <Forces     forces={[...forces]}     position={particle.position}     velocity={particle.velocity}     rotationalVelocity={particle.rotationalVelocity}     let:position     let:rotation   >
 function create_default_slot(ctx) {
 	let t;
 	let current;
@@ -83,7 +84,7 @@ function create_default_slot(ctx) {
 	};
 }
 
-// (78:0) {#each particles as particle (particle.id)}
+// (76:0) {#each particles as particle (particle.id)}
 function create_each_block(key_1, ctx) {
 	let first;
 	let forces_1;
@@ -92,9 +93,9 @@ function create_each_block(key_1, ctx) {
 	forces_1 = new Forces({
 			props: {
 				forces: [.../*forces*/ ctx[0]],
-				position: /*particle*/ ctx[26].position,
-				velocity: /*particle*/ ctx[26].velocity,
-				rotationalVelocity: /*particle*/ ctx[26].rotationalVelocity,
+				position: /*particle*/ ctx[24].position,
+				velocity: /*particle*/ ctx[24].velocity,
+				rotationalVelocity: /*particle*/ ctx[24].rotationalVelocity,
 				$$slots: {
 					default: [
 						create_default_slot,
@@ -123,9 +124,9 @@ function create_each_block(key_1, ctx) {
 			ctx = new_ctx;
 			const forces_1_changes = {};
 			if (dirty & /*forces*/ 1) forces_1_changes.forces = [.../*forces*/ ctx[0]];
-			if (dirty & /*particles*/ 8) forces_1_changes.position = /*particle*/ ctx[26].position;
-			if (dirty & /*particles*/ 8) forces_1_changes.velocity = /*particle*/ ctx[26].velocity;
-			if (dirty & /*particles*/ 8) forces_1_changes.rotationalVelocity = /*particle*/ ctx[26].rotationalVelocity;
+			if (dirty & /*particles*/ 8) forces_1_changes.position = /*particle*/ ctx[24].position;
+			if (dirty & /*particles*/ 8) forces_1_changes.velocity = /*particle*/ ctx[24].velocity;
+			if (dirty & /*particles*/ 8) forces_1_changes.rotationalVelocity = /*particle*/ ctx[24].rotationalVelocity;
 
 			if (dirty & /*$$scope, position, rotation*/ 65542) {
 				forces_1_changes.$$scope = { dirty, ctx };
@@ -155,7 +156,7 @@ function create_fragment(ctx) {
 	let each_1_anchor;
 	let current;
 	let each_value = /*particles*/ ctx[3];
-	const get_key = ctx => /*particle*/ ctx[26].id;
+	const get_key = ctx => /*particle*/ ctx[24].id;
 
 	for (let i = 0; i < each_value.length; i += 1) {
 		let child_ctx = get_each_context(ctx, each_value, i);
@@ -229,8 +230,6 @@ function instance($$self, $$props, $$invalidate) {
 	let { lifespan = 15000 } = $$props;
 	let { particlesPerSecond = 5 } = $$props;
 	let { forces = [] } = $$props;
-	const random = clamp => Math.random() * clamp * (Math.random() > 0.5 ? 1 : -1);
-	const addVariance = variance => num => num + random(variance);
 	const varyVelocity = addVariance(velocityVariance);
 	const varyDirection = addVariance(directionVariance);
 	const varyRotationVelocity = addVariance(rotationVelocityVariance);

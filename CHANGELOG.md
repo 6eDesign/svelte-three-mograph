@@ -1,3 +1,10 @@
+## [1.0.11](https://github.com/6eDesign/svelte-three-mograph/compare/v1.0.10...v1.0.11) (2021-01-12)
+
+
+### Bug Fixes
+
+* move numeric utilities into js file ([c0ddd65](https://github.com/6eDesign/svelte-three-mograph/commit/c0ddd658433e0fa08df3273c617c1ad02c7c0a47))
+
 ## [1.0.10](https://github.com/6eDesign/svelte-three-mograph/compare/v1.0.9...v1.0.10) (2021-01-12)
 
 
