@@ -23,6 +23,7 @@ import {
 } from "../web_modules/svelte/internal.js";
 
 import { Scene, lights, mograph, primitives } from "./components/index.js";
+import OrbitExample from "./OrbitExample.js";
 
 function create_if_block(ctx) {
 	let scene;
@@ -30,7 +31,7 @@ function create_if_block(ctx) {
 	let current;
 
 	function scene_ctx_binding(value) {
-		/*scene_ctx_binding*/ ctx[11].call(null, value);
+		/*scene_ctx_binding*/ ctx[10].call(null, value);
 	}
 
 	let scene_props = {
@@ -61,7 +62,7 @@ function create_if_block(ctx) {
 			if (dirty & /*width*/ 2) scene_changes.width = /*width*/ ctx[1];
 			if (dirty & /*height*/ 4) scene_changes.height = /*height*/ ctx[2];
 
-			if (dirty & /*$$scope, emitterPosition*/ 1048584) {
+			if (dirty & /*$$scope, emitterPosition*/ 16392) {
 				scene_changes.$$scope = { dirty, ctx };
 			}
 
@@ -88,59 +89,17 @@ function create_if_block(ctx) {
 	};
 }
 
-// (38:4) <Emitter       let:position       let:rotation       position={emitterPosition}       size={[22, 3, 0.5]}       particlesPerSecond={350}       velocity={0.25}       direction={[0, 0, 2]}       forces={[gravity]}       directionVariance={0.4}       lifespan={3000}     >
-function create_default_slot_2(ctx) {
-	let icosahedron;
-	let current;
-
-	icosahedron = new /*Icosahedron*/ ctx[6]({
-			props: {
-				size: 0.09,
-				position: /*position*/ ctx[19],
-				rotation: /*rotation*/ ctx[18]
-			}
-		});
-
-	return {
-		c() {
-			create_component(icosahedron.$$.fragment);
-		},
-		m(target, anchor) {
-			mount_component(icosahedron, target, anchor);
-			current = true;
-		},
-		p(ctx, dirty) {
-			const icosahedron_changes = {};
-			if (dirty & /*position*/ 524288) icosahedron_changes.position = /*position*/ ctx[19];
-			if (dirty & /*rotation*/ 262144) icosahedron_changes.rotation = /*rotation*/ ctx[18];
-			icosahedron.$set(icosahedron_changes);
-		},
-		i(local) {
-			if (current) return;
-			transition_in(icosahedron.$$.fragment, local);
-			current = true;
-		},
-		o(local) {
-			transition_out(icosahedron.$$.fragment, local);
-			current = false;
-		},
-		d(detaching) {
-			destroy_component(icosahedron, detaching);
-		}
-	};
-}
-
-// (53:4) <Forces       rotation={[0.2, 0.2, 0.2]}       velocity={[0, 0, 0]}       rotationalVelocity={[0.01, 0.01, 0.03]}       let:rotation     >
+// (28:4) <Emitter       position={emitterPosition}       size={[22, 3, 0.5]}       direction={[0, 0, 2]}       directionVariance={0.4}       velocity={0.25}       lifespan={3000}       forces={[gravity]}       particlesPerSecond={350}       let:position       let:rotation     >
 function create_default_slot_1(ctx) {
 	let icosahedron;
 	let current;
 
-	icosahedron = new /*Icosahedron*/ ctx[6]({
+	icosahedron = new /*Icosahedron*/ ctx[5]({
 			props: {
-				color: "#f7901e",
-				size: 1,
-				rotation: /*rotation*/ ctx[18],
-				position: [0, 0, -2]
+				size: 0.13,
+				position: /*position*/ ctx[12],
+				rotation: /*rotation*/ ctx[13],
+				color: "#fff"
 			}
 		});
 
@@ -154,7 +113,8 @@ function create_default_slot_1(ctx) {
 		},
 		p(ctx, dirty) {
 			const icosahedron_changes = {};
-			if (dirty & /*rotation*/ 262144) icosahedron_changes.rotation = /*rotation*/ ctx[18];
+			if (dirty & /*position*/ 4096) icosahedron_changes.position = /*position*/ ctx[12];
+			if (dirty & /*rotation*/ 8192) icosahedron_changes.rotation = /*rotation*/ ctx[13];
 			icosahedron.$set(icosahedron_changes);
 		},
 		i(local) {
@@ -172,7 +132,7 @@ function create_default_slot_1(ctx) {
 	};
 }
 
-// (35:2) <Scene background="#000" {width} {height} bind:ctx={sceneCtx}>
+// (25:2) <Scene background="#000" {width} {height} bind:ctx={sceneCtx}>
 function create_default_slot(ctx) {
 	let ambientlight;
 	let t0;
@@ -180,47 +140,33 @@ function create_default_slot(ctx) {
 	let t1;
 	let emitter;
 	let t2;
-	let forces;
+	let orbitexample;
 	let current;
-	ambientlight = new /*AmbientLight*/ ctx[7]({});
-	directionallight = new /*DirectionalLight*/ ctx[8]({});
+	ambientlight = new /*AmbientLight*/ ctx[6]({});
+	directionallight = new /*DirectionalLight*/ ctx[7]({});
 
 	emitter = new /*Emitter*/ ctx[4]({
 			props: {
 				position: /*emitterPosition*/ ctx[3],
 				size: [22, 3, 0.5],
-				particlesPerSecond: 350,
-				velocity: 0.25,
 				direction: [0, 0, 2],
-				forces: [/*gravity*/ ctx[9]],
 				directionVariance: 0.4,
+				velocity: 0.25,
 				lifespan: 3000,
+				forces: [/*gravity*/ ctx[8]],
+				particlesPerSecond: 350,
 				$$slots: {
 					default: [
-						create_default_slot_2,
-						({ position, rotation }) => ({ 19: position, 18: rotation }),
-						({ position, rotation }) => (position ? 524288 : 0) | (rotation ? 262144 : 0)
+						create_default_slot_1,
+						({ position, rotation }) => ({ 12: position, 13: rotation }),
+						({ position, rotation }) => (position ? 4096 : 0) | (rotation ? 8192 : 0)
 					]
 				},
 				$$scope: { ctx }
 			}
 		});
 
-	forces = new /*Forces*/ ctx[5]({
-			props: {
-				rotation: [0.2, 0.2, 0.2],
-				velocity: [0, 0, 0],
-				rotationalVelocity: [0.01, 0.01, 0.03],
-				$$slots: {
-					default: [
-						create_default_slot_1,
-						({ rotation }) => ({ 18: rotation }),
-						({ rotation }) => rotation ? 262144 : 0
-					]
-				},
-				$$scope: { ctx }
-			}
-		});
+	orbitexample = new OrbitExample({});
 
 	return {
 		c() {
@@ -230,7 +176,7 @@ function create_default_slot(ctx) {
 			t1 = space();
 			create_component(emitter.$$.fragment);
 			t2 = space();
-			create_component(forces.$$.fragment);
+			create_component(orbitexample.$$.fragment);
 		},
 		m(target, anchor) {
 			mount_component(ambientlight, target, anchor);
@@ -239,39 +185,32 @@ function create_default_slot(ctx) {
 			insert(target, t1, anchor);
 			mount_component(emitter, target, anchor);
 			insert(target, t2, anchor);
-			mount_component(forces, target, anchor);
+			mount_component(orbitexample, target, anchor);
 			current = true;
 		},
 		p(ctx, dirty) {
 			const emitter_changes = {};
 			if (dirty & /*emitterPosition*/ 8) emitter_changes.position = /*emitterPosition*/ ctx[3];
 
-			if (dirty & /*$$scope, position, rotation*/ 1835008) {
+			if (dirty & /*$$scope, position, rotation*/ 28672) {
 				emitter_changes.$$scope = { dirty, ctx };
 			}
 
 			emitter.$set(emitter_changes);
-			const forces_changes = {};
-
-			if (dirty & /*$$scope, rotation*/ 1310720) {
-				forces_changes.$$scope = { dirty, ctx };
-			}
-
-			forces.$set(forces_changes);
 		},
 		i(local) {
 			if (current) return;
 			transition_in(ambientlight.$$.fragment, local);
 			transition_in(directionallight.$$.fragment, local);
 			transition_in(emitter.$$.fragment, local);
-			transition_in(forces.$$.fragment, local);
+			transition_in(orbitexample.$$.fragment, local);
 			current = true;
 		},
 		o(local) {
 			transition_out(ambientlight.$$.fragment, local);
 			transition_out(directionallight.$$.fragment, local);
 			transition_out(emitter.$$.fragment, local);
-			transition_out(forces.$$.fragment, local);
+			transition_out(orbitexample.$$.fragment, local);
 			current = false;
 		},
 		d(detaching) {
@@ -281,7 +220,7 @@ function create_default_slot(ctx) {
 			if (detaching) detach(t1);
 			destroy_component(emitter, detaching);
 			if (detaching) detach(t2);
-			destroy_component(forces, detaching);
+			destroy_component(orbitexample, detaching);
 		}
 	};
 }
@@ -291,7 +230,7 @@ function create_fragment(ctx) {
 	let current;
 	let mounted;
 	let dispose;
-	add_render_callback(/*onwindowresize*/ ctx[10]);
+	add_render_callback(/*onwindowresize*/ ctx[9]);
 	let if_block = /*width*/ ctx[1] && /*height*/ ctx[2] && create_if_block(ctx);
 
 	return {
@@ -305,7 +244,7 @@ function create_fragment(ctx) {
 			current = true;
 
 			if (!mounted) {
-				dispose = listen(window, "resize", /*onwindowresize*/ ctx[10]);
+				dispose = listen(window, "resize", /*onwindowresize*/ ctx[9]);
 				mounted = true;
 			}
 		},
@@ -353,17 +292,13 @@ function create_fragment(ctx) {
 
 function instance($$self, $$props, $$invalidate) {
 	const { Emitter, Forces } = mograph;
-	const { Cube, Icosahedron, Octahedron, Sphere, Tetrahedron, Torus, TorusKnot } = primitives;
+	const { Icosahedron } = primitives;
 	const { AmbientLight, DirectionalLight } = lights;
 	let width;
 	let height;
 	let sceneCtx;
 	const emitterPosition = [0, 0, -100];
-
-	const gravity = {
-		direction: [0, -0.0001, 0],
-		rotation: [0, 0, 0]
-	};
+	const gravity = particle => particle.getVector(0, -0.0001, 0);
 
 	function onwindowresize() {
 		$$invalidate(1, width = window.innerWidth)
@@ -389,7 +324,6 @@ function instance($$self, $$props, $$invalidate) {
 		height,
 		emitterPosition,
 		Emitter,
-		Forces,
 		Icosahedron,
 		AmbientLight,
 		DirectionalLight,

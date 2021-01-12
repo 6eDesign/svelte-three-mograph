@@ -22,7 +22,7 @@ import {
 
 import { getContext } from "../../../web_modules/svelte.js";
 import { Vector3 } from "../../../web_modules/three.js";
-import Forces from "./Forces.js";
+import Forces from "./Particle.js";
 
 function get_each_context(ctx, list, i) {
 	const child_ctx = ctx.slice();

@@ -82,6 +82,12 @@ function insert(target, node, anchor) {
 function detach(node) {
     node.parentNode.removeChild(node);
 }
+function destroy_each(iterations, detaching) {
+    for (let i = 0; i < iterations.length; i += 1) {
+        if (iterations[i])
+            iterations[i].d(detaching);
+    }
+}
 function element(name) {
     return document.createElement(name);
 }
@@ -477,4 +483,4 @@ class SvelteComponent {
     }
 }
 
-export { component_subscribe as A, assign as B, exclude_internal_props as C, get_spread_object as D, get_spread_update as E, element as F, noop as G, SvelteComponent as S, onMount as a, add_flush_callback as b, add_render_callback as c, bind as d, binding_callbacks as e, check_outros as f, getContext as g, create_component as h, destroy_component as i, detach as j, empty as k, group_outros as l, init as m, insert as n, onDestroy as o, listen as p, mount_component as q, safe_not_equal as r, setContext as s, space as t, transition_in as u, transition_out as v, create_slot as w, outro_and_destroy_block as x, update_keyed_each as y, update_slot as z };
+export { component_subscribe as A, assign as B, exclude_internal_props as C, get_spread_object as D, get_spread_update as E, element as F, destroy_each as G, noop as H, SvelteComponent as S, onMount as a, add_flush_callback as b, add_render_callback as c, bind as d, binding_callbacks as e, check_outros as f, getContext as g, create_component as h, destroy_component as i, detach as j, empty as k, group_outros as l, init as m, insert as n, onDestroy as o, listen as p, mount_component as q, safe_not_equal as r, setContext as s, space as t, transition_in as u, transition_out as v, create_slot as w, outro_and_destroy_block as x, update_keyed_each as y, update_slot as z };

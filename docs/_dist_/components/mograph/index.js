@@ -1,7 +1,4 @@
 import Emitter from './Emitter.js';
-import Forces from './Forces.js';
+import Forces from './Particle.js';
 
-export {
-  Emitter,
-  Forces,
-}
+export { Emitter, Forces };
