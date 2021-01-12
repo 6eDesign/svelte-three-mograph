@@ -1,5 +1,7 @@
 # Svelte Mograph Experiments (with Three.js)
 
+[Demo](https://6edesign.github.io/svelte-three-mograph/)
+
 ## Available Scripts
 
 ### npm start
