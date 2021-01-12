@@ -2,6 +2,7 @@
   import { getContext } from 'svelte';
   import { Vector3 } from 'three';
   import Forces from './Particle.svelte';
+  import { addVariance } from '../../utils';
 
   export let position = [0, 0, 0];
   export let rotation = [0, 0, 0];
@@ -18,9 +19,6 @@
   export let particlesPerSecond = 5;
   export let forces = [];
 
-  const random = (clamp) =>
-    Math.random() * clamp * (Math.random() > 0.5 ? 1 : -1);
-  const addVariance = (variance) => (num) => num + random(variance);
   const varyVelocity = addVariance(velocityVariance);
   const varyDirection = addVariance(directionVariance);
   const varyRotationVelocity = addVariance(rotationVelocityVariance);

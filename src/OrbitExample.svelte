@@ -1,6 +1,7 @@
 <script>
   import { Scene, lights, mograph, primitives } from './components';
   import { Vector3 } from 'three';
+  import { random, addVariance } from './utils';
 
   const { Emitter, Forces } = mograph;
   const {
@@ -20,14 +21,17 @@
   export let velocityVariance = 0.09;
   export let radiusVariance = 0.8;
 
+  const varyRadius = addVariance(radiusVariance);
+  const varyVelocity = addVariance(velocityVariance);
+
   const randomUnitVector = () =>
-    new Vector3(Math.random(), Math.random(), Math.random()).normalize();
+    new Vector3(random(1), random(1), random(1)).normalize();
 
   const orbiters = new Array(orbitingCount).fill(0).map(() => {
     const center = new Vector3(...position);
 
-    const orbitingRadius = Math.random() * radiusVariance + radius;
-    const orbitingVelocityScalar = Math.random() * velocityVariance + velocity;
+    const orbitingRadius = varyRadius(radius);
+    const orbitingVelocityScalar = varyVelocity(velocity);
 
     const orbitingPosition = center
       .clone()
@@ -44,8 +48,6 @@
       radius: orbitingRadius,
     };
   });
-
-  $: console.log(orbiters);
 
   const orbit = (radius, center) => (particle) => {
     const direction = particle
