@@ -1,16 +1,9 @@
 <script>
   import { Scene, lights, mograph, primitives } from './components';
+  import OrbitExample from './OrbitExample.svelte';
 
   const { Emitter, Forces } = mograph;
-  const {
-    Cube,
-    Icosahedron,
-    Octahedron,
-    Sphere,
-    Tetrahedron,
-    Torus,
-    TorusKnot,
-  } = primitives;
+  const { Icosahedron } = primitives;
   const { AmbientLight, DirectionalLight } = lights;
 
   let width;
@@ -18,10 +11,7 @@
   let sceneCtx;
 
   const emitterPosition = [0, 0, -100];
-  const gravity = {
-    direction: [0, -0.0001, 0],
-    rotation: [0, 0, 0],
-  };
+  const gravity = (particle) => particle.getVector(0, -0.0001, 0);
 
   $: sceneCtx &&
     sceneCtx.time.subscribe((t) => {
@@ -36,28 +26,21 @@
     <AmbientLight />
     <DirectionalLight />
     <Emitter
-      let:position
-      let:rotation
       position={emitterPosition}
       size={[22, 3, 0.5]}
-      particlesPerSecond={350}
-      velocity={0.25}
       direction={[0, 0, 2]}
-      forces={[gravity]}
       directionVariance={0.4}
+      velocity={0.25}
       lifespan={3000}
-    >
-      <Icosahedron size={0.09} {position} {rotation} />
-    </Emitter>
-
-    <Forces
-      rotation={[0.2, 0.2, 0.2]}
-      velocity={[0, 0, 0]}
-      rotationalVelocity={[0.01, 0.01, 0.03]}
+      forces={[gravity]}
+      particlesPerSecond={350}
+      let:position
       let:rotation
     >
-      <Icosahedron color="#f7901e" size={1} {rotation} position={[0, 0, -2]} />
-    </Forces>
+      <Icosahedron size={0.13} {position} {rotation} color="#fff" />
+    </Emitter>
+
+    <OrbitExample />
   </Scene>
 {/if}
 

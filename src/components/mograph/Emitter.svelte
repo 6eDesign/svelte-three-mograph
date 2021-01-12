@@ -1,7 +1,7 @@
 <script>
   import { getContext } from 'svelte';
   import { Vector3 } from 'three';
-  import Forces from './Forces.svelte';
+  import Forces from './Particle.svelte';
 
   export let position = [0, 0, 0];
   export let rotation = [0, 0, 0];
