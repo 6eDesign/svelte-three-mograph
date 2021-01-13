@@ -36,7 +36,7 @@ function create_if_block(ctx) {
 
 	scene = new Scene({
 			props: {
-				background: "#000",
+				background: "#111",
 				width: /*width*/ ctx[0],
 				height: /*height*/ ctx[1],
 				$$slots: { default: [create_default_slot] },
@@ -85,7 +85,7 @@ function create_default_slot_3(ctx) {
 
 	icosahedron = new /*Icosahedron*/ ctx[4]({
 			props: {
-				size: 0.1,
+				size: 0.08,
 				position: /*position*/ ctx[13],
 				rotation: /*rotation*/ ctx[14]
 			}
@@ -218,7 +218,7 @@ function create_default_slot_1(ctx) {
 	};
 }
 
-// (28:2) <Scene background="#000" {width} {height}>
+// (28:2) <Scene background="#111" {width} {height}>
 function create_default_slot(ctx) {
 	let ambientlight;
 	let t0;

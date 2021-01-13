@@ -77,7 +77,7 @@ function create_default_slot_4(ctx) {
 	};
 }
 
-// (72:0) <Forces rotationalVelocity={[0.03, 0.03, 0.03]} let:rotation let:position>
+// (72:0) <Forces rotationalVelocity={[0.01, 0.01, 0.01]} let:rotation let:position>
 function create_default_slot_3(ctx) {
 	let material;
 	let current;
@@ -124,7 +124,7 @@ function create_default_slot_3(ctx) {
 	};
 }
 
-// (88:6) <Material metalness={0.2} roughness={0.8} {color}>
+// (88:6) <Material metalness={0} roughness={1} {color}>
 function create_default_slot_2(ctx) {
 	let icosahedron;
 	let current;
@@ -175,8 +175,8 @@ function create_default_slot_1(ctx) {
 
 	material = new Material({
 			props: {
-				metalness: 0.2,
-				roughness: 0.8,
+				metalness: 0,
+				roughness: 1,
 				color: /*color*/ ctx[26],
 				$$slots: { default: [create_default_slot_2] },
 				$$scope: { ctx }
@@ -361,7 +361,7 @@ function create_fragment(ctx) {
 
 	forces = new /*Forces*/ ctx[2]({
 			props: {
-				rotationalVelocity: [0.03, 0.03, 0.03],
+				rotationalVelocity: [0.01, 0.01, 0.01],
 				$$slots: {
 					default: [
 						create_default_slot_3,
