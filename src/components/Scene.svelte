@@ -34,8 +34,8 @@
     let rafId;
     const animate = () => {
       ctx.time.set(Date.now());
-      rafId = requestAnimationFrame(animate);
       renderer.render(scene, camera);
+      rafId = requestAnimationFrame(animate);
     };
     animate();
     return () => cancelAnimationFrame(rafId);
