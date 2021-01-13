@@ -1,6 +1,6 @@
 <script>
   import { writable } from 'svelte/store';
-  import { getContext, setContext } from 'svelte';
+  import { getContext, setContext, onDestroy } from 'svelte';
   import { Vector3 } from 'three';
   import { getParticle } from '../../stores/particles';
 
@@ -21,8 +21,10 @@
   });
 
   setContext('particle', particle);
+
   const { time } = getContext('sceneCtx');
-  time.subscribe(particle.tick);
+  const unsubscribe = time.subscribe(particle.tick);
+  onDestroy(unsubscribe);
 
   $: posArray = [
     $particle.position.x,

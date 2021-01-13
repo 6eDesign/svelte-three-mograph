@@ -1,7 +1,7 @@
 <script>
   import { getContext } from 'svelte';
   import { Vector3 } from 'three';
-  import Forces from './Particle.svelte';
+  import Particle from './Particle.svelte';
   import { addVariance } from '../../utils';
 
   export let position = [0, 0, 0];
@@ -18,6 +18,7 @@
   export let lifespan = 15000;
   export let particlesPerSecond = 5;
   export let forces = [];
+  export let rotationalForces = [];
 
   const varyVelocity = addVariance(velocityVariance);
   const varyDirection = addVariance(directionVariance);
@@ -74,8 +75,9 @@
 </script>
 
 {#each particles as particle (particle.id)}
-  <Forces
-    forces={[...forces]}
+  <Particle
+    {forces}
+    {rotationalForces}
     position={particle.position}
     velocity={particle.velocity}
     rotationalVelocity={particle.rotationalVelocity}
@@ -83,5 +85,5 @@
     let:rotation
   >
     <slot {position} {rotation} />
-  </Forces>
+  </Particle>
 {/each}

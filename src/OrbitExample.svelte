@@ -11,7 +11,7 @@
   import { random, addVariance } from './utils';
 
   const { RandomColor } = numbers;
-  const { Emitter, Forces } = mograph;
+  const { Emitter, Particle } = mograph;
   const { PointLight } = lights;
   const {
     Cube,
@@ -69,14 +69,14 @@
   };
 </script>
 
-<Forces rotationalVelocity={[0.01, 0.01, 0.01]} let:rotation let:position>
+<Particle rotationalVelocity={[0.03, 0.03, 0.03]} let:rotation let:position>
   <Material color="#fff" metalness={0.8} roughness={0.7}>
     <Icosahedron size={1} {rotation} {position} />
   </Material>
-</Forces>
+</Particle>
 
 {#each orbiters as orbiter}
-  <Forces
+  <Particle
     position={[orbiter.position.x, orbiter.position.y, orbiter.position.z]}
     velocity={[orbiter.velocity.x, orbiter.velocity.y, orbiter.velocity.z]}
     rotationalVelocity={[0.02, 0.02, 0.02]}
@@ -90,5 +90,5 @@
       </Material>
       <PointLight {position} intensity={1} distance={1.8} {color} />
     </RandomColor>
-  </Forces>
+  </Particle>
 {/each}

@@ -1,5 +1,5 @@
 <script>
-  import { onMount, setContext } from 'svelte';
+  import { onMount, setContext, tick } from 'svelte';
   import { writable } from 'svelte/store';
   import { Scene, Color, PerspectiveCamera, WebGLRenderer } from 'three';
   import { Material } from './index';
@@ -32,9 +32,10 @@
 
   onMount(() => {
     let rafId;
-    const animate = () => {
+    const animate = async () => {
       ctx.time.set(Date.now());
       renderer.render(scene, camera);
+      await tick();
       rafId = requestAnimationFrame(animate);
     };
     animate();
