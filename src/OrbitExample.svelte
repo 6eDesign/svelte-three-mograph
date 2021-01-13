@@ -69,7 +69,7 @@
   };
 </script>
 
-<Forces rotationalVelocity={[0.03, 0.03, 0.03]} let:rotation let:position>
+<Forces rotationalVelocity={[0.01, 0.01, 0.01]} let:rotation let:position>
   <Material color="#fff" metalness={0.8} roughness={0.7}>
     <Icosahedron size={1} {rotation} {position} />
   </Material>
@@ -85,7 +85,7 @@
     let:rotation
   >
     <RandomColor let:color>
-      <Material metalness={0.2} roughness={0.8} {color}>
+      <Material metalness={0} roughness={1} {color}>
         <Icosahedron size={0.01 + Math.random() * 0.05} {position} {rotation} />
       </Material>
       <PointLight {position} intensity={1} distance={1.8} {color} />

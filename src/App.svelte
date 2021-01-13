@@ -25,7 +25,7 @@
 <svelte:window bind:innerWidth={width} bind:innerHeight={height} />
 
 {#if width && height}
-  <Scene background="#000" {width} {height}>
+  <Scene background="#111" {width} {height}>
     <AmbientLight />
     <DirectionalLight />
 
@@ -43,7 +43,7 @@
     >
       <RandomColor let:color>
         <Material roughness={1} metalness={0.1} {color}>
-          <Icosahedron size={0.1} {position} {rotation} />
+          <Icosahedron size={0.08} {position} {rotation} />
         </Material>
       </RandomColor>
     </Emitter>
