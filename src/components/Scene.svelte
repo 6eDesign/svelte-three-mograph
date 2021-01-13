@@ -40,7 +40,6 @@
     animate();
     return () => cancelAnimationFrame(rafId);
   });
-
   $: target && target.appendChild(renderer.domElement);
 </script>
 
