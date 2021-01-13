@@ -22,31 +22,31 @@ import {
 
 import { getContext } from "../../../web_modules/svelte.js";
 import { Vector3 } from "../../../web_modules/three.js";
-import Forces from "./Particle.js";
+import Particle from "./Particle.js";
 import { addVariance } from "../../utils/index.js";
 
 function get_each_context(ctx, list, i) {
 	const child_ctx = ctx.slice();
-	child_ctx[24] = list[i];
+	child_ctx[25] = list[i];
 	return child_ctx;
 }
 
 const get_default_slot_changes = dirty => ({
-	position: dirty & /*position*/ 2,
-	rotation: dirty & /*rotation*/ 4
+	position: dirty & /*position*/ 4,
+	rotation: dirty & /*rotation*/ 8
 });
 
 const get_default_slot_context = ctx => ({
-	position: /*position*/ ctx[1],
-	rotation: /*rotation*/ ctx[2]
+	position: /*position*/ ctx[2],
+	rotation: /*rotation*/ ctx[3]
 });
 
-// (77:2) <Forces     forces={[...forces]}     position={particle.position}     velocity={particle.velocity}     rotationalVelocity={particle.rotationalVelocity}     let:position     let:rotation   >
+// (78:2) <Particle     {forces}     {rotationalForces}     position={particle.position}     velocity={particle.velocity}     rotationalVelocity={particle.rotationalVelocity}     let:position     let:rotation   >
 function create_default_slot(ctx) {
 	let t;
 	let current;
-	const default_slot_template = /*#slots*/ ctx[15].default;
-	const default_slot = create_slot(default_slot_template, ctx, /*$$scope*/ ctx[16], get_default_slot_context);
+	const default_slot_template = /*#slots*/ ctx[16].default;
+	const default_slot = create_slot(default_slot_template, ctx, /*$$scope*/ ctx[17], get_default_slot_context);
 
 	return {
 		c() {
@@ -63,8 +63,8 @@ function create_default_slot(ctx) {
 		},
 		p(ctx, dirty) {
 			if (default_slot) {
-				if (default_slot.p && dirty & /*$$scope, position, rotation*/ 65542) {
-					update_slot(default_slot, default_slot_template, ctx, /*$$scope*/ ctx[16], dirty, get_default_slot_changes, get_default_slot_context);
+				if (default_slot.p && dirty & /*$$scope, position, rotation*/ 131084) {
+					update_slot(default_slot, default_slot_template, ctx, /*$$scope*/ ctx[17], dirty, get_default_slot_changes, get_default_slot_context);
 				}
 			}
 		},
@@ -84,23 +84,24 @@ function create_default_slot(ctx) {
 	};
 }
 
-// (76:0) {#each particles as particle (particle.id)}
+// (77:0) {#each particles as particle (particle.id)}
 function create_each_block(key_1, ctx) {
 	let first;
-	let forces_1;
+	let particle;
 	let current;
 
-	forces_1 = new Forces({
+	particle = new Particle({
 			props: {
-				forces: [.../*forces*/ ctx[0]],
-				position: /*particle*/ ctx[24].position,
-				velocity: /*particle*/ ctx[24].velocity,
-				rotationalVelocity: /*particle*/ ctx[24].rotationalVelocity,
+				forces: /*forces*/ ctx[0],
+				rotationalForces: /*rotationalForces*/ ctx[1],
+				position: /*particle*/ ctx[25].position,
+				velocity: /*particle*/ ctx[25].velocity,
+				rotationalVelocity: /*particle*/ ctx[25].rotationalVelocity,
 				$$slots: {
 					default: [
 						create_default_slot,
-						({ position, rotation }) => ({ 1: position, 2: rotation }),
-						({ position, rotation }) => (position ? 2 : 0) | (rotation ? 4 : 0)
+						({ position, rotation }) => ({ 2: position, 3: rotation }),
+						({ position, rotation }) => (position ? 4 : 0) | (rotation ? 8 : 0)
 					]
 				},
 				$$scope: { ctx }
@@ -112,40 +113,41 @@ function create_each_block(key_1, ctx) {
 		first: null,
 		c() {
 			first = empty();
-			create_component(forces_1.$$.fragment);
+			create_component(particle.$$.fragment);
 			this.first = first;
 		},
 		m(target, anchor) {
 			insert(target, first, anchor);
-			mount_component(forces_1, target, anchor);
+			mount_component(particle, target, anchor);
 			current = true;
 		},
 		p(new_ctx, dirty) {
 			ctx = new_ctx;
-			const forces_1_changes = {};
-			if (dirty & /*forces*/ 1) forces_1_changes.forces = [.../*forces*/ ctx[0]];
-			if (dirty & /*particles*/ 8) forces_1_changes.position = /*particle*/ ctx[24].position;
-			if (dirty & /*particles*/ 8) forces_1_changes.velocity = /*particle*/ ctx[24].velocity;
-			if (dirty & /*particles*/ 8) forces_1_changes.rotationalVelocity = /*particle*/ ctx[24].rotationalVelocity;
+			const particle_changes = {};
+			if (dirty & /*forces*/ 1) particle_changes.forces = /*forces*/ ctx[0];
+			if (dirty & /*rotationalForces*/ 2) particle_changes.rotationalForces = /*rotationalForces*/ ctx[1];
+			if (dirty & /*particles*/ 16) particle_changes.position = /*particle*/ ctx[25].position;
+			if (dirty & /*particles*/ 16) particle_changes.velocity = /*particle*/ ctx[25].velocity;
+			if (dirty & /*particles*/ 16) particle_changes.rotationalVelocity = /*particle*/ ctx[25].rotationalVelocity;
 
-			if (dirty & /*$$scope, position, rotation*/ 65542) {
-				forces_1_changes.$$scope = { dirty, ctx };
+			if (dirty & /*$$scope, position, rotation*/ 131084) {
+				particle_changes.$$scope = { dirty, ctx };
 			}
 
-			forces_1.$set(forces_1_changes);
+			particle.$set(particle_changes);
 		},
 		i(local) {
 			if (current) return;
-			transition_in(forces_1.$$.fragment, local);
+			transition_in(particle.$$.fragment, local);
 			current = true;
 		},
 		o(local) {
-			transition_out(forces_1.$$.fragment, local);
+			transition_out(particle.$$.fragment, local);
 			current = false;
 		},
 		d(detaching) {
 			if (detaching) detach(first);
-			destroy_component(forces_1, detaching);
+			destroy_component(particle, detaching);
 		}
 	};
 }
@@ -155,8 +157,8 @@ function create_fragment(ctx) {
 	let each_1_lookup = new Map();
 	let each_1_anchor;
 	let current;
-	let each_value = /*particles*/ ctx[3];
-	const get_key = ctx => /*particle*/ ctx[24].id;
+	let each_value = /*particles*/ ctx[4];
+	const get_key = ctx => /*particle*/ ctx[25].id;
 
 	for (let i = 0; i < each_value.length; i += 1) {
 		let child_ctx = get_each_context(ctx, each_value, i);
@@ -181,8 +183,8 @@ function create_fragment(ctx) {
 			current = true;
 		},
 		p(ctx, [dirty]) {
-			if (dirty & /*forces, particles, $$scope, position, rotation*/ 65551) {
-				each_value = /*particles*/ ctx[3];
+			if (dirty & /*forces, rotationalForces, particles, $$scope, position, rotation*/ 131103) {
+				each_value = /*particles*/ ctx[4];
 				group_outros();
 				each_blocks = update_keyed_each(each_blocks, dirty, get_key, 1, ctx, each_value, each_1_lookup, each_1_anchor.parentNode, outro_and_destroy_block, create_each_block, each_1_anchor, get_each_context);
 				check_outros();
@@ -230,6 +232,7 @@ function instance($$self, $$props, $$invalidate) {
 	let { lifespan = 15000 } = $$props;
 	let { particlesPerSecond = 5 } = $$props;
 	let { forces = [] } = $$props;
+	let { rotationalForces = [] } = $$props;
 	const varyVelocity = addVariance(velocityVariance);
 	const varyDirection = addVariance(directionVariance);
 	const varyRotationVelocity = addVariance(rotationVelocityVariance);
@@ -244,7 +247,7 @@ function instance($$self, $$props, $$invalidate) {
 		const particleRotationalDirection = new Vector3(...rotationDirection.map(varyRotationDirection));
 		const particleRotationalVelocity = new Vector3().addScaledVector(particleRotationalDirection, varyRotationVelocity(rotationVelocity));
 
-		$$invalidate(3, particles = [
+		$$invalidate(4, particles = [
 			...particles.filter(({ dies }) => now < dies),
 			{
 				id: particleCount,
@@ -276,25 +279,27 @@ function instance($$self, $$props, $$invalidate) {
 	const sceneCtx = getContext("sceneCtx");
 
 	$$self.$$set = $$props => {
-		if ("position" in $$props) $$invalidate(1, position = $$props.position);
-		if ("rotation" in $$props) $$invalidate(2, rotation = $$props.rotation);
-		if ("velocity" in $$props) $$invalidate(4, velocity = $$props.velocity);
-		if ("velocityVariance" in $$props) $$invalidate(5, velocityVariance = $$props.velocityVariance);
-		if ("rotationVelocity" in $$props) $$invalidate(6, rotationVelocity = $$props.rotationVelocity);
-		if ("rotationVelocityVariance" in $$props) $$invalidate(7, rotationVelocityVariance = $$props.rotationVelocityVariance);
-		if ("size" in $$props) $$invalidate(8, size = $$props.size);
-		if ("direction" in $$props) $$invalidate(9, direction = $$props.direction);
-		if ("directionVariance" in $$props) $$invalidate(10, directionVariance = $$props.directionVariance);
-		if ("rotationDirection" in $$props) $$invalidate(11, rotationDirection = $$props.rotationDirection);
-		if ("rotationDirectionVariance" in $$props) $$invalidate(12, rotationDirectionVariance = $$props.rotationDirectionVariance);
-		if ("lifespan" in $$props) $$invalidate(13, lifespan = $$props.lifespan);
-		if ("particlesPerSecond" in $$props) $$invalidate(14, particlesPerSecond = $$props.particlesPerSecond);
+		if ("position" in $$props) $$invalidate(2, position = $$props.position);
+		if ("rotation" in $$props) $$invalidate(3, rotation = $$props.rotation);
+		if ("velocity" in $$props) $$invalidate(5, velocity = $$props.velocity);
+		if ("velocityVariance" in $$props) $$invalidate(6, velocityVariance = $$props.velocityVariance);
+		if ("rotationVelocity" in $$props) $$invalidate(7, rotationVelocity = $$props.rotationVelocity);
+		if ("rotationVelocityVariance" in $$props) $$invalidate(8, rotationVelocityVariance = $$props.rotationVelocityVariance);
+		if ("size" in $$props) $$invalidate(9, size = $$props.size);
+		if ("direction" in $$props) $$invalidate(10, direction = $$props.direction);
+		if ("directionVariance" in $$props) $$invalidate(11, directionVariance = $$props.directionVariance);
+		if ("rotationDirection" in $$props) $$invalidate(12, rotationDirection = $$props.rotationDirection);
+		if ("rotationDirectionVariance" in $$props) $$invalidate(13, rotationDirectionVariance = $$props.rotationDirectionVariance);
+		if ("lifespan" in $$props) $$invalidate(14, lifespan = $$props.lifespan);
+		if ("particlesPerSecond" in $$props) $$invalidate(15, particlesPerSecond = $$props.particlesPerSecond);
 		if ("forces" in $$props) $$invalidate(0, forces = $$props.forces);
-		if ("$$scope" in $$props) $$invalidate(16, $$scope = $$props.$$scope);
+		if ("rotationalForces" in $$props) $$invalidate(1, rotationalForces = $$props.rotationalForces);
+		if ("$$scope" in $$props) $$invalidate(17, $$scope = $$props.$$scope);
 	};
 
 	return [
 		forces,
+		rotationalForces,
 		position,
 		rotation,
 		particles,
@@ -319,20 +324,21 @@ class Emitter extends SvelteComponent {
 		super();
 
 		init(this, options, instance, create_fragment, safe_not_equal, {
-			position: 1,
-			rotation: 2,
-			velocity: 4,
-			velocityVariance: 5,
-			rotationVelocity: 6,
-			rotationVelocityVariance: 7,
-			size: 8,
-			direction: 9,
-			directionVariance: 10,
-			rotationDirection: 11,
-			rotationDirectionVariance: 12,
-			lifespan: 13,
-			particlesPerSecond: 14,
-			forces: 0
+			position: 2,
+			rotation: 3,
+			velocity: 5,
+			velocityVariance: 6,
+			rotationVelocity: 7,
+			rotationVelocityVariance: 8,
+			size: 9,
+			direction: 10,
+			directionVariance: 11,
+			rotationDirection: 12,
+			rotationDirectionVariance: 13,
+			lifespan: 14,
+			particlesPerSecond: 15,
+			forces: 0,
+			rotationalForces: 1
 		});
 	}
 }

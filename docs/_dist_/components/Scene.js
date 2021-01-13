@@ -17,7 +17,7 @@ import {
 	update_slot
 } from "../../web_modules/svelte/internal.js";
 
-import { onMount, setContext } from "../../web_modules/svelte.js";
+import { onMount, setContext, tick } from "../../web_modules/svelte.js";
 import { writable } from "../../web_modules/svelte/store.js";
 import { Scene, Color, PerspectiveCamera, WebGLRenderer } from "../../web_modules/three.js";
 import { Material } from "./index.js";
@@ -139,9 +139,10 @@ function instance($$self, $$props, $$invalidate) {
 	onMount(() => {
 		let rafId;
 
-		const animate = () => {
+		const animate = async () => {
 			ctx.time.set(Date.now());
 			renderer.render(scene, camera);
+			await tick();
 			rafId = requestAnimationFrame(animate);
 		};
 

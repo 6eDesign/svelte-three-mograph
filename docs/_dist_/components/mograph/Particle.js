@@ -11,7 +11,7 @@ import {
 } from "../../../web_modules/svelte/internal.js";
 
 import { writable } from "../../../web_modules/svelte/store.js";
-import { getContext, setContext } from "../../../web_modules/svelte.js";
+import { getContext, setContext, onDestroy } from "../../../web_modules/svelte.js";
 import { Vector3 } from "../../../web_modules/three.js";
 import { getParticle } from "../../stores/particles.js";
 
@@ -87,7 +87,8 @@ function instance($$self, $$props, $$invalidate) {
 	component_subscribe($$self, particle, value => $$invalidate(9, $particle = value));
 	setContext("particle", particle);
 	const { time } = getContext("sceneCtx");
-	time.subscribe(particle.tick);
+	const unsubscribe = time.subscribe(particle.tick);
+	onDestroy(unsubscribe);
 
 	$$self.$$set = $$props => {
 		if ("position" in $$props) $$invalidate(3, position = $$props.position);

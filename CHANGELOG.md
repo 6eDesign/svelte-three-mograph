@@ -1,3 +1,11 @@
+## [1.0.15](https://github.com/6eDesign/svelte-three-mograph/compare/v1.0.14...v1.0.15) (2021-01-13)
+
+
+### Bug Fixes
+
+* added unsubscribe in onDestroy of Particle.svelte to prevent performance degradation when particles are removed from scene ([f21619d](https://github.com/6eDesign/svelte-three-mograph/commit/f21619d8ef6eb367262045e8862300944e704036))
+* added unsubscribe in onDestroy of Particle.svelte to prevent performance degradation when particles are removed from scene ([89c9b06](https://github.com/6eDesign/svelte-three-mograph/commit/89c9b06df174ad8339bac27b35779b7c5c2d7798))
+
 ## [1.0.14](https://github.com/6eDesign/svelte-three-mograph/compare/v1.0.13...v1.0.14) (2021-01-13)
 
 

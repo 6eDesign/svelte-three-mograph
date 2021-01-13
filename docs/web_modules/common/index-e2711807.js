@@ -142,6 +142,10 @@ function schedule_update() {
         resolved_promise.then(flush);
     }
 }
+function tick() {
+    schedule_update();
+    return resolved_promise;
+}
 function add_render_callback(fn) {
     render_callbacks.push(fn);
 }
@@ -472,4 +476,4 @@ class SvelteComponent {
     }
 }
 
-export { get_spread_object as A, get_spread_update as B, binding_callbacks as C, element as D, destroy_each as E, noop as F, SvelteComponent as S, onMount as a, add_render_callback as b, check_outros as c, create_component as d, destroy_component as e, detach as f, getContext as g, empty as h, group_outros as i, init as j, insert as k, listen as l, mount_component as m, safe_not_equal as n, onDestroy as o, space as p, transition_out as q, assign as r, setContext as s, transition_in as t, create_slot as u, exclude_internal_props as v, update_slot as w, outro_and_destroy_block as x, update_keyed_each as y, component_subscribe as z };
+export { component_subscribe as A, get_spread_object as B, get_spread_update as C, binding_callbacks as D, element as E, destroy_each as F, noop as G, SvelteComponent as S, onMount as a, add_render_callback as b, check_outros as c, create_component as d, destroy_component as e, detach as f, getContext as g, empty as h, group_outros as i, init as j, insert as k, listen as l, mount_component as m, safe_not_equal as n, onDestroy as o, space as p, transition_in as q, transition_out as r, setContext as s, tick as t, assign as u, create_slot as v, exclude_internal_props as w, update_slot as x, outro_and_destroy_block as y, update_keyed_each as z };

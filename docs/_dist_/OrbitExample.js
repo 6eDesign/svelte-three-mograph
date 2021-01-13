@@ -77,7 +77,7 @@ function create_default_slot_4(ctx) {
 	};
 }
 
-// (72:0) <Forces rotationalVelocity={[0.01, 0.01, 0.01]} let:rotation let:position>
+// (72:0) <Particle rotationalVelocity={[0.03, 0.03, 0.03]} let:rotation let:position>
 function create_default_slot_3(ctx) {
 	let material;
 	let current;
@@ -237,7 +237,7 @@ function create_default_slot_1(ctx) {
 	};
 }
 
-// (79:2) <Forces     position={[orbiter.position.x, orbiter.position.y, orbiter.position.z]}     velocity={[orbiter.velocity.x, orbiter.velocity.y, orbiter.velocity.z]}     rotationalVelocity={[0.02, 0.02, 0.02]}     forces={[orbit(orbiter.radius, [0, 0, 0])]}     let:position     let:rotation   >
+// (79:2) <Particle     position={[orbiter.position.x, orbiter.position.y, orbiter.position.z]}     velocity={[orbiter.velocity.x, orbiter.velocity.y, orbiter.velocity.z]}     rotationalVelocity={[0.02, 0.02, 0.02]}     forces={[orbit(orbiter.radius, [0, 0, 0])]}     let:position     let:rotation   >
 function create_default_slot(ctx) {
 	let randomcolor;
 	let t;
@@ -293,10 +293,10 @@ function create_default_slot(ctx) {
 
 // (78:0) {#each orbiters as orbiter}
 function create_each_block(ctx) {
-	let forces;
+	let particle;
 	let current;
 
-	forces = new /*Forces*/ ctx[2]({
+	particle = new /*Particle*/ ctx[2]({
 			props: {
 				position: [
 					/*orbiter*/ ctx[22].position.x,
@@ -323,45 +323,45 @@ function create_each_block(ctx) {
 
 	return {
 		c() {
-			create_component(forces.$$.fragment);
+			create_component(particle.$$.fragment);
 		},
 		m(target, anchor) {
-			mount_component(forces, target, anchor);
+			mount_component(particle, target, anchor);
 			current = true;
 		},
 		p(ctx, dirty) {
-			const forces_changes = {};
+			const particle_changes = {};
 
 			if (dirty & /*$$scope, position, rotation*/ 167772161) {
-				forces_changes.$$scope = { dirty, ctx };
+				particle_changes.$$scope = { dirty, ctx };
 			}
 
-			forces.$set(forces_changes);
+			particle.$set(particle_changes);
 		},
 		i(local) {
 			if (current) return;
-			transition_in(forces.$$.fragment, local);
+			transition_in(particle.$$.fragment, local);
 			current = true;
 		},
 		o(local) {
-			transition_out(forces.$$.fragment, local);
+			transition_out(particle.$$.fragment, local);
 			current = false;
 		},
 		d(detaching) {
-			destroy_component(forces, detaching);
+			destroy_component(particle, detaching);
 		}
 	};
 }
 
 function create_fragment(ctx) {
-	let forces;
+	let particle;
 	let t;
 	let each_1_anchor;
 	let current;
 
-	forces = new /*Forces*/ ctx[2]({
+	particle = new /*Particle*/ ctx[2]({
 			props: {
-				rotationalVelocity: [0.01, 0.01, 0.01],
+				rotationalVelocity: [0.03, 0.03, 0.03],
 				$$slots: {
 					default: [
 						create_default_slot_3,
@@ -386,7 +386,7 @@ function create_fragment(ctx) {
 
 	return {
 		c() {
-			create_component(forces.$$.fragment);
+			create_component(particle.$$.fragment);
 			t = space();
 
 			for (let i = 0; i < each_blocks.length; i += 1) {
@@ -396,7 +396,7 @@ function create_fragment(ctx) {
 			each_1_anchor = empty();
 		},
 		m(target, anchor) {
-			mount_component(forces, target, anchor);
+			mount_component(particle, target, anchor);
 			insert(target, t, anchor);
 
 			for (let i = 0; i < each_blocks.length; i += 1) {
@@ -407,13 +407,13 @@ function create_fragment(ctx) {
 			current = true;
 		},
 		p(ctx, [dirty]) {
-			const forces_changes = {};
+			const particle_changes = {};
 
 			if (dirty & /*$$scope, rotation, position*/ 167772161) {
-				forces_changes.$$scope = { dirty, ctx };
+				particle_changes.$$scope = { dirty, ctx };
 			}
 
-			forces.$set(forces_changes);
+			particle.$set(particle_changes);
 
 			if (dirty & /*orbiters, orbit, position, color, Math, rotation*/ 100663393) {
 				each_value = /*orbiters*/ ctx[5];
@@ -444,7 +444,7 @@ function create_fragment(ctx) {
 		},
 		i(local) {
 			if (current) return;
-			transition_in(forces.$$.fragment, local);
+			transition_in(particle.$$.fragment, local);
 
 			for (let i = 0; i < each_value.length; i += 1) {
 				transition_in(each_blocks[i]);
@@ -453,7 +453,7 @@ function create_fragment(ctx) {
 			current = true;
 		},
 		o(local) {
-			transition_out(forces.$$.fragment, local);
+			transition_out(particle.$$.fragment, local);
 			each_blocks = each_blocks.filter(Boolean);
 
 			for (let i = 0; i < each_blocks.length; i += 1) {
@@ -463,7 +463,7 @@ function create_fragment(ctx) {
 			current = false;
 		},
 		d(detaching) {
-			destroy_component(forces, detaching);
+			destroy_component(particle, detaching);
 			if (detaching) detach(t);
 			destroy_each(each_blocks, detaching);
 			if (detaching) detach(each_1_anchor);
@@ -473,7 +473,7 @@ function create_fragment(ctx) {
 
 function instance($$self, $$props, $$invalidate) {
 	const { RandomColor } = numbers;
-	const { Emitter, Forces } = mograph;
+	const { Emitter, Particle } = mograph;
 	const { PointLight } = lights;
 	const { Cube, Icosahedron, Octahedron, Sphere, Tetrahedron, Torus, TorusKnot } = primitives;
 	let { position = [0, 0, 0] } = $$props;
@@ -517,7 +517,7 @@ function instance($$self, $$props, $$invalidate) {
 	return [
 		position,
 		RandomColor,
-		Forces,
+		Particle,
 		PointLight,
 		Icosahedron,
 		orbiters,
