@@ -145,9 +145,6 @@ function schedule_update() {
 function add_render_callback(fn) {
     render_callbacks.push(fn);
 }
-function add_flush_callback(fn) {
-    flush_callbacks.push(fn);
-}
 let flushing = false;
 const seen_callbacks = new Set();
 function flush() {
@@ -350,14 +347,6 @@ function get_spread_update(levels, updates) {
 function get_spread_object(spread_props) {
     return typeof spread_props === 'object' && spread_props !== null ? spread_props : {};
 }
-
-function bind(component, name, callback) {
-    const index = component.$$.props[name];
-    if (index !== undefined) {
-        component.$$.bound[index] = callback;
-        callback(component.$$.ctx[index]);
-    }
-}
 function create_component(block) {
     block && block.c();
 }
@@ -483,4 +472,4 @@ class SvelteComponent {
     }
 }
 
-export { component_subscribe as A, assign as B, exclude_internal_props as C, get_spread_object as D, get_spread_update as E, element as F, destroy_each as G, noop as H, SvelteComponent as S, onMount as a, add_flush_callback as b, add_render_callback as c, bind as d, binding_callbacks as e, check_outros as f, getContext as g, create_component as h, destroy_component as i, detach as j, empty as k, group_outros as l, init as m, insert as n, onDestroy as o, listen as p, mount_component as q, safe_not_equal as r, setContext as s, space as t, transition_in as u, transition_out as v, create_slot as w, outro_and_destroy_block as x, update_keyed_each as y, update_slot as z };
+export { get_spread_object as A, get_spread_update as B, binding_callbacks as C, element as D, destroy_each as E, noop as F, SvelteComponent as S, onMount as a, add_render_callback as b, check_outros as c, create_component as d, destroy_component as e, detach as f, getContext as g, empty as h, group_outros as i, init as j, insert as k, listen as l, mount_component as m, safe_not_equal as n, onDestroy as o, space as p, transition_out as q, assign as r, setContext as s, transition_in as t, create_slot as u, exclude_internal_props as v, update_slot as w, outro_and_destroy_block as x, update_keyed_each as y, component_subscribe as z };

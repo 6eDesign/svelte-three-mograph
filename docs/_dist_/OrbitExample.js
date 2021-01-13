@@ -17,26 +17,33 @@ import {
 	transition_out
 } from "../web_modules/svelte/internal.js";
 
-import { Scene, lights, mograph, primitives } from "./components/index.js";
+import {
+	Scene,
+	Material,
+	numbers,
+	lights,
+	mograph,
+	primitives
+} from "./components/index.js";
+
 import { Vector3 } from "../web_modules/three.js";
 import { random, addVariance } from "./utils/index.js";
 
 function get_each_context(ctx, list, i) {
 	const child_ctx = ctx.slice();
-	child_ctx[20] = list[i];
+	child_ctx[22] = list[i];
 	return child_ctx;
 }
 
-// (63:0) <Forces rotationalVelocity={[0.03, 0.03, 0.03]} let:rotation let:position>
-function create_default_slot_1(ctx) {
+// (73:2) <Material color="#fff" metalness={0.8} roughness={0.7}>
+function create_default_slot_4(ctx) {
 	let icosahedron;
 	let current;
 
-	icosahedron = new /*Icosahedron*/ ctx[2]({
+	icosahedron = new /*Icosahedron*/ ctx[4]({
 			props: {
-				color: "#f7901e",
 				size: 1,
-				rotation: /*rotation*/ ctx[23],
+				rotation: /*rotation*/ ctx[25],
 				position: /*position*/ ctx[0]
 			}
 		});
@@ -51,7 +58,7 @@ function create_default_slot_1(ctx) {
 		},
 		p(ctx, dirty) {
 			const icosahedron_changes = {};
-			if (dirty & /*rotation*/ 8388608) icosahedron_changes.rotation = /*rotation*/ ctx[23];
+			if (dirty & /*rotation*/ 33554432) icosahedron_changes.rotation = /*rotation*/ ctx[25];
 			if (dirty & /*position*/ 1) icosahedron_changes.position = /*position*/ ctx[0];
 			icosahedron.$set(icosahedron_changes);
 		},
@@ -70,34 +77,78 @@ function create_default_slot_1(ctx) {
 	};
 }
 
-// (68:2) <Forces     position={[orbiter.position.x, orbiter.position.y, orbiter.position.z]}     velocity={[orbiter.velocity.x, orbiter.velocity.y, orbiter.velocity.z]}     rotationalVelocity={[0.02, 0.02, 0.02]}     forces={[orbit(orbiter.radius, [0, 0, 0])]}     let:position     let:rotation   >
-function create_default_slot(ctx) {
-	let icosahedron;
-	let t;
+// (72:0) <Forces rotationalVelocity={[0.03, 0.03, 0.03]} let:rotation let:position>
+function create_default_slot_3(ctx) {
+	let material;
 	let current;
 
-	icosahedron = new /*Icosahedron*/ ctx[2]({
+	material = new Material({
+			props: {
+				color: "#fff",
+				metalness: 0.8,
+				roughness: 0.7,
+				$$slots: { default: [create_default_slot_4] },
+				$$scope: { ctx }
+			}
+		});
+
+	return {
+		c() {
+			create_component(material.$$.fragment);
+		},
+		m(target, anchor) {
+			mount_component(material, target, anchor);
+			current = true;
+		},
+		p(ctx, dirty) {
+			const material_changes = {};
+
+			if (dirty & /*$$scope, rotation, position*/ 167772161) {
+				material_changes.$$scope = { dirty, ctx };
+			}
+
+			material.$set(material_changes);
+		},
+		i(local) {
+			if (current) return;
+			transition_in(material.$$.fragment, local);
+			current = true;
+		},
+		o(local) {
+			transition_out(material.$$.fragment, local);
+			current = false;
+		},
+		d(detaching) {
+			destroy_component(material, detaching);
+		}
+	};
+}
+
+// (88:6) <Material metalness={0.2} roughness={0.8} {color}>
+function create_default_slot_2(ctx) {
+	let icosahedron;
+	let current;
+
+	icosahedron = new /*Icosahedron*/ ctx[4]({
 			props: {
 				size: 0.01 + Math.random() * 0.05,
 				position: /*position*/ ctx[0],
-				rotation: /*rotation*/ ctx[23]
+				rotation: /*rotation*/ ctx[25]
 			}
 		});
 
 	return {
 		c() {
 			create_component(icosahedron.$$.fragment);
-			t = space();
 		},
 		m(target, anchor) {
 			mount_component(icosahedron, target, anchor);
-			insert(target, t, anchor);
 			current = true;
 		},
 		p(ctx, dirty) {
 			const icosahedron_changes = {};
 			if (dirty & /*position*/ 1) icosahedron_changes.position = /*position*/ ctx[0];
-			if (dirty & /*rotation*/ 8388608) icosahedron_changes.rotation = /*rotation*/ ctx[23];
+			if (dirty & /*rotation*/ 33554432) icosahedron_changes.rotation = /*rotation*/ ctx[25];
 			icosahedron.$set(icosahedron_changes);
 		},
 		i(local) {
@@ -111,35 +162,159 @@ function create_default_slot(ctx) {
 		},
 		d(detaching) {
 			destroy_component(icosahedron, detaching);
+		}
+	};
+}
+
+// (87:4) <RandomColor let:color>
+function create_default_slot_1(ctx) {
+	let material;
+	let t;
+	let pointlight;
+	let current;
+
+	material = new Material({
+			props: {
+				metalness: 0.2,
+				roughness: 0.8,
+				color: /*color*/ ctx[26],
+				$$slots: { default: [create_default_slot_2] },
+				$$scope: { ctx }
+			}
+		});
+
+	pointlight = new /*PointLight*/ ctx[3]({
+			props: {
+				position: /*position*/ ctx[0],
+				intensity: 1,
+				distance: 1.8,
+				color: /*color*/ ctx[26]
+			}
+		});
+
+	return {
+		c() {
+			create_component(material.$$.fragment);
+			t = space();
+			create_component(pointlight.$$.fragment);
+		},
+		m(target, anchor) {
+			mount_component(material, target, anchor);
+			insert(target, t, anchor);
+			mount_component(pointlight, target, anchor);
+			current = true;
+		},
+		p(ctx, dirty) {
+			const material_changes = {};
+			if (dirty & /*color*/ 67108864) material_changes.color = /*color*/ ctx[26];
+
+			if (dirty & /*$$scope, position, rotation*/ 167772161) {
+				material_changes.$$scope = { dirty, ctx };
+			}
+
+			material.$set(material_changes);
+			const pointlight_changes = {};
+			if (dirty & /*position*/ 1) pointlight_changes.position = /*position*/ ctx[0];
+			if (dirty & /*color*/ 67108864) pointlight_changes.color = /*color*/ ctx[26];
+			pointlight.$set(pointlight_changes);
+		},
+		i(local) {
+			if (current) return;
+			transition_in(material.$$.fragment, local);
+			transition_in(pointlight.$$.fragment, local);
+			current = true;
+		},
+		o(local) {
+			transition_out(material.$$.fragment, local);
+			transition_out(pointlight.$$.fragment, local);
+			current = false;
+		},
+		d(detaching) {
+			destroy_component(material, detaching);
+			if (detaching) detach(t);
+			destroy_component(pointlight, detaching);
+		}
+	};
+}
+
+// (79:2) <Forces     position={[orbiter.position.x, orbiter.position.y, orbiter.position.z]}     velocity={[orbiter.velocity.x, orbiter.velocity.y, orbiter.velocity.z]}     rotationalVelocity={[0.02, 0.02, 0.02]}     forces={[orbit(orbiter.radius, [0, 0, 0])]}     let:position     let:rotation   >
+function create_default_slot(ctx) {
+	let randomcolor;
+	let t;
+	let current;
+
+	randomcolor = new /*RandomColor*/ ctx[1]({
+			props: {
+				$$slots: {
+					default: [
+						create_default_slot_1,
+						({ color }) => ({ 26: color }),
+						({ color }) => color ? 67108864 : 0
+					]
+				},
+				$$scope: { ctx }
+			}
+		});
+
+	return {
+		c() {
+			create_component(randomcolor.$$.fragment);
+			t = space();
+		},
+		m(target, anchor) {
+			mount_component(randomcolor, target, anchor);
+			insert(target, t, anchor);
+			current = true;
+		},
+		p(ctx, dirty) {
+			const randomcolor_changes = {};
+
+			if (dirty & /*$$scope, position, color, rotation*/ 234881025) {
+				randomcolor_changes.$$scope = { dirty, ctx };
+			}
+
+			randomcolor.$set(randomcolor_changes);
+		},
+		i(local) {
+			if (current) return;
+			transition_in(randomcolor.$$.fragment, local);
+			current = true;
+		},
+		o(local) {
+			transition_out(randomcolor.$$.fragment, local);
+			current = false;
+		},
+		d(detaching) {
+			destroy_component(randomcolor, detaching);
 			if (detaching) detach(t);
 		}
 	};
 }
 
-// (67:0) {#each orbiters as orbiter}
+// (78:0) {#each orbiters as orbiter}
 function create_each_block(ctx) {
 	let forces;
 	let current;
 
-	forces = new /*Forces*/ ctx[1]({
+	forces = new /*Forces*/ ctx[2]({
 			props: {
 				position: [
-					/*orbiter*/ ctx[20].position.x,
-					/*orbiter*/ ctx[20].position.y,
-					/*orbiter*/ ctx[20].position.z
+					/*orbiter*/ ctx[22].position.x,
+					/*orbiter*/ ctx[22].position.y,
+					/*orbiter*/ ctx[22].position.z
 				],
 				velocity: [
-					/*orbiter*/ ctx[20].velocity.x,
-					/*orbiter*/ ctx[20].velocity.y,
-					/*orbiter*/ ctx[20].velocity.z
+					/*orbiter*/ ctx[22].velocity.x,
+					/*orbiter*/ ctx[22].velocity.y,
+					/*orbiter*/ ctx[22].velocity.z
 				],
 				rotationalVelocity: [0.02, 0.02, 0.02],
-				forces: [/*orbit*/ ctx[4](/*orbiter*/ ctx[20].radius, [0, 0, 0])],
+				forces: [/*orbit*/ ctx[6](/*orbiter*/ ctx[22].radius, [0, 0, 0])],
 				$$slots: {
 					default: [
 						create_default_slot,
-						({ position, rotation }) => ({ 0: position, 23: rotation }),
-						({ position, rotation }) => (position ? 1 : 0) | (rotation ? 8388608 : 0)
+						({ position, rotation }) => ({ 0: position, 25: rotation }),
+						({ position, rotation }) => (position ? 1 : 0) | (rotation ? 33554432 : 0)
 					]
 				},
 				$$scope: { ctx }
@@ -157,7 +332,7 @@ function create_each_block(ctx) {
 		p(ctx, dirty) {
 			const forces_changes = {};
 
-			if (dirty & /*$$scope, position, rotation*/ 25165825) {
+			if (dirty & /*$$scope, position, rotation*/ 167772161) {
 				forces_changes.$$scope = { dirty, ctx };
 			}
 
@@ -184,21 +359,21 @@ function create_fragment(ctx) {
 	let each_1_anchor;
 	let current;
 
-	forces = new /*Forces*/ ctx[1]({
+	forces = new /*Forces*/ ctx[2]({
 			props: {
 				rotationalVelocity: [0.03, 0.03, 0.03],
 				$$slots: {
 					default: [
-						create_default_slot_1,
-						({ rotation, position }) => ({ 23: rotation, 0: position }),
-						({ rotation, position }) => (rotation ? 8388608 : 0) | (position ? 1 : 0)
+						create_default_slot_3,
+						({ rotation, position }) => ({ 25: rotation, 0: position }),
+						({ rotation, position }) => (rotation ? 33554432 : 0) | (position ? 1 : 0)
 					]
 				},
 				$$scope: { ctx }
 			}
 		});
 
-	let each_value = /*orbiters*/ ctx[3];
+	let each_value = /*orbiters*/ ctx[5];
 	let each_blocks = [];
 
 	for (let i = 0; i < each_value.length; i += 1) {
@@ -234,14 +409,14 @@ function create_fragment(ctx) {
 		p(ctx, [dirty]) {
 			const forces_changes = {};
 
-			if (dirty & /*$$scope, rotation, position*/ 25165825) {
+			if (dirty & /*$$scope, rotation, position*/ 167772161) {
 				forces_changes.$$scope = { dirty, ctx };
 			}
 
 			forces.$set(forces_changes);
 
-			if (dirty & /*orbiters, orbit, Math, position, rotation*/ 8388633) {
-				each_value = /*orbiters*/ ctx[3];
+			if (dirty & /*orbiters, orbit, position, color, Math, rotation*/ 100663393) {
+				each_value = /*orbiters*/ ctx[5];
 				let i;
 
 				for (i = 0; i < each_value.length; i += 1) {
@@ -297,12 +472,14 @@ function create_fragment(ctx) {
 }
 
 function instance($$self, $$props, $$invalidate) {
+	const { RandomColor } = numbers;
 	const { Emitter, Forces } = mograph;
+	const { PointLight } = lights;
 	const { Cube, Icosahedron, Octahedron, Sphere, Tetrahedron, Torus, TorusKnot } = primitives;
 	let { position = [0, 0, 0] } = $$props;
-	let { radius = 1.3 } = $$props;
-	let { orbitingCount = 100 } = $$props;
-	let { velocity = 0.008 } = $$props;
+	let { radius = 1.6 } = $$props;
+	let { orbitingCount = 18 } = $$props;
+	let { velocity = 0.01 } = $$props;
 	let { velocityVariance = 0.09 } = $$props;
 	let { radiusVariance = 0.8 } = $$props;
 	const varyRadius = addVariance(radiusVariance);
@@ -330,16 +507,18 @@ function instance($$self, $$props, $$invalidate) {
 
 	$$self.$$set = $$props => {
 		if ("position" in $$props) $$invalidate(0, position = $$props.position);
-		if ("radius" in $$props) $$invalidate(5, radius = $$props.radius);
-		if ("orbitingCount" in $$props) $$invalidate(6, orbitingCount = $$props.orbitingCount);
-		if ("velocity" in $$props) $$invalidate(7, velocity = $$props.velocity);
-		if ("velocityVariance" in $$props) $$invalidate(8, velocityVariance = $$props.velocityVariance);
-		if ("radiusVariance" in $$props) $$invalidate(9, radiusVariance = $$props.radiusVariance);
+		if ("radius" in $$props) $$invalidate(7, radius = $$props.radius);
+		if ("orbitingCount" in $$props) $$invalidate(8, orbitingCount = $$props.orbitingCount);
+		if ("velocity" in $$props) $$invalidate(9, velocity = $$props.velocity);
+		if ("velocityVariance" in $$props) $$invalidate(10, velocityVariance = $$props.velocityVariance);
+		if ("radiusVariance" in $$props) $$invalidate(11, radiusVariance = $$props.radiusVariance);
 	};
 
 	return [
 		position,
+		RandomColor,
 		Forces,
+		PointLight,
 		Icosahedron,
 		orbiters,
 		orbit,
@@ -357,11 +536,11 @@ class OrbitExample extends SvelteComponent {
 
 		init(this, options, instance, create_fragment, safe_not_equal, {
 			position: 0,
-			radius: 5,
-			orbitingCount: 6,
-			velocity: 7,
-			velocityVariance: 8,
-			radiusVariance: 9
+			radius: 7,
+			orbitingCount: 8,
+			velocity: 9,
+			velocityVariance: 10,
+			radiusVariance: 11
 		});
 	}
 }
