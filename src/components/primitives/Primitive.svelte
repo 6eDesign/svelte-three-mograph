@@ -4,13 +4,12 @@
 
   export let Geometry;
   export let size;
-  export let color = Math.random() * 0xffffff;
   export let position = [0, 0, 0];
   export let rotation = [0, 0, 0];
   export let renderFn;
 
+  const material = getContext('material');
   const geometry = new Geometry(...size);
-  const material = new MeshPhongMaterial({ color });
   const mesh = new Mesh(geometry, material);
   const primitive = new Mesh(mesh, material);
 

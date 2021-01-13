@@ -1,9 +1,17 @@
 <script>
-  import { Scene, lights, mograph, primitives } from './components';
+  import {
+    Scene,
+    Material,
+    numbers,
+    lights,
+    mograph,
+    primitives,
+  } from './components';
   import OrbitExample from './OrbitExample.svelte';
 
+  const { RandomColor } = numbers;
   const { Emitter, Forces } = mograph;
-  const { Icosahedron } = primitives;
+  const { Icosahedron, Plane } = primitives;
   const { AmbientLight, DirectionalLight } = lights;
 
   let width;
@@ -12,34 +20,43 @@
 
   const emitterPosition = [0, 0, -100];
   const gravity = (particle) => particle.getVector(0, -0.0001, 0);
-
-  $: sceneCtx &&
-    sceneCtx.time.subscribe((t) => {
-      emitterPosition[0] = Math.sin(t / 1000);
-    });
 </script>
 
 <svelte:window bind:innerWidth={width} bind:innerHeight={height} />
 
 {#if width && height}
-  <Scene background="#000" {width} {height} bind:ctx={sceneCtx}>
+  <Scene background="#000" {width} {height}>
     <AmbientLight />
     <DirectionalLight />
+
     <Emitter
       position={emitterPosition}
-      size={[22, 3, 0.5]}
+      size={[12, 3, 0.5]}
       direction={[0, 0, 2]}
       directionVariance={0.4}
-      velocity={0.25}
+      velocity={0.45}
       lifespan={3000}
       forces={[gravity]}
-      particlesPerSecond={350}
+      particlesPerSecond={150}
       let:position
       let:rotation
     >
-      <Icosahedron size={0.13} {position} {rotation} color="#fff" />
+      <RandomColor let:color>
+        <Material roughness={1} metalness={0.1} {color}>
+          <Icosahedron size={0.1} {position} {rotation} />
+        </Material>
+      </RandomColor>
     </Emitter>
 
+    <!-- <Material color="#fff" roughness={1} metalness={0}>
+      <Plane
+        width={100}
+        height={100}
+        position={[0, -2, 0]}
+        rotation={[-1.58, 0, 0]}
+        color="#eee"
+      />
+    </Material> -->
     <OrbitExample />
   </Scene>
 {/if}

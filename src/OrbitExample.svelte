@@ -1,9 +1,18 @@
 <script>
-  import { Scene, lights, mograph, primitives } from './components';
+  import {
+    Scene,
+    Material,
+    numbers,
+    lights,
+    mograph,
+    primitives,
+  } from './components';
   import { Vector3 } from 'three';
   import { random, addVariance } from './utils';
 
+  const { RandomColor } = numbers;
   const { Emitter, Forces } = mograph;
+  const { PointLight } = lights;
   const {
     Cube,
     Icosahedron,
@@ -15,9 +24,9 @@
   } = primitives;
 
   export let position = [0, 0, 0];
-  export let radius = 1.3;
-  export let orbitingCount = 100;
-  export let velocity = 0.008;
+  export let radius = 1.6;
+  export let orbitingCount = 18;
+  export let velocity = 0.01;
   export let velocityVariance = 0.09;
   export let radiusVariance = 0.8;
 
@@ -61,7 +70,9 @@
 </script>
 
 <Forces rotationalVelocity={[0.03, 0.03, 0.03]} let:rotation let:position>
-  <Icosahedron color="#f7901e" size={1} {rotation} {position} />
+  <Material color="#fff" metalness={0.8} roughness={0.7}>
+    <Icosahedron size={1} {rotation} {position} />
+  </Material>
 </Forces>
 
 {#each orbiters as orbiter}
@@ -73,6 +84,11 @@
     let:position
     let:rotation
   >
-    <Icosahedron size={0.01 + Math.random() * 0.05} {position} {rotation} />
+    <RandomColor let:color>
+      <Material metalness={0.2} roughness={0.8} {color}>
+        <Icosahedron size={0.01 + Math.random() * 0.05} {position} {rotation} />
+      </Material>
+      <PointLight {position} intensity={1} distance={1.8} {color} />
+    </RandomColor>
   </Forces>
 {/each}

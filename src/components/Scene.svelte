@@ -2,6 +2,7 @@
   import { onMount, setContext } from 'svelte';
   import { writable } from 'svelte/store';
   import { Scene, Color, PerspectiveCamera, WebGLRenderer } from 'three';
+  import { Material } from './index';
 
   export let width = 600;
   export let height = 400;
@@ -44,4 +45,6 @@
 </script>
 
 <div bind:this={target} />
-<slot />
+<Material>
+  <slot />
+</Material>
