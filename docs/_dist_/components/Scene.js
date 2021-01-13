@@ -2,11 +2,14 @@
 import {
 	SvelteComponent,
 	binding_callbacks,
+	create_component,
 	create_slot,
+	destroy_component,
 	detach,
 	element,
 	init,
 	insert,
+	mount_component,
 	safe_not_equal,
 	space,
 	transition_in,
@@ -17,35 +20,28 @@ import {
 import { onMount, setContext } from "../../web_modules/svelte.js";
 import { writable } from "../../web_modules/svelte/store.js";
 import { Scene, Color, PerspectiveCamera, WebGLRenderer } from "../../web_modules/three.js";
+import { Material } from "./index.js";
 
-function create_fragment(ctx) {
-	let div;
-	let t;
+function create_default_slot(ctx) {
 	let current;
-	const default_slot_template = /*#slots*/ ctx[6].default;
-	const default_slot = create_slot(default_slot_template, ctx, /*$$scope*/ ctx[5], null);
+	const default_slot_template = /*#slots*/ ctx[5].default;
+	const default_slot = create_slot(default_slot_template, ctx, /*$$scope*/ ctx[7], null);
 
 	return {
 		c() {
-			div = element("div");
-			t = space();
 			if (default_slot) default_slot.c();
 		},
 		m(target, anchor) {
-			insert(target, div, anchor);
-			/*div_binding*/ ctx[7](div);
-			insert(target, t, anchor);
-
 			if (default_slot) {
 				default_slot.m(target, anchor);
 			}
 
 			current = true;
 		},
-		p(ctx, [dirty]) {
+		p(ctx, dirty) {
 			if (default_slot) {
-				if (default_slot.p && dirty & /*$$scope*/ 32) {
-					update_slot(default_slot, default_slot_template, ctx, /*$$scope*/ ctx[5], dirty, null, null);
+				if (default_slot.p && dirty & /*$$scope*/ 128) {
+					update_slot(default_slot, default_slot_template, ctx, /*$$scope*/ ctx[7], dirty, null, null);
 				}
 			}
 		},
@@ -59,10 +55,60 @@ function create_fragment(ctx) {
 			current = false;
 		},
 		d(detaching) {
-			if (detaching) detach(div);
-			/*div_binding*/ ctx[7](null);
-			if (detaching) detach(t);
 			if (default_slot) default_slot.d(detaching);
+		}
+	};
+}
+
+function create_fragment(ctx) {
+	let div;
+	let t;
+	let material;
+	let current;
+
+	material = new Material({
+			props: {
+				$$slots: { default: [create_default_slot] },
+				$$scope: { ctx }
+			}
+		});
+
+	return {
+		c() {
+			div = element("div");
+			t = space();
+			create_component(material.$$.fragment);
+		},
+		m(target, anchor) {
+			insert(target, div, anchor);
+			/*div_binding*/ ctx[6](div);
+			insert(target, t, anchor);
+			mount_component(material, target, anchor);
+			current = true;
+		},
+		p(ctx, [dirty]) {
+			const material_changes = {};
+
+			if (dirty & /*$$scope*/ 128) {
+				material_changes.$$scope = { dirty, ctx };
+			}
+
+			material.$set(material_changes);
+		},
+		i(local) {
+			if (current) return;
+			transition_in(material.$$.fragment, local);
+			current = true;
+		},
+		o(local) {
+			transition_out(material.$$.fragment, local);
+			current = false;
+		},
+		d(detaching) {
+			if (detaching) detach(div);
+			/*div_binding*/ ctx[6](null);
+			if (detaching) detach(t);
+			destroy_component(material, detaching);
 		}
 	};
 }
@@ -114,7 +160,7 @@ function instance($$self, $$props, $$invalidate) {
 		if ("width" in $$props) $$invalidate(1, width = $$props.width);
 		if ("height" in $$props) $$invalidate(2, height = $$props.height);
 		if ("background" in $$props) $$invalidate(3, background = $$props.background);
-		if ("$$scope" in $$props) $$invalidate(5, $$scope = $$props.$$scope);
+		if ("$$scope" in $$props) $$invalidate(7, $$scope = $$props.$$scope);
 	};
 
 	$$self.$$.update = () => {
@@ -123,7 +169,7 @@ function instance($$self, $$props, $$invalidate) {
 		}
 	};
 
-	return [target, width, height, background, ctx, $$scope, slots, div_binding];
+	return [target, width, height, background, ctx, slots, div_binding, $$scope];
 }
 
 class Scene_1 extends SvelteComponent {
