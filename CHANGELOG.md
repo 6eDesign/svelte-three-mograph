@@ -1,3 +1,11 @@
+## [1.0.14](https://github.com/6eDesign/svelte-three-mograph/compare/v1.0.13...v1.0.14) (2021-01-13)
+
+
+### Bug Fixes
+
+* change order of operations in animation loop ([376c4d0](https://github.com/6eDesign/svelte-three-mograph/commit/376c4d0e90581c4f2b78e4d39bdb6228ad6ec4a1))
+* change order of operations in animation loop ([92d5723](https://github.com/6eDesign/svelte-three-mograph/commit/92d5723c52f01f6ad06b08219ebd4f8a2464f89b))
+
 ## [1.0.13](https://github.com/6eDesign/svelte-three-mograph/compare/v1.0.12...v1.0.13) (2021-01-13)
 
 
