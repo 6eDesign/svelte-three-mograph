@@ -479,10 +479,10 @@ function instance($$self, $$props, $$invalidate) {
 	let { position = [0, 0, 0] } = $$props;
 	let { radius = 1.6 } = $$props;
 	let { orbitingCount = 18 } = $$props;
-	let { velocity = 0.01 } = $$props;
+	let { velocity = 0.025 } = $$props;
 	let { velocityVariance = 0.14 } = $$props;
-	let { radiusVariance = 0.8 } = $$props;
-	const varyRadius = addVariance(radiusVariance);
+	let { radiusVariance = 0.5 } = $$props;
+	const varyRadius = r => Math.abs(addVariance(radiusVariance)(r));
 	const varyVelocity = addVariance(velocityVariance);
 	const randomUnitVector = () => new Vector3(random(1), random(1), random(1)).normalize();
 
