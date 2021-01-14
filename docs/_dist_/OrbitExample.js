@@ -35,14 +35,14 @@ function get_each_context(ctx, list, i) {
 	return child_ctx;
 }
 
-// (73:2) <Material color="#fff" metalness={0.8} roughness={0.7}>
+// (73:2) <Material color="#fff" metalness={0.8} roughness={0.85}>
 function create_default_slot_4(ctx) {
 	let icosahedron;
 	let current;
 
 	icosahedron = new /*Icosahedron*/ ctx[4]({
 			props: {
-				size: 1,
+				size: 0.85,
 				rotation: /*rotation*/ ctx[25],
 				position: /*position*/ ctx[0]
 			}
@@ -86,7 +86,7 @@ function create_default_slot_3(ctx) {
 			props: {
 				color: "#fff",
 				metalness: 0.8,
-				roughness: 0.7,
+				roughness: 0.85,
 				$$slots: { default: [create_default_slot_4] },
 				$$scope: { ctx }
 			}
@@ -187,7 +187,7 @@ function create_default_slot_1(ctx) {
 			props: {
 				position: /*position*/ ctx[0],
 				intensity: 1,
-				distance: 1.8,
+				distance: 2.8,
 				color: /*color*/ ctx[26]
 			}
 		});
@@ -480,7 +480,7 @@ function instance($$self, $$props, $$invalidate) {
 	let { radius = 1.6 } = $$props;
 	let { orbitingCount = 18 } = $$props;
 	let { velocity = 0.01 } = $$props;
-	let { velocityVariance = 0.09 } = $$props;
+	let { velocityVariance = 0.14 } = $$props;
 	let { radiusVariance = 0.8 } = $$props;
 	const varyRadius = addVariance(radiusVariance);
 	const varyVelocity = addVariance(velocityVariance);
