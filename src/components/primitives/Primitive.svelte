@@ -17,13 +17,15 @@
   $: mesh.rotation.set(...rotation);
 
   const sceneCtx = getContext('sceneCtx');
-  sceneCtx.scene.add(mesh);
 
-  if (renderFn) {
-    sceneCtx.renderFns = [...sceneCtx.renderFns, renderFn];
-  }
+  const group = getContext('group');
+  if (group) group.add(mesh);
+  if (!group) sceneCtx.scene.add(mesh);
+
+  if (renderFn) sceneCtx.renderFns = [...sceneCtx.renderFns, renderFn];
 
   onDestroy(() => {
+    if (group) group.remove(mesh);
     sceneCtx.scene.remove(mesh);
     mesh.geometry.dispose();
     mesh.material.dispose();
