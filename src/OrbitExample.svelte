@@ -26,11 +26,11 @@
   export let position = [0, 0, 0];
   export let radius = 1.6;
   export let orbitingCount = 18;
-  export let velocity = 0.01;
+  export let velocity = 0.025;
   export let velocityVariance = 0.14;
-  export let radiusVariance = 0.8;
+  export let radiusVariance = 0.5;
 
-  const varyRadius = addVariance(radiusVariance);
+  const varyRadius = (r) => Math.abs(addVariance(radiusVariance)(r));
   const varyVelocity = addVariance(velocityVariance);
 
   const randomUnitVector = () =>
