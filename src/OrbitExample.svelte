@@ -27,7 +27,7 @@
   export let radius = 1.6;
   export let orbitingCount = 18;
   export let velocity = 0.01;
-  export let velocityVariance = 0.09;
+  export let velocityVariance = 0.14;
   export let radiusVariance = 0.8;
 
   const varyRadius = addVariance(radiusVariance);
@@ -70,8 +70,8 @@
 </script>
 
 <Particle rotationalVelocity={[0.03, 0.03, 0.03]} let:rotation let:position>
-  <Material color="#fff" metalness={0.8} roughness={0.7}>
-    <Icosahedron size={1} {rotation} {position} />
+  <Material color="#fff" metalness={0.8} roughness={0.85}>
+    <Icosahedron size={0.85} {rotation} {position} />
   </Material>
 </Particle>
 
@@ -88,7 +88,7 @@
       <Material metalness={0} roughness={1} {color}>
         <Icosahedron size={0.01 + Math.random() * 0.05} {position} {rotation} />
       </Material>
-      <PointLight {position} intensity={1} distance={1.8} {color} />
+      <PointLight {position} intensity={1} distance={2.8} {color} />
     </RandomColor>
   </Particle>
 {/each}
