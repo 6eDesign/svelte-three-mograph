@@ -8,10 +8,11 @@
     primitives,
   } from './components';
   import OrbitExample from './OrbitExample.svelte';
+  import ClonerExample from './ClonerExample.svelte';
 
   const { RandomColor } = numbers;
-  const { Emitter, Forces } = mograph;
-  const { Icosahedron, Plane } = primitives;
+  const { GridCloner, LinearCloner, Emitter, Particle } = mograph;
+  const { Icosahedron, Plane, Cube } = primitives;
   const { AmbientLight, DirectionalLight } = lights;
 
   let width;
@@ -29,7 +30,7 @@
     <AmbientLight />
     <DirectionalLight />
 
-    <Emitter
+    <!-- <Emitter
       position={emitterPosition}
       size={[12, 3, 0.5]}
       direction={[0, 0, 2]}
@@ -43,10 +44,10 @@
     >
       <RandomColor let:color>
         <Material roughness={1} metalness={0.1} {color}>
-          <Icosahedron size={0.08} {position} {rotation} />
+          <Icosahedron size={0.18} {position} {rotation} />
         </Material>
       </RandomColor>
-    </Emitter>
+    </Emitter> -->
 
     <!-- <Material color="#fff" roughness={1} metalness={0}>
       <Plane
@@ -57,7 +58,9 @@
         color="#eee"
       />
     </Material> -->
+
     <OrbitExample />
+    <ClonerExample />
   </Scene>
 {/if}
 
