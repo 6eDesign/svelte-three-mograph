@@ -44,7 +44,7 @@
     >
       <RandomColor let:color>
         <Material roughness={1} metalness={0.1} {color}>
-          <Icosahedron size={0.08} {position} {rotation} />
+          <Icosahedron size={0.18} {position} {rotation} />
         </Material>
       </RandomColor>
     </Emitter> -->
@@ -59,8 +59,7 @@
       />
     </Material> -->
 
-    <!-- <OrbitExample /> -->
-
+    <OrbitExample />
     <ClonerExample />
   </Scene>
 {/if}

@@ -6,10 +6,13 @@
   export let position = [0, 0, 0];
   export let rotation = [0, 0, 0];
   export let group = new Group();
+
+  const parent = getContext('group');
   setContext('group', group);
 
   const sceneCtx = getContext('sceneCtx');
-  sceneCtx.scene.add(group);
+
+  parent ? parent.add(group) : sceneCtx.scene.add(group);
 
   $: group.position.set(...position);
   $: group.rotation.set(...rotation);

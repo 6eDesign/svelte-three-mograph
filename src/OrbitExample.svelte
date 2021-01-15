@@ -25,7 +25,7 @@
 
   export let position = [0, 0, 0];
   export let radius = 1.6;
-  export let orbitingCount = 18;
+  export let orbitingCount = 13;
   export let velocity = 0.025;
   export let velocityVariance = 0.14;
   export let radiusVariance = 0.5;
@@ -69,11 +69,11 @@
   };
 </script>
 
-<Particle rotationalVelocity={[0.03, 0.03, 0.03]} let:rotation let:position>
+<!-- <Particle rotationalVelocity={[0.03, 0.03, 0.03]} let:rotation let:position>
   <Material color="#fff" metalness={0.8} roughness={0.85}>
     <Icosahedron size={0.85} {rotation} {position} />
   </Material>
-</Particle>
+</Particle> -->
 
 {#each orbiters as orbiter}
   <Particle

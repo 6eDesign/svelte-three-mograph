@@ -24,12 +24,6 @@
         );
     }
   }
-  $: {
-    if (direction[0] === 1) {
-      console.log('hi');
-      console.log(positions);
-    }
-  }
 </script>
 
 {#each positions as { x, y, z }}

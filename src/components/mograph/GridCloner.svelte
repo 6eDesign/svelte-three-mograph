@@ -10,7 +10,7 @@
 
 <Group {position} {rotation}>
   <Cloner
-    direction={[1, 0, 0]}
+    direction={[0, 0, 1]}
     instances={instances[0]}
     {spaceBetween}
     let:position
@@ -24,7 +24,7 @@
       >
         <Group {position}>
           <Cloner
-            direction={[0, 0, 1]}
+            direction={[1, 0, 0]}
             instances={instances[2]}
             {spaceBetween}
             let:position
