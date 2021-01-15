@@ -15,13 +15,13 @@ function instance($$self, $$props, $$invalidate) {
 	const mesh = new Mesh(geometry, material);
 	const primitive = new Mesh(mesh, material);
 	const sceneCtx = getContext("sceneCtx");
-	sceneCtx.scene.add(mesh);
-
-	if (renderFn) {
-		sceneCtx.renderFns = [...sceneCtx.renderFns, renderFn];
-	}
+	const group = getContext("group");
+	if (group) group.add(mesh);
+	if (!group) sceneCtx.scene.add(mesh);
+	if (renderFn) sceneCtx.renderFns = [...sceneCtx.renderFns, renderFn];
 
 	onDestroy(() => {
+		if (group) group.remove(mesh);
 		sceneCtx.scene.remove(mesh);
 		mesh.geometry.dispose();
 		mesh.material.dispose();
