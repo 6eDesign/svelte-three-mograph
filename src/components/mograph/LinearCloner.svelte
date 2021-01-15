@@ -9,7 +9,7 @@
   export let direction = [0, 1, 0];
 </script>
 
-<Group {position} {rotation} {group}>
+<Group {position} {rotation}>
   <Cloner {...$$props} let:position>
     <slot {position} />
   </Cloner>

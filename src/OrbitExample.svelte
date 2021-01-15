@@ -24,7 +24,7 @@
   } = primitives;
 
   export let position = [0, 0, 0];
-  export let radius = 1.6;
+  export let radius = 1.2;
   export let orbitingCount = 13;
   export let velocity = 0.025;
   export let velocityVariance = 0.14;

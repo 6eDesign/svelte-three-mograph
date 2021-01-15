@@ -11,6 +11,7 @@
     metalness,
     roughness,
     color,
+    ...$$props,
   });
   setContext('material', material);
 
