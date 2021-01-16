@@ -3,9 +3,12 @@ import {
 	SvelteComponent,
 	create_component,
 	destroy_component,
+	detach,
 	init,
+	insert,
 	mount_component,
 	safe_not_equal,
+	space,
 	transition_in,
 	transition_out
 } from "../web_modules/svelte/internal.js";
@@ -13,14 +16,14 @@ import {
 import { getContext, onDestroy } from "../web_modules/svelte.js";
 import { Material, mograph, primitives } from "./components/index.js";
 
-function create_default_slot_1(ctx) {
+function create_default_slot_3(ctx) {
 	let cube;
 	let current;
 
 	cube = new /*Cube*/ ctx[2]({
 			props: {
-				size: 0.15,
-				position: /*position*/ ctx[8]
+				size: cubeSize,
+				position: /*position*/ ctx[10]
 			}
 		});
 
@@ -34,7 +37,7 @@ function create_default_slot_1(ctx) {
 		},
 		p(ctx, dirty) {
 			const cube_changes = {};
-			if (dirty & /*position*/ 256) cube_changes.position = /*position*/ ctx[8];
+			if (dirty & /*position*/ 1024) cube_changes.position = /*position*/ ctx[10];
 			cube.$set(cube_changes);
 		},
 		i(local) {
@@ -52,8 +55,8 @@ function create_default_slot_1(ctx) {
 	};
 }
 
-// (21:0) <GridCloner instances={[13, 13, 13]} {spaceBetween} {rotation} let:position>
-function create_default_slot(ctx) {
+// (23:0) <GridCloner instances={[7, 7, 7]} {spaceBetween} {rotation} let:position>
+function create_default_slot_2(ctx) {
 	let material;
 	let current;
 
@@ -61,6 +64,95 @@ function create_default_slot(ctx) {
 			props: {
 				metalness: 0.8,
 				roughness: 0.56,
+				color: "#fff",
+				$$slots: { default: [create_default_slot_3] },
+				$$scope: { ctx }
+			}
+		});
+
+	return {
+		c() {
+			create_component(material.$$.fragment);
+		},
+		m(target, anchor) {
+			mount_component(material, target, anchor);
+			current = true;
+		},
+		p(ctx, dirty) {
+			const material_changes = {};
+
+			if (dirty & /*$$scope, position*/ 3072) {
+				material_changes.$$scope = { dirty, ctx };
+			}
+
+			material.$set(material_changes);
+		},
+		i(local) {
+			if (current) return;
+			transition_in(material.$$.fragment, local);
+			current = true;
+		},
+		o(local) {
+			transition_out(material.$$.fragment, local);
+			current = false;
+		},
+		d(detaching) {
+			destroy_component(material, detaching);
+		}
+	};
+}
+
+// (35:2) <Material color="#fff">
+function create_default_slot_1(ctx) {
+	let torus;
+	let current;
+
+	torus = new /*Torus*/ ctx[3]({
+			props: {
+				position: /*position*/ ctx[10],
+				radialSegments: 30,
+				tubularSegments: 6,
+				radius: 3.8,
+				tube: 0.3,
+				rotation: [0, 0, Math.PI / 6]
+			}
+		});
+
+	return {
+		c() {
+			create_component(torus.$$.fragment);
+		},
+		m(target, anchor) {
+			mount_component(torus, target, anchor);
+			current = true;
+		},
+		p(ctx, dirty) {
+			const torus_changes = {};
+			if (dirty & /*position*/ 1024) torus_changes.position = /*position*/ ctx[10];
+			torus.$set(torus_changes);
+		},
+		i(local) {
+			if (current) return;
+			transition_in(torus.$$.fragment, local);
+			current = true;
+		},
+		o(local) {
+			transition_out(torus.$$.fragment, local);
+			current = false;
+		},
+		d(detaching) {
+			destroy_component(torus, detaching);
+		}
+	};
+}
+
+// (29:0) <LinearCloner   instances={13}   spaceBetween={1}   direction={[0, 0, 1]}   let:position >
+function create_default_slot(ctx) {
+	let material;
+	let current;
+
+	material = new Material({
+			props: {
 				color: "#fff",
 				$$slots: { default: [create_default_slot_1] },
 				$$scope: { ctx }
@@ -78,7 +170,7 @@ function create_default_slot(ctx) {
 		p(ctx, dirty) {
 			const material_changes = {};
 
-			if (dirty & /*$$scope, position*/ 768) {
+			if (dirty & /*$$scope, position*/ 3072) {
 				material_changes.$$scope = { dirty, ctx };
 			}
 
@@ -101,18 +193,36 @@ function create_default_slot(ctx) {
 
 function create_fragment(ctx) {
 	let gridcloner;
+	let t;
+	let linearcloner;
 	let current;
 
-	gridcloner = new /*GridCloner*/ ctx[3]({
+	gridcloner = new /*GridCloner*/ ctx[5]({
 			props: {
-				instances: [13, 13, 13],
+				instances: [7, 7, 7],
 				spaceBetween: /*spaceBetween*/ ctx[1],
 				rotation: /*rotation*/ ctx[0],
 				$$slots: {
 					default: [
+						create_default_slot_2,
+						({ position }) => ({ 10: position }),
+						({ position }) => position ? 1024 : 0
+					]
+				},
+				$$scope: { ctx }
+			}
+		});
+
+	linearcloner = new /*LinearCloner*/ ctx[4]({
+			props: {
+				instances: 13,
+				spaceBetween: 1,
+				direction: [0, 0, 1],
+				$$slots: {
+					default: [
 						create_default_slot,
-						({ position }) => ({ 8: position }),
-						({ position }) => position ? 256 : 0
+						({ position }) => ({ 10: position }),
+						({ position }) => position ? 1024 : 0
 					]
 				},
 				$$scope: { ctx }
@@ -122,9 +232,13 @@ function create_fragment(ctx) {
 	return {
 		c() {
 			create_component(gridcloner.$$.fragment);
+			t = space();
+			create_component(linearcloner.$$.fragment);
 		},
 		m(target, anchor) {
 			mount_component(gridcloner, target, anchor);
+			insert(target, t, anchor);
+			mount_component(linearcloner, target, anchor);
 			current = true;
 		},
 		p(ctx, [dirty]) {
@@ -132,29 +246,44 @@ function create_fragment(ctx) {
 			if (dirty & /*spaceBetween*/ 2) gridcloner_changes.spaceBetween = /*spaceBetween*/ ctx[1];
 			if (dirty & /*rotation*/ 1) gridcloner_changes.rotation = /*rotation*/ ctx[0];
 
-			if (dirty & /*$$scope, position*/ 768) {
+			if (dirty & /*$$scope, position*/ 3072) {
 				gridcloner_changes.$$scope = { dirty, ctx };
 			}
 
 			gridcloner.$set(gridcloner_changes);
+			const linearcloner_changes = {};
+
+			if (dirty & /*$$scope, position*/ 3072) {
+				linearcloner_changes.$$scope = { dirty, ctx };
+			}
+
+			linearcloner.$set(linearcloner_changes);
 		},
 		i(local) {
 			if (current) return;
 			transition_in(gridcloner.$$.fragment, local);
+			transition_in(linearcloner.$$.fragment, local);
 			current = true;
 		},
 		o(local) {
 			transition_out(gridcloner.$$.fragment, local);
+			transition_out(linearcloner.$$.fragment, local);
 			current = false;
 		},
 		d(detaching) {
 			destroy_component(gridcloner, detaching);
+			if (detaching) detach(t);
+			destroy_component(linearcloner, detaching);
 		}
 	};
 }
 
+const spaceBetweenVariance = 0.01;
+const cubeSize = 0.35;
+
 function instance($$self, $$props, $$invalidate) {
-	const { Cube } = primitives;
+	let medianSpaceBetween;
+	const { Cube, Torus } = primitives;
 	const { LinearCloner, GridCloner, Group } = mograph;
 	let rotation = [0.8, 0.8, 0.8];
 	let spaceBetween = 0.16;
@@ -162,14 +291,12 @@ function instance($$self, $$props, $$invalidate) {
 
 	const unsubscribe = time.subscribe(t => {
 		$$invalidate(0, rotation = rotation.map(n => n += 0.01));
-
-		// kinda neat effect
-		// spaceBetween += Math.sin(t / 1000) * 0.05;
-		$$invalidate(1, spaceBetween = 0.18 + Math.sin(t / 600) * 0.02);
+		$$invalidate(1, spaceBetween = medianSpaceBetween + Math.sin(t / 600) * spaceBetweenVariance);
 	});
 
 	onDestroy(unsubscribe);
-	return [rotation, spaceBetween, Cube, GridCloner];
+	$: medianSpaceBetween = cubeSize + spaceBetweenVariance + 0.005;
+	return [rotation, spaceBetween, Cube, Torus, LinearCloner, GridCloner];
 }
 
 class ClonerExample extends SvelteComponent {
