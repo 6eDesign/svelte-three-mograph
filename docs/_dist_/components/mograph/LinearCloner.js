@@ -60,7 +60,7 @@ function create_default_slot_1(ctx) {
 	};
 }
 
-// (12:0) <Group {position} {rotation} {group}>
+// (12:0) <Group {position} {rotation}>
 function create_default_slot(ctx) {
 	let cloner;
 	let current;
@@ -118,14 +118,13 @@ function create_default_slot(ctx) {
 }
 
 function create_fragment(ctx) {
-	let group_1;
+	let group;
 	let current;
 
-	group_1 = new Group({
+	group = new Group({
 			props: {
 				position: /*position*/ ctx[1],
 				rotation: /*rotation*/ ctx[0],
-				group,
 				$$slots: { default: [create_default_slot] },
 				$$scope: { ctx }
 			}
@@ -133,34 +132,34 @@ function create_fragment(ctx) {
 
 	return {
 		c() {
-			create_component(group_1.$$.fragment);
+			create_component(group.$$.fragment);
 		},
 		m(target, anchor) {
-			mount_component(group_1, target, anchor);
+			mount_component(group, target, anchor);
 			current = true;
 		},
 		p(ctx, [dirty]) {
-			const group_1_changes = {};
-			if (dirty & /*position*/ 2) group_1_changes.position = /*position*/ ctx[1];
-			if (dirty & /*rotation*/ 1) group_1_changes.rotation = /*rotation*/ ctx[0];
+			const group_changes = {};
+			if (dirty & /*position*/ 2) group_changes.position = /*position*/ ctx[1];
+			if (dirty & /*rotation*/ 1) group_changes.rotation = /*rotation*/ ctx[0];
 
 			if (dirty & /*$$scope, $$props, position*/ 134) {
-				group_1_changes.$$scope = { dirty, ctx };
+				group_changes.$$scope = { dirty, ctx };
 			}
 
-			group_1.$set(group_1_changes);
+			group.$set(group_changes);
 		},
 		i(local) {
 			if (current) return;
-			transition_in(group_1.$$.fragment, local);
+			transition_in(group.$$.fragment, local);
 			current = true;
 		},
 		o(local) {
-			transition_out(group_1.$$.fragment, local);
+			transition_out(group.$$.fragment, local);
 			current = false;
 		},
 		d(detaching) {
-			destroy_component(group_1, detaching);
+			destroy_component(group, detaching);
 		}
 	};
 }
