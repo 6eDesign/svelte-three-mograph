@@ -29,6 +29,8 @@
   export let velocity = 0.025;
   export let velocityVariance = 0.14;
   export let radiusVariance = 0.5;
+  export let size = 0.01;
+  export let addPointLights = true;
 
   const varyRadius = (r) => Math.abs(addVariance(radiusVariance)(r));
   const varyVelocity = addVariance(velocityVariance);
@@ -69,12 +71,6 @@
   };
 </script>
 
-<!-- <Particle rotationalVelocity={[0.03, 0.03, 0.03]} let:rotation let:position>
-  <Material color="#fff" metalness={0.8} roughness={0.85}>
-    <Icosahedron size={0.85} {rotation} {position} />
-  </Material>
-</Particle> -->
-
 {#each orbiters as orbiter}
   <Particle
     position={[orbiter.position.x, orbiter.position.y, orbiter.position.z]}
@@ -85,10 +81,18 @@
     let:rotation
   >
     <RandomColor let:color>
-      <Material metalness={0} roughness={1} {color}>
-        <Icosahedron size={0.01 + Math.random() * 0.05} {position} {rotation} />
-      </Material>
-      <PointLight {position} intensity={1} distance={2.8} {color} />
+      <slot {color}>
+        <Material metalness={0} roughness={1} {color}>
+          <Icosahedron
+            size={size + Math.random() * 0.05}
+            {position}
+            {rotation}
+          />
+        </Material>
+        {#if addPointLights}
+          <PointLight {position} intensity={1} distance={2.8} {color} />
+        {/if}
+      </slot>
     </RandomColor>
   </Particle>
 {/each}

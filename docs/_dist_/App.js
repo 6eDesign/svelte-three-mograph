@@ -29,6 +29,7 @@ import {
 } from "./components/index.js";
 
 import OrbitExample from "./OrbitExample.js";
+import ClonerExample from "./ClonerExample.js";
 
 function create_if_block(ctx) {
 	let scene;
@@ -78,181 +79,20 @@ function create_if_block(ctx) {
 	};
 }
 
-// (45:8) <Material roughness={1} metalness={0.1} {color}>
-function create_default_slot_3(ctx) {
-	let icosahedron;
-	let current;
-
-	icosahedron = new /*Icosahedron*/ ctx[4]({
-			props: {
-				size: 0.08,
-				position: /*position*/ ctx[13],
-				rotation: /*rotation*/ ctx[14]
-			}
-		});
-
-	return {
-		c() {
-			create_component(icosahedron.$$.fragment);
-		},
-		m(target, anchor) {
-			mount_component(icosahedron, target, anchor);
-			current = true;
-		},
-		p(ctx, dirty) {
-			const icosahedron_changes = {};
-			if (dirty & /*position*/ 8192) icosahedron_changes.position = /*position*/ ctx[13];
-			if (dirty & /*rotation*/ 16384) icosahedron_changes.rotation = /*rotation*/ ctx[14];
-			icosahedron.$set(icosahedron_changes);
-		},
-		i(local) {
-			if (current) return;
-			transition_in(icosahedron.$$.fragment, local);
-			current = true;
-		},
-		o(local) {
-			transition_out(icosahedron.$$.fragment, local);
-			current = false;
-		},
-		d(detaching) {
-			destroy_component(icosahedron, detaching);
-		}
-	};
-}
-
-// (44:6) <RandomColor let:color>
-function create_default_slot_2(ctx) {
-	let material;
-	let current;
-
-	material = new Material({
-			props: {
-				roughness: 1,
-				metalness: 0.1,
-				color: /*color*/ ctx[15],
-				$$slots: { default: [create_default_slot_3] },
-				$$scope: { ctx }
-			}
-		});
-
-	return {
-		c() {
-			create_component(material.$$.fragment);
-		},
-		m(target, anchor) {
-			mount_component(material, target, anchor);
-			current = true;
-		},
-		p(ctx, dirty) {
-			const material_changes = {};
-			if (dirty & /*color*/ 32768) material_changes.color = /*color*/ ctx[15];
-
-			if (dirty & /*$$scope, position, rotation*/ 90112) {
-				material_changes.$$scope = { dirty, ctx };
-			}
-
-			material.$set(material_changes);
-		},
-		i(local) {
-			if (current) return;
-			transition_in(material.$$.fragment, local);
-			current = true;
-		},
-		o(local) {
-			transition_out(material.$$.fragment, local);
-			current = false;
-		},
-		d(detaching) {
-			destroy_component(material, detaching);
-		}
-	};
-}
-
-// (32:4) <Emitter       position={emitterPosition}       size={[12, 3, 0.5]}       direction={[0, 0, 2]}       directionVariance={0.4}       velocity={0.45}       lifespan={3000}       forces={[gravity]}       particlesPerSecond={150}       let:position       let:rotation     >
-function create_default_slot_1(ctx) {
-	let randomcolor;
-	let current;
-
-	randomcolor = new /*RandomColor*/ ctx[2]({
-			props: {
-				$$slots: {
-					default: [
-						create_default_slot_2,
-						({ color }) => ({ 15: color }),
-						({ color }) => color ? 32768 : 0
-					]
-				},
-				$$scope: { ctx }
-			}
-		});
-
-	return {
-		c() {
-			create_component(randomcolor.$$.fragment);
-		},
-		m(target, anchor) {
-			mount_component(randomcolor, target, anchor);
-			current = true;
-		},
-		p(ctx, dirty) {
-			const randomcolor_changes = {};
-
-			if (dirty & /*$$scope, color, position, rotation*/ 122880) {
-				randomcolor_changes.$$scope = { dirty, ctx };
-			}
-
-			randomcolor.$set(randomcolor_changes);
-		},
-		i(local) {
-			if (current) return;
-			transition_in(randomcolor.$$.fragment, local);
-			current = true;
-		},
-		o(local) {
-			transition_out(randomcolor.$$.fragment, local);
-			current = false;
-		},
-		d(detaching) {
-			destroy_component(randomcolor, detaching);
-		}
-	};
-}
-
-// (28:2) <Scene background="#111" {width} {height}>
+// (29:2) <Scene background="#111" {width} {height}>
 function create_default_slot(ctx) {
 	let ambientlight;
 	let t0;
 	let directionallight;
 	let t1;
-	let emitter;
-	let t2;
 	let orbitexample;
+	let t2;
+	let clonerexample;
 	let current;
-	ambientlight = new /*AmbientLight*/ ctx[5]({});
-	directionallight = new /*DirectionalLight*/ ctx[6]({});
-
-	emitter = new /*Emitter*/ ctx[3]({
-			props: {
-				position: /*emitterPosition*/ ctx[7],
-				size: [12, 3, 0.5],
-				direction: [0, 0, 2],
-				directionVariance: 0.4,
-				velocity: 0.45,
-				lifespan: 3000,
-				forces: [/*gravity*/ ctx[8]],
-				particlesPerSecond: 150,
-				$$slots: {
-					default: [
-						create_default_slot_1,
-						({ position, rotation }) => ({ 13: position, 14: rotation }),
-						({ position, rotation }) => (position ? 8192 : 0) | (rotation ? 16384 : 0)
-					]
-				},
-				$$scope: { ctx }
-			}
-		});
-
+	ambientlight = new /*AmbientLight*/ ctx[2]({});
+	directionallight = new /*DirectionalLight*/ ctx[3]({});
 	orbitexample = new OrbitExample({});
+	clonerexample = new ClonerExample({});
 
 	return {
 		c() {
@@ -260,42 +100,33 @@ function create_default_slot(ctx) {
 			t0 = space();
 			create_component(directionallight.$$.fragment);
 			t1 = space();
-			create_component(emitter.$$.fragment);
-			t2 = space();
 			create_component(orbitexample.$$.fragment);
+			t2 = space();
+			create_component(clonerexample.$$.fragment);
 		},
 		m(target, anchor) {
 			mount_component(ambientlight, target, anchor);
 			insert(target, t0, anchor);
 			mount_component(directionallight, target, anchor);
 			insert(target, t1, anchor);
-			mount_component(emitter, target, anchor);
-			insert(target, t2, anchor);
 			mount_component(orbitexample, target, anchor);
+			insert(target, t2, anchor);
+			mount_component(clonerexample, target, anchor);
 			current = true;
-		},
-		p(ctx, dirty) {
-			const emitter_changes = {};
-
-			if (dirty & /*$$scope, position, rotation*/ 90112) {
-				emitter_changes.$$scope = { dirty, ctx };
-			}
-
-			emitter.$set(emitter_changes);
 		},
 		i(local) {
 			if (current) return;
 			transition_in(ambientlight.$$.fragment, local);
 			transition_in(directionallight.$$.fragment, local);
-			transition_in(emitter.$$.fragment, local);
 			transition_in(orbitexample.$$.fragment, local);
+			transition_in(clonerexample.$$.fragment, local);
 			current = true;
 		},
 		o(local) {
 			transition_out(ambientlight.$$.fragment, local);
 			transition_out(directionallight.$$.fragment, local);
-			transition_out(emitter.$$.fragment, local);
 			transition_out(orbitexample.$$.fragment, local);
+			transition_out(clonerexample.$$.fragment, local);
 			current = false;
 		},
 		d(detaching) {
@@ -303,9 +134,9 @@ function create_default_slot(ctx) {
 			if (detaching) detach(t0);
 			destroy_component(directionallight, detaching);
 			if (detaching) detach(t1);
-			destroy_component(emitter, detaching);
-			if (detaching) detach(t2);
 			destroy_component(orbitexample, detaching);
+			if (detaching) detach(t2);
+			destroy_component(clonerexample, detaching);
 		}
 	};
 }
@@ -315,7 +146,7 @@ function create_fragment(ctx) {
 	let current;
 	let mounted;
 	let dispose;
-	add_render_callback(/*onwindowresize*/ ctx[9]);
+	add_render_callback(/*onwindowresize*/ ctx[4]);
 	let if_block = /*width*/ ctx[0] && /*height*/ ctx[1] && create_if_block(ctx);
 
 	return {
@@ -329,7 +160,7 @@ function create_fragment(ctx) {
 			current = true;
 
 			if (!mounted) {
-				dispose = listen(window, "resize", /*onwindowresize*/ ctx[9]);
+				dispose = listen(window, "resize", /*onwindowresize*/ ctx[4]);
 				mounted = true;
 			}
 		},
@@ -377,8 +208,8 @@ function create_fragment(ctx) {
 
 function instance($$self, $$props, $$invalidate) {
 	const { RandomColor } = numbers;
-	const { Emitter, Forces } = mograph;
-	const { Icosahedron, Plane } = primitives;
+	const { GridCloner, LinearCloner, Emitter, Particle } = mograph;
+	const { Icosahedron, Plane, Cube } = primitives;
 	const { AmbientLight, DirectionalLight } = lights;
 	let width;
 	let height;
@@ -391,18 +222,7 @@ function instance($$self, $$props, $$invalidate) {
 		$$invalidate(1, height = window.innerHeight)
 	}
 
-	return [
-		width,
-		height,
-		RandomColor,
-		Emitter,
-		Icosahedron,
-		AmbientLight,
-		DirectionalLight,
-		emitterPosition,
-		gravity,
-		onwindowresize
-	];
+	return [width, height, AmbientLight, DirectionalLight, onwindowresize];
 }
 
 class App extends SvelteComponent {

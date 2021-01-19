@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/6eDesign/svelte-three-mograph/compare/v1.0.17...v1.1.0) (2021-01-15)
+
+
+### Features
+
+* cloner ([6347ac2](https://github.com/6eDesign/svelte-three-mograph/commit/6347ac28667d22b743af0e5786c337e48ae8423b))
+
 ## [1.0.17](https://github.com/6eDesign/svelte-three-mograph/compare/v1.0.16...v1.0.17) (2021-01-14)
 
 

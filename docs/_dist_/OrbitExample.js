@@ -35,95 +35,6 @@ function get_each_context(ctx, list, i) {
 	return child_ctx;
 }
 
-// (73:2) <Material color="#fff" metalness={0.8} roughness={0.85}>
-function create_default_slot_4(ctx) {
-	let icosahedron;
-	let current;
-
-	icosahedron = new /*Icosahedron*/ ctx[4]({
-			props: {
-				size: 0.85,
-				rotation: /*rotation*/ ctx[25],
-				position: /*position*/ ctx[0]
-			}
-		});
-
-	return {
-		c() {
-			create_component(icosahedron.$$.fragment);
-		},
-		m(target, anchor) {
-			mount_component(icosahedron, target, anchor);
-			current = true;
-		},
-		p(ctx, dirty) {
-			const icosahedron_changes = {};
-			if (dirty & /*rotation*/ 33554432) icosahedron_changes.rotation = /*rotation*/ ctx[25];
-			if (dirty & /*position*/ 1) icosahedron_changes.position = /*position*/ ctx[0];
-			icosahedron.$set(icosahedron_changes);
-		},
-		i(local) {
-			if (current) return;
-			transition_in(icosahedron.$$.fragment, local);
-			current = true;
-		},
-		o(local) {
-			transition_out(icosahedron.$$.fragment, local);
-			current = false;
-		},
-		d(detaching) {
-			destroy_component(icosahedron, detaching);
-		}
-	};
-}
-
-// (72:0) <Particle rotationalVelocity={[0.03, 0.03, 0.03]} let:rotation let:position>
-function create_default_slot_3(ctx) {
-	let material;
-	let current;
-
-	material = new Material({
-			props: {
-				color: "#fff",
-				metalness: 0.8,
-				roughness: 0.85,
-				$$slots: { default: [create_default_slot_4] },
-				$$scope: { ctx }
-			}
-		});
-
-	return {
-		c() {
-			create_component(material.$$.fragment);
-		},
-		m(target, anchor) {
-			mount_component(material, target, anchor);
-			current = true;
-		},
-		p(ctx, dirty) {
-			const material_changes = {};
-
-			if (dirty & /*$$scope, rotation, position*/ 167772161) {
-				material_changes.$$scope = { dirty, ctx };
-			}
-
-			material.$set(material_changes);
-		},
-		i(local) {
-			if (current) return;
-			transition_in(material.$$.fragment, local);
-			current = true;
-		},
-		o(local) {
-			transition_out(material.$$.fragment, local);
-			current = false;
-		},
-		d(detaching) {
-			destroy_component(material, detaching);
-		}
-	};
-}
-
 // (88:6) <Material metalness={0} roughness={1} {color}>
 function create_default_slot_2(ctx) {
 	let icosahedron;
@@ -354,25 +265,8 @@ function create_each_block(ctx) {
 }
 
 function create_fragment(ctx) {
-	let particle;
-	let t;
 	let each_1_anchor;
 	let current;
-
-	particle = new /*Particle*/ ctx[2]({
-			props: {
-				rotationalVelocity: [0.03, 0.03, 0.03],
-				$$slots: {
-					default: [
-						create_default_slot_3,
-						({ rotation, position }) => ({ 25: rotation, 0: position }),
-						({ rotation, position }) => (rotation ? 33554432 : 0) | (position ? 1 : 0)
-					]
-				},
-				$$scope: { ctx }
-			}
-		});
-
 	let each_value = /*orbiters*/ ctx[5];
 	let each_blocks = [];
 
@@ -386,9 +280,6 @@ function create_fragment(ctx) {
 
 	return {
 		c() {
-			create_component(particle.$$.fragment);
-			t = space();
-
 			for (let i = 0; i < each_blocks.length; i += 1) {
 				each_blocks[i].c();
 			}
@@ -396,9 +287,6 @@ function create_fragment(ctx) {
 			each_1_anchor = empty();
 		},
 		m(target, anchor) {
-			mount_component(particle, target, anchor);
-			insert(target, t, anchor);
-
 			for (let i = 0; i < each_blocks.length; i += 1) {
 				each_blocks[i].m(target, anchor);
 			}
@@ -407,14 +295,6 @@ function create_fragment(ctx) {
 			current = true;
 		},
 		p(ctx, [dirty]) {
-			const particle_changes = {};
-
-			if (dirty & /*$$scope, rotation, position*/ 167772161) {
-				particle_changes.$$scope = { dirty, ctx };
-			}
-
-			particle.$set(particle_changes);
-
 			if (dirty & /*orbiters, orbit, position, color, Math, rotation*/ 100663393) {
 				each_value = /*orbiters*/ ctx[5];
 				let i;
@@ -444,7 +324,6 @@ function create_fragment(ctx) {
 		},
 		i(local) {
 			if (current) return;
-			transition_in(particle.$$.fragment, local);
 
 			for (let i = 0; i < each_value.length; i += 1) {
 				transition_in(each_blocks[i]);
@@ -453,7 +332,6 @@ function create_fragment(ctx) {
 			current = true;
 		},
 		o(local) {
-			transition_out(particle.$$.fragment, local);
 			each_blocks = each_blocks.filter(Boolean);
 
 			for (let i = 0; i < each_blocks.length; i += 1) {
@@ -463,8 +341,6 @@ function create_fragment(ctx) {
 			current = false;
 		},
 		d(detaching) {
-			destroy_component(particle, detaching);
-			if (detaching) detach(t);
 			destroy_each(each_blocks, detaching);
 			if (detaching) detach(each_1_anchor);
 		}
@@ -478,7 +354,7 @@ function instance($$self, $$props, $$invalidate) {
 	const { Cube, Icosahedron, Octahedron, Sphere, Tetrahedron, Torus, TorusKnot } = primitives;
 	let { position = [0, 0, 0] } = $$props;
 	let { radius = 1.6 } = $$props;
-	let { orbitingCount = 18 } = $$props;
+	let { orbitingCount = 13 } = $$props;
 	let { velocity = 0.025 } = $$props;
 	let { velocityVariance = 0.14 } = $$props;
 	let { radiusVariance = 0.5 } = $$props;

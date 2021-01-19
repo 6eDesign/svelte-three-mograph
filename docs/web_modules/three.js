@@ -45577,4 +45577,4 @@ if ( typeof __THREE_DEVTOOLS__ !== 'undefined' ) {
 
 }
 
-export { AmbientLight, BoxBufferGeometry, Color, DirectionalLight, IcosahedronBufferGeometry, Mesh, MeshPhongMaterial, MeshStandardMaterial, OctahedronBufferGeometry, PerspectiveCamera, PlaneBufferGeometry, PointLight, Scene, SphereBufferGeometry, TetrahedronBufferGeometry, TorusBufferGeometry, TorusKnotBufferGeometry, Vector3, WebGLRenderer };
+export { AmbientLight, BoxBufferGeometry, Color, DirectionalLight, Group, IcosahedronBufferGeometry, Mesh, MeshPhongMaterial, MeshStandardMaterial, OctahedronBufferGeometry, PerspectiveCamera, PlaneBufferGeometry, PointLight, Scene, SphereBufferGeometry, TetrahedronBufferGeometry, TorusBufferGeometry, TorusKnotBufferGeometry, Vector3, WebGLRenderer };
