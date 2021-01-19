@@ -18,10 +18,18 @@ import {
 
 import Group from "./Group.js";
 import Cloner from "./Cloner.js";
-const get_default_slot_changes = dirty => ({ position: dirty & /*position*/ 2 });
-const get_default_slot_context = ctx => ({ position: /*position*/ ctx[1] });
 
-// (13:2) <Cloner {...$$props} let:position>
+const get_default_slot_changes = dirty => ({
+	position: dirty & /*position*/ 2,
+	index: dirty & /*index*/ 256
+});
+
+const get_default_slot_context = ctx => ({
+	position: /*position*/ ctx[1],
+	index: /*index*/ ctx[8]
+});
+
+// (13:2) <Cloner {...$$props} let:position let:index>
 function create_default_slot_1(ctx) {
 	let current;
 	const default_slot_template = /*#slots*/ ctx[6].default;
@@ -40,7 +48,7 @@ function create_default_slot_1(ctx) {
 		},
 		p(ctx, dirty) {
 			if (default_slot) {
-				if (default_slot.p && dirty & /*$$scope, position*/ 130) {
+				if (default_slot.p && dirty & /*$$scope, position, index*/ 386) {
 					update_slot(default_slot, default_slot_template, ctx, /*$$scope*/ ctx[7], dirty, get_default_slot_changes, get_default_slot_context);
 				}
 			}
@@ -70,8 +78,8 @@ function create_default_slot(ctx) {
 		$$slots: {
 			default: [
 				create_default_slot_1,
-				({ position }) => ({ 1: position }),
-				({ position }) => position ? 2 : 0
+				({ position, index }) => ({ 1: position, 8: index }),
+				({ position, index }) => (position ? 2 : 0) | (index ? 256 : 0)
 			]
 		},
 		$$scope: { ctx }
@@ -96,7 +104,7 @@ function create_default_slot(ctx) {
 			? get_spread_update(cloner_spread_levels, [get_spread_object(/*$$props*/ ctx[2])])
 			: {};
 
-			if (dirty & /*$$scope, position*/ 130) {
+			if (dirty & /*$$scope, position, index*/ 386) {
 				cloner_changes.$$scope = { dirty, ctx };
 			}
 

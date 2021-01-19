@@ -22,16 +22,18 @@ function get_each_context(ctx, list, i) {
 	child_ctx[10] = list[i].x;
 	child_ctx[11] = list[i].y;
 	child_ctx[12] = list[i].z;
+	child_ctx[14] = i;
 	return child_ctx;
 }
 
 const get_default_slot_changes = dirty => ({ position: dirty & /*positions*/ 1 });
 
 const get_default_slot_context = ctx => ({
-	position: [/*x*/ ctx[10], /*y*/ ctx[11], /*z*/ ctx[12]]
+	position: [/*x*/ ctx[10], /*y*/ ctx[11], /*z*/ ctx[12]],
+	index: /*index*/ ctx[14]
 });
 
-// (29:0) {#each positions as { x, y, z }}
+// (29:0) {#each positions as { x, y, z }
 function create_each_block(ctx) {
 	let current;
 	const default_slot_template = /*#slots*/ ctx[9].default;

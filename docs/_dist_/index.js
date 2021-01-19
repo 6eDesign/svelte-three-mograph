@@ -1,7 +1,7 @@
 import __SNOWPACK_ENV__ from '../__snowpack__/env.js';
 import.meta.env = __SNOWPACK_ENV__;
 
-import App from "./App.js";
+import App from './documentation/Index.js';
 
 let app = new App({
   target: document.body,

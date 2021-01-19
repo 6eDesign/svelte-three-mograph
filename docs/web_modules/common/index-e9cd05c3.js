@@ -5,6 +5,9 @@ function assign(tar, src) {
         tar[k] = src[k];
     return tar;
 }
+function is_promise(value) {
+    return value && typeof value === 'object' && typeof value.then === 'function';
+}
 function run(fn) {
     return fn();
 }
@@ -76,6 +79,10 @@ function exclude_internal_props(props) {
             result[k] = props[k];
     return result;
 }
+
+function append(target, node) {
+    target.appendChild(node);
+}
 function insert(target, node, anchor) {
     target.insertBefore(node, anchor || null);
 }
@@ -104,8 +111,72 @@ function listen(node, event, handler, options) {
     node.addEventListener(event, handler, options);
     return () => node.removeEventListener(event, handler, options);
 }
+function attr(node, attribute, value) {
+    if (value == null)
+        node.removeAttribute(attribute);
+    else if (node.getAttribute(attribute) !== value)
+        node.setAttribute(attribute, value);
+}
 function children(element) {
     return Array.from(element.childNodes);
+}
+function set_data(text, data) {
+    data = '' + data;
+    if (text.wholeText !== data)
+        text.data = data;
+}
+// unfortunately this can't be a constant as that wouldn't be tree-shakeable
+// so we cache the result instead
+let crossorigin;
+function is_crossorigin() {
+    if (crossorigin === undefined) {
+        crossorigin = false;
+        try {
+            if (typeof window !== 'undefined' && window.parent) {
+                void window.parent.document;
+            }
+        }
+        catch (error) {
+            crossorigin = true;
+        }
+    }
+    return crossorigin;
+}
+function add_resize_listener(node, fn) {
+    const computed_style = getComputedStyle(node);
+    if (computed_style.position === 'static') {
+        node.style.position = 'relative';
+    }
+    const iframe = element('iframe');
+    iframe.setAttribute('style', 'display: block; position: absolute; top: 0; left: 0; width: 100%; height: 100%; ' +
+        'overflow: hidden; border: 0; opacity: 0; pointer-events: none; z-index: -1;');
+    iframe.setAttribute('aria-hidden', 'true');
+    iframe.tabIndex = -1;
+    const crossorigin = is_crossorigin();
+    let unsubscribe;
+    if (crossorigin) {
+        iframe.src = "data:text/html,<script>onresize=function(){parent.postMessage(0,'*')}</script>";
+        unsubscribe = listen(window, 'message', (event) => {
+            if (event.source === iframe.contentWindow)
+                fn();
+        });
+    }
+    else {
+        iframe.src = 'about:blank';
+        iframe.onload = () => {
+            unsubscribe = listen(iframe.contentWindow, 'resize', fn);
+        };
+    }
+    append(node, iframe);
+    return () => {
+        if (crossorigin) {
+            unsubscribe();
+        }
+        else if (unsubscribe && iframe.contentWindow) {
+            unsubscribe();
+        }
+        detach(iframe);
+    };
 }
 
 let current_component;
@@ -148,6 +219,9 @@ function tick() {
 }
 function add_render_callback(fn) {
     render_callbacks.push(fn);
+}
+function add_flush_callback(fn) {
+    flush_callbacks.push(fn);
 }
 let flushing = false;
 const seen_callbacks = new Set();
@@ -232,6 +306,77 @@ function transition_out(block, local, detach, callback) {
             }
         });
         block.o(local);
+    }
+}
+
+function handle_promise(promise, info) {
+    const token = info.token = {};
+    function update(type, index, key, value) {
+        if (info.token !== token)
+            return;
+        info.resolved = value;
+        let child_ctx = info.ctx;
+        if (key !== undefined) {
+            child_ctx = child_ctx.slice();
+            child_ctx[key] = value;
+        }
+        const block = type && (info.current = type)(child_ctx);
+        let needs_flush = false;
+        if (info.block) {
+            if (info.blocks) {
+                info.blocks.forEach((block, i) => {
+                    if (i !== index && block) {
+                        group_outros();
+                        transition_out(block, 1, 1, () => {
+                            if (info.blocks[i] === block) {
+                                info.blocks[i] = null;
+                            }
+                        });
+                        check_outros();
+                    }
+                });
+            }
+            else {
+                info.block.d(1);
+            }
+            block.c();
+            transition_in(block, 1);
+            block.m(info.mount(), info.anchor);
+            needs_flush = true;
+        }
+        info.block = block;
+        if (info.blocks)
+            info.blocks[index] = block;
+        if (needs_flush) {
+            flush();
+        }
+    }
+    if (is_promise(promise)) {
+        const current_component = get_current_component();
+        promise.then(value => {
+            set_current_component(current_component);
+            update(info.then, 1, info.value, value);
+            set_current_component(null);
+        }, error => {
+            set_current_component(current_component);
+            update(info.catch, 2, info.error, error);
+            set_current_component(null);
+            if (!info.hasCatch) {
+                throw error;
+            }
+        });
+        // if we previously had a then/catch block, destroy it
+        if (info.current !== info.pending) {
+            update(info.pending, 0);
+            return true;
+        }
+    }
+    else {
+        if (info.current !== info.then) {
+            update(info.then, 1, info.value, promise);
+            return true;
+        }
+        info.resolved = promise;
     }
 }
 function outro_and_destroy_block(block, lookup) {
@@ -350,6 +495,14 @@ function get_spread_update(levels, updates) {
 }
 function get_spread_object(spread_props) {
     return typeof spread_props === 'object' && spread_props !== null ? spread_props : {};
+}
+
+function bind(component, name, callback) {
+    const index = component.$$.props[name];
+    if (index !== undefined) {
+        component.$$.bound[index] = callback;
+        callback(component.$$.ctx[index]);
+    }
 }
 function create_component(block) {
     block && block.c();
@@ -476,4 +629,4 @@ class SvelteComponent {
     }
 }
 
-export { update_keyed_each as A, get_spread_object as B, get_spread_update as C, component_subscribe as D, binding_callbacks as E, element as F, noop as G, SvelteComponent as S, onMount as a, add_render_callback as b, check_outros as c, create_component as d, destroy_component as e, detach as f, getContext as g, empty as h, group_outros as i, init as j, insert as k, listen as l, mount_component as m, safe_not_equal as n, onDestroy as o, space as p, transition_in as q, transition_out as r, setContext as s, tick as t, assign as u, create_slot as v, exclude_internal_props as w, update_slot as x, destroy_each as y, outro_and_destroy_block as z };
+export { onDestroy as A, tick as B, add_render_callback as C, listen as D, assign as E, exclude_internal_props as F, destroy_each as G, outro_and_destroy_block as H, update_keyed_each as I, get_spread_object as J, get_spread_update as K, add_resize_listener as L, append as M, add_flush_callback as N, bind as O, subscribe as P, run_all as Q, SvelteComponent as S, transition_out as a, setContext as b, create_slot as c, insert as d, element as e, detach as f, space as g, text as h, init as i, set_data as j, empty as k, group_outros as l, check_outros as m, noop as n, onMount as o, getContext as p, component_subscribe as q, create_component as r, safe_not_equal as s, transition_in as t, update_slot as u, mount_component as v, destroy_component as w, handle_promise as x, attr as y, binding_callbacks as z };

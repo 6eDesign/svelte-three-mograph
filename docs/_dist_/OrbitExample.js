@@ -3,6 +3,7 @@ import {
 	SvelteComponent,
 	check_outros,
 	create_component,
+	create_slot,
 	destroy_component,
 	destroy_each,
 	detach,
@@ -14,7 +15,8 @@ import {
 	safe_not_equal,
 	space,
 	transition_in,
-	transition_out
+	transition_out,
+	update_slot
 } from "../web_modules/svelte/internal.js";
 
 import {
@@ -31,20 +33,23 @@ import { random, addVariance } from "./utils/index.js";
 
 function get_each_context(ctx, list, i) {
 	const child_ctx = ctx.slice();
-	child_ctx[22] = list[i];
+	child_ctx[26] = list[i];
 	return child_ctx;
 }
 
-// (88:6) <Material metalness={0} roughness={1} {color}>
+const get_default_slot_changes = dirty => ({ color: dirty & /*color*/ 1073741824 });
+const get_default_slot_context = ctx => ({ color: /*color*/ ctx[30] });
+
+// (85:8) <Material metalness={0} roughness={1} {color}>
 function create_default_slot_2(ctx) {
 	let icosahedron;
 	let current;
 
-	icosahedron = new /*Icosahedron*/ ctx[4]({
+	icosahedron = new /*Icosahedron*/ ctx[6]({
 			props: {
-				size: 0.01 + Math.random() * 0.05,
-				position: /*position*/ ctx[0],
-				rotation: /*rotation*/ ctx[25]
+				size: /*size*/ ctx[0] + Math.random() * 0.05,
+				position: /*position*/ ctx[2],
+				rotation: /*rotation*/ ctx[29]
 			}
 		});
 
@@ -58,8 +63,9 @@ function create_default_slot_2(ctx) {
 		},
 		p(ctx, dirty) {
 			const icosahedron_changes = {};
-			if (dirty & /*position*/ 1) icosahedron_changes.position = /*position*/ ctx[0];
-			if (dirty & /*rotation*/ 33554432) icosahedron_changes.rotation = /*rotation*/ ctx[25];
+			if (dirty & /*size*/ 1) icosahedron_changes.size = /*size*/ ctx[0] + Math.random() * 0.05;
+			if (dirty & /*position*/ 4) icosahedron_changes.position = /*position*/ ctx[2];
+			if (dirty & /*rotation*/ 536870912) icosahedron_changes.rotation = /*rotation*/ ctx[29];
 			icosahedron.$set(icosahedron_changes);
 		},
 		i(local) {
@@ -77,90 +83,192 @@ function create_default_slot_2(ctx) {
 	};
 }
 
-// (87:4) <RandomColor let:color>
-function create_default_slot_1(ctx) {
+// (92:8) {#if addPointLights}
+function create_if_block(ctx) {
+	let pointlight;
+	let current;
+
+	pointlight = new /*PointLight*/ ctx[5]({
+			props: {
+				position: /*position*/ ctx[2],
+				intensity: 1,
+				distance: 2.8,
+				color: /*color*/ ctx[30]
+			}
+		});
+
+	return {
+		c() {
+			create_component(pointlight.$$.fragment);
+		},
+		m(target, anchor) {
+			mount_component(pointlight, target, anchor);
+			current = true;
+		},
+		p(ctx, dirty) {
+			const pointlight_changes = {};
+			if (dirty & /*position*/ 4) pointlight_changes.position = /*position*/ ctx[2];
+			if (dirty & /*color*/ 1073741824) pointlight_changes.color = /*color*/ ctx[30];
+			pointlight.$set(pointlight_changes);
+		},
+		i(local) {
+			if (current) return;
+			transition_in(pointlight.$$.fragment, local);
+			current = true;
+		},
+		o(local) {
+			transition_out(pointlight.$$.fragment, local);
+			current = false;
+		},
+		d(detaching) {
+			destroy_component(pointlight, detaching);
+		}
+	};
+}
+
+// (84:20)          
+function fallback_block(ctx) {
 	let material;
 	let t;
-	let pointlight;
+	let if_block_anchor;
 	let current;
 
 	material = new Material({
 			props: {
 				metalness: 0,
 				roughness: 1,
-				color: /*color*/ ctx[26],
+				color: /*color*/ ctx[30],
 				$$slots: { default: [create_default_slot_2] },
 				$$scope: { ctx }
 			}
 		});
 
-	pointlight = new /*PointLight*/ ctx[3]({
-			props: {
-				position: /*position*/ ctx[0],
-				intensity: 1,
-				distance: 2.8,
-				color: /*color*/ ctx[26]
-			}
-		});
+	let if_block = /*addPointLights*/ ctx[1] && create_if_block(ctx);
 
 	return {
 		c() {
 			create_component(material.$$.fragment);
 			t = space();
-			create_component(pointlight.$$.fragment);
+			if (if_block) if_block.c();
+			if_block_anchor = empty();
 		},
 		m(target, anchor) {
 			mount_component(material, target, anchor);
 			insert(target, t, anchor);
-			mount_component(pointlight, target, anchor);
+			if (if_block) if_block.m(target, anchor);
+			insert(target, if_block_anchor, anchor);
 			current = true;
 		},
 		p(ctx, dirty) {
 			const material_changes = {};
-			if (dirty & /*color*/ 67108864) material_changes.color = /*color*/ ctx[26];
+			if (dirty & /*color*/ 1073741824) material_changes.color = /*color*/ ctx[30];
 
-			if (dirty & /*$$scope, position, rotation*/ 167772161) {
+			if (dirty & /*$$scope, size, position, rotation*/ 536903685) {
 				material_changes.$$scope = { dirty, ctx };
 			}
 
 			material.$set(material_changes);
-			const pointlight_changes = {};
-			if (dirty & /*position*/ 1) pointlight_changes.position = /*position*/ ctx[0];
-			if (dirty & /*color*/ 67108864) pointlight_changes.color = /*color*/ ctx[26];
-			pointlight.$set(pointlight_changes);
+
+			if (/*addPointLights*/ ctx[1]) {
+				if (if_block) {
+					if_block.p(ctx, dirty);
+
+					if (dirty & /*addPointLights*/ 2) {
+						transition_in(if_block, 1);
+					}
+				} else {
+					if_block = create_if_block(ctx);
+					if_block.c();
+					transition_in(if_block, 1);
+					if_block.m(if_block_anchor.parentNode, if_block_anchor);
+				}
+			} else if (if_block) {
+				group_outros();
+
+				transition_out(if_block, 1, 1, () => {
+					if_block = null;
+				});
+
+				check_outros();
+			}
 		},
 		i(local) {
 			if (current) return;
 			transition_in(material.$$.fragment, local);
-			transition_in(pointlight.$$.fragment, local);
+			transition_in(if_block);
 			current = true;
 		},
 		o(local) {
 			transition_out(material.$$.fragment, local);
-			transition_out(pointlight.$$.fragment, local);
+			transition_out(if_block);
 			current = false;
 		},
 		d(detaching) {
 			destroy_component(material, detaching);
 			if (detaching) detach(t);
-			destroy_component(pointlight, detaching);
+			if (if_block) if_block.d(detaching);
+			if (detaching) detach(if_block_anchor);
 		}
 	};
 }
 
-// (79:2) <Particle     position={[orbiter.position.x, orbiter.position.y, orbiter.position.z]}     velocity={[orbiter.velocity.x, orbiter.velocity.y, orbiter.velocity.z]}     rotationalVelocity={[0.02, 0.02, 0.02]}     forces={[orbit(orbiter.radius, [0, 0, 0])]}     let:position     let:rotation   >
+// (83:4) <RandomColor let:color>
+function create_default_slot_1(ctx) {
+	let current;
+	const default_slot_template = /*#slots*/ ctx[14].default;
+	const default_slot = create_slot(default_slot_template, ctx, /*$$scope*/ ctx[15], get_default_slot_context);
+	const default_slot_or_fallback = default_slot || fallback_block(ctx);
+
+	return {
+		c() {
+			if (default_slot_or_fallback) default_slot_or_fallback.c();
+		},
+		m(target, anchor) {
+			if (default_slot_or_fallback) {
+				default_slot_or_fallback.m(target, anchor);
+			}
+
+			current = true;
+		},
+		p(ctx, dirty) {
+			if (default_slot) {
+				if (default_slot.p && dirty & /*$$scope, color*/ 1073774592) {
+					update_slot(default_slot, default_slot_template, ctx, /*$$scope*/ ctx[15], dirty, get_default_slot_changes, get_default_slot_context);
+				}
+			} else {
+				if (default_slot_or_fallback && default_slot_or_fallback.p && dirty & /*position, color, addPointLights, size, rotation*/ 1610612743) {
+					default_slot_or_fallback.p(ctx, dirty);
+				}
+			}
+		},
+		i(local) {
+			if (current) return;
+			transition_in(default_slot_or_fallback, local);
+			current = true;
+		},
+		o(local) {
+			transition_out(default_slot_or_fallback, local);
+			current = false;
+		},
+		d(detaching) {
+			if (default_slot_or_fallback) default_slot_or_fallback.d(detaching);
+		}
+	};
+}
+
+// (75:2) <Particle     position={[orbiter.position.x, orbiter.position.y, orbiter.position.z]}     velocity={[orbiter.velocity.x, orbiter.velocity.y, orbiter.velocity.z]}     rotationalVelocity={[0.02, 0.02, 0.02]}     forces={[orbit(orbiter.radius, [0, 0, 0])]}     let:position     let:rotation   >
 function create_default_slot(ctx) {
 	let randomcolor;
 	let t;
 	let current;
 
-	randomcolor = new /*RandomColor*/ ctx[1]({
+	randomcolor = new /*RandomColor*/ ctx[3]({
 			props: {
 				$$slots: {
 					default: [
 						create_default_slot_1,
-						({ color }) => ({ 26: color }),
-						({ color }) => color ? 67108864 : 0
+						({ color }) => ({ 30: color }),
+						({ color }) => color ? 1073741824 : 0
 					]
 				},
 				$$scope: { ctx }
@@ -180,7 +288,7 @@ function create_default_slot(ctx) {
 		p(ctx, dirty) {
 			const randomcolor_changes = {};
 
-			if (dirty & /*$$scope, position, color, rotation*/ 234881025) {
+			if (dirty & /*$$scope, position, color, addPointLights, size, rotation*/ 1610645511) {
 				randomcolor_changes.$$scope = { dirty, ctx };
 			}
 
@@ -202,30 +310,30 @@ function create_default_slot(ctx) {
 	};
 }
 
-// (78:0) {#each orbiters as orbiter}
+// (74:0) {#each orbiters as orbiter}
 function create_each_block(ctx) {
 	let particle;
 	let current;
 
-	particle = new /*Particle*/ ctx[2]({
+	particle = new /*Particle*/ ctx[4]({
 			props: {
 				position: [
-					/*orbiter*/ ctx[22].position.x,
-					/*orbiter*/ ctx[22].position.y,
-					/*orbiter*/ ctx[22].position.z
+					/*orbiter*/ ctx[26].position.x,
+					/*orbiter*/ ctx[26].position.y,
+					/*orbiter*/ ctx[26].position.z
 				],
 				velocity: [
-					/*orbiter*/ ctx[22].velocity.x,
-					/*orbiter*/ ctx[22].velocity.y,
-					/*orbiter*/ ctx[22].velocity.z
+					/*orbiter*/ ctx[26].velocity.x,
+					/*orbiter*/ ctx[26].velocity.y,
+					/*orbiter*/ ctx[26].velocity.z
 				],
 				rotationalVelocity: [0.02, 0.02, 0.02],
-				forces: [/*orbit*/ ctx[6](/*orbiter*/ ctx[22].radius, [0, 0, 0])],
+				forces: [/*orbit*/ ctx[8](/*orbiter*/ ctx[26].radius, [0, 0, 0])],
 				$$slots: {
 					default: [
 						create_default_slot,
-						({ position, rotation }) => ({ 0: position, 25: rotation }),
-						({ position, rotation }) => (position ? 1 : 0) | (rotation ? 33554432 : 0)
+						({ position, rotation }) => ({ 2: position, 29: rotation }),
+						({ position, rotation }) => (position ? 4 : 0) | (rotation ? 536870912 : 0)
 					]
 				},
 				$$scope: { ctx }
@@ -243,7 +351,7 @@ function create_each_block(ctx) {
 		p(ctx, dirty) {
 			const particle_changes = {};
 
-			if (dirty & /*$$scope, position, rotation*/ 167772161) {
+			if (dirty & /*$$scope, position, addPointLights, size, rotation*/ 536903687) {
 				particle_changes.$$scope = { dirty, ctx };
 			}
 
@@ -267,7 +375,7 @@ function create_each_block(ctx) {
 function create_fragment(ctx) {
 	let each_1_anchor;
 	let current;
-	let each_value = /*orbiters*/ ctx[5];
+	let each_value = /*orbiters*/ ctx[7];
 	let each_blocks = [];
 
 	for (let i = 0; i < each_value.length; i += 1) {
@@ -295,8 +403,8 @@ function create_fragment(ctx) {
 			current = true;
 		},
 		p(ctx, [dirty]) {
-			if (dirty & /*orbiters, orbit, position, color, Math, rotation*/ 100663393) {
-				each_value = /*orbiters*/ ctx[5];
+			if (dirty & /*orbiters, orbit, position, color, addPointLights, size, Math, rotation, $$scope*/ 1610645895) {
+				each_value = /*orbiters*/ ctx[7];
 				let i;
 
 				for (i = 0; i < each_value.length; i += 1) {
@@ -348,16 +456,19 @@ function create_fragment(ctx) {
 }
 
 function instance($$self, $$props, $$invalidate) {
+	let { $$slots: slots = {}, $$scope } = $$props;
 	const { RandomColor } = numbers;
 	const { Emitter, Particle } = mograph;
 	const { PointLight } = lights;
 	const { Cube, Icosahedron, Octahedron, Sphere, Tetrahedron, Torus, TorusKnot } = primitives;
 	let { position = [0, 0, 0] } = $$props;
-	let { radius = 1.6 } = $$props;
+	let { radius = 1.2 } = $$props;
 	let { orbitingCount = 13 } = $$props;
 	let { velocity = 0.025 } = $$props;
 	let { velocityVariance = 0.14 } = $$props;
 	let { radiusVariance = 0.5 } = $$props;
+	let { size = 0.01 } = $$props;
+	let { addPointLights = true } = $$props;
 	const varyRadius = r => Math.abs(addVariance(radiusVariance)(r));
 	const varyVelocity = addVariance(velocityVariance);
 	const randomUnitVector = () => new Vector3(random(1), random(1), random(1)).normalize();
@@ -382,15 +493,20 @@ function instance($$self, $$props, $$invalidate) {
 	};
 
 	$$self.$$set = $$props => {
-		if ("position" in $$props) $$invalidate(0, position = $$props.position);
-		if ("radius" in $$props) $$invalidate(7, radius = $$props.radius);
-		if ("orbitingCount" in $$props) $$invalidate(8, orbitingCount = $$props.orbitingCount);
-		if ("velocity" in $$props) $$invalidate(9, velocity = $$props.velocity);
-		if ("velocityVariance" in $$props) $$invalidate(10, velocityVariance = $$props.velocityVariance);
-		if ("radiusVariance" in $$props) $$invalidate(11, radiusVariance = $$props.radiusVariance);
+		if ("position" in $$props) $$invalidate(2, position = $$props.position);
+		if ("radius" in $$props) $$invalidate(9, radius = $$props.radius);
+		if ("orbitingCount" in $$props) $$invalidate(10, orbitingCount = $$props.orbitingCount);
+		if ("velocity" in $$props) $$invalidate(11, velocity = $$props.velocity);
+		if ("velocityVariance" in $$props) $$invalidate(12, velocityVariance = $$props.velocityVariance);
+		if ("radiusVariance" in $$props) $$invalidate(13, radiusVariance = $$props.radiusVariance);
+		if ("size" in $$props) $$invalidate(0, size = $$props.size);
+		if ("addPointLights" in $$props) $$invalidate(1, addPointLights = $$props.addPointLights);
+		if ("$$scope" in $$props) $$invalidate(15, $$scope = $$props.$$scope);
 	};
 
 	return [
+		size,
+		addPointLights,
 		position,
 		RandomColor,
 		Particle,
@@ -402,7 +518,9 @@ function instance($$self, $$props, $$invalidate) {
 		orbitingCount,
 		velocity,
 		velocityVariance,
-		radiusVariance
+		radiusVariance,
+		slots,
+		$$scope
 	];
 }
 
@@ -411,12 +529,14 @@ class OrbitExample extends SvelteComponent {
 		super();
 
 		init(this, options, instance, create_fragment, safe_not_equal, {
-			position: 0,
-			radius: 7,
-			orbitingCount: 8,
-			velocity: 9,
-			velocityVariance: 10,
-			radiusVariance: 11
+			position: 2,
+			radius: 9,
+			orbitingCount: 10,
+			velocity: 11,
+			velocityVariance: 12,
+			radiusVariance: 13,
+			size: 0,
+			addPointLights: 1
 		});
 	}
 }

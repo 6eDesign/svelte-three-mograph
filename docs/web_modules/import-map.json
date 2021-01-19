@@ -1,5 +1,6 @@
 {
   "imports": {
+    "@6edesign/svelte-router": "./@6edesign/svelte-router.js",
     "svelte": "./svelte.js",
     "svelte/internal": "./svelte/internal.js",
     "svelte/store": "./svelte/store.js",
