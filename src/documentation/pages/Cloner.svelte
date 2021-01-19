@@ -50,7 +50,13 @@
       let:position
       let:index
     >
-      <Material color="#fff" metalness={0.85} roughness={0.7}>
+      <Material
+        color="#fff"
+        metalness={0.85}
+        roughness={0.7}
+        opacity={0.6}
+        transparent={true}
+      >
         <Particle
           rotationalVelocity={[
             Math.random() * 0.03,
