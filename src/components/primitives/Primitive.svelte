@@ -7,6 +7,7 @@
   export let position = [0, 0, 0];
   export let rotation = [0, 0, 0];
   export let renderFn;
+  export let translate = [0, 0, 0];
 
   const material = getContext('material');
   const geometry = new Geometry(...size);
@@ -15,6 +16,7 @@
 
   $: mesh.position.set(...position);
   $: mesh.rotation.set(...rotation);
+  $: geometry.translate(...translate);
 
   const sceneCtx = getContext('sceneCtx');
 

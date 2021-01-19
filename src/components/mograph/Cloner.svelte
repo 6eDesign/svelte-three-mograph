@@ -26,6 +26,6 @@
   }
 </script>
 
-{#each positions as { x, y, z }}
-  <slot position={[x, y, z]} />
+{#each positions as { x, y, z }, index}
+  <slot position={[x, y, z]} {index} />
 {/each}

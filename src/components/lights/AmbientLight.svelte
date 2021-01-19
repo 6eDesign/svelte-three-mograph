@@ -1,7 +1,10 @@
 <script>
-	import { AmbientLight } from 'three';
-	import { getContext } from 'svelte';
+  import { AmbientLight } from 'three';
+  import { getContext } from 'svelte';
 
-	const sceneCtx = getContext('sceneCtx');
-	sceneCtx.scene.add(new AmbientLight(0x404040, 1));
+  export let color = 0x404040;
+  export let intensity = 1;
+
+  const sceneCtx = getContext('sceneCtx');
+  sceneCtx.scene.add(new AmbientLight(color, intensity));
 </script>

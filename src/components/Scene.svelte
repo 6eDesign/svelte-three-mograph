@@ -17,6 +17,7 @@
     alpha: true,
     antialias: true,
   });
+  export let time = writable(Date.now());
 
   camera.position.z = 5;
   renderer.setSize(width, height);
@@ -26,14 +27,14 @@
     camera,
     renderer,
     renderFns: [],
-    time: writable(Date.now()),
+    time,
   };
   setContext('sceneCtx', ctx);
 
   onMount(() => {
     let rafId;
     const animate = async () => {
-      ctx.time.set(Date.now());
+      time.set(Date.now());
       renderer.render(scene, camera);
       await tick();
       rafId = requestAnimationFrame(animate);
@@ -47,5 +48,5 @@
 
 <div bind:this={target} />
 <Material>
-  <slot />
+  <slot time={ctx.time} />
 </Material>

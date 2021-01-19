@@ -35,7 +35,7 @@ export const getParticle = ({
   forces = [],
   rotationalForces = [],
 }) => {
-  const { set, update, subscribe } = writable({
+  const { update, subscribe } = writable({
     position: new Vector3(...position),
     rotation: new Vector3(...rotation),
     velocity: new Vector3(...velocity),

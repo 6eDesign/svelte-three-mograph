@@ -10,7 +10,7 @@
 </script>
 
 <Group {position} {rotation}>
-  <Cloner {...$$props} let:position>
-    <slot {position} />
+  <Cloner {...$$props} let:position let:index>
+    <slot {position} {index} />
   </Cloner>
 </Group>

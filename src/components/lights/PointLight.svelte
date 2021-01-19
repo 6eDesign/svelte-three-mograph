@@ -1,6 +1,6 @@
 <script>
   import { PointLight } from 'three';
-  import { getContext } from 'svelte';
+  import { getContext, onDestroy } from 'svelte';
 
   export let color = 0x404040;
   export let intensity = 1;
@@ -14,4 +14,9 @@
 
   const sceneCtx = getContext('sceneCtx');
   sceneCtx.scene.add(light);
+
+  onDestroy(() => {
+    console.log('removing light');
+    sceneCtx.scene.remove(light);
+  });
 </script>
