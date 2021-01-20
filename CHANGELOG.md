@@ -1,3 +1,11 @@
+## [1.1.2](https://github.com/6eDesign/svelte-three-mograph/compare/v1.1.1...v1.1.2) (2021-01-19)
+
+
+### Bug Fixes
+
+* add docs/experiments page ([fa69a14](https://github.com/6eDesign/svelte-three-mograph/commit/fa69a14ff9213cbbd657dd612e0e0d3af6ba99f7))
+* Merge branch 'master' of https://github.com/6eDesign/svelte-three-mograph ([116e1a1](https://github.com/6eDesign/svelte-three-mograph/commit/116e1a17a1ba9640492a3202bd74d122a49b2c0a))
+
 ## [1.1.1](https://github.com/6eDesign/svelte-three-mograph/compare/v1.1.0...v1.1.1) (2021-01-16)
 
 

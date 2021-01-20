@@ -2,7 +2,7 @@
 import { SvelteComponent, init, safe_not_equal } from "../../../web_modules/svelte/internal.js";
 
 import { PointLight } from "../../../web_modules/three.js";
-import { getContext } from "../../../web_modules/svelte.js";
+import { getContext, onDestroy } from "../../../web_modules/svelte.js";
 
 function instance($$self, $$props, $$invalidate) {
 	let { color = 4210752 } = $$props;
@@ -13,6 +13,11 @@ function instance($$self, $$props, $$invalidate) {
 	const light = new PointLight(color, intensity, distance, decay);
 	const sceneCtx = getContext("sceneCtx");
 	sceneCtx.scene.add(light);
+
+	onDestroy(() => {
+		console.log("removing light");
+		sceneCtx.scene.remove(light);
+	});
 
 	$$self.$$set = $$props => {
 		if ("color" in $$props) $$invalidate(0, color = $$props.color);

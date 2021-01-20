@@ -58,7 +58,7 @@ function instance($$self, $$props, $$invalidate) {
 	let { metalness = 0.8 } = $$props;
 	let { roughness = 0.2 } = $$props;
 	let { color = Math.random() * 16777215 } = $$props;
-	const material = new MeshStandardMaterial({ metalness, roughness, color });
+	const material = new MeshStandardMaterial({ metalness, roughness, color, ...$$props });
 	setContext("material", material);
 
 	$$self.$$set = $$new_props => {

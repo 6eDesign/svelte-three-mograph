@@ -72,26 +72,30 @@ function create_fragment(ctx) {
 function instance($$self, $$props, $$invalidate) {
 	let sizeAsArray;
 	let { size = 0.4 } = $$props;
+	let { radius = size } = $$props;
+	let { detail = 0 } = $$props;
 
 	$$self.$$set = $$new_props => {
 		$$invalidate(1, $$props = assign(assign({}, $$props), exclude_internal_props($$new_props)));
 		if ("size" in $$new_props) $$invalidate(2, size = $$new_props.size);
+		if ("radius" in $$new_props) $$invalidate(3, radius = $$new_props.radius);
+		if ("detail" in $$new_props) $$invalidate(4, detail = $$new_props.detail);
 	};
 
 	$$self.$$.update = () => {
-		if ($$self.$$.dirty & /*size*/ 4) {
-			$: $$invalidate(0, sizeAsArray = [size]);
+		if ($$self.$$.dirty & /*radius, detail*/ 24) {
+			$: $$invalidate(0, sizeAsArray = [radius, detail]);
 		}
 	};
 
 	$$props = exclude_internal_props($$props);
-	return [sizeAsArray, $$props, size];
+	return [sizeAsArray, $$props, size, radius, detail];
 }
 
 class Icosahedron extends SvelteComponent {
 	constructor(options) {
 		super();
-		init(this, options, instance, create_fragment, safe_not_equal, { size: 2 });
+		init(this, options, instance, create_fragment, safe_not_equal, { size: 2, radius: 3, detail: 4 });
 	}
 }
 

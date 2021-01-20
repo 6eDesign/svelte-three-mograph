@@ -10,6 +10,7 @@ function instance($$self, $$props, $$invalidate) {
 	let { position = [0, 0, 0] } = $$props;
 	let { rotation = [0, 0, 0] } = $$props;
 	let { renderFn } = $$props;
+	let { translate = [0, 0, 0] } = $$props;
 	const material = getContext("material");
 	const geometry = new Geometry(...size);
 	const mesh = new Mesh(geometry, material);
@@ -33,6 +34,7 @@ function instance($$self, $$props, $$invalidate) {
 		if ("position" in $$props) $$invalidate(2, position = $$props.position);
 		if ("rotation" in $$props) $$invalidate(3, rotation = $$props.rotation);
 		if ("renderFn" in $$props) $$invalidate(4, renderFn = $$props.renderFn);
+		if ("translate" in $$props) $$invalidate(5, translate = $$props.translate);
 	};
 
 	$$self.$$.update = () => {
@@ -43,9 +45,13 @@ function instance($$self, $$props, $$invalidate) {
 		if ($$self.$$.dirty & /*rotation*/ 8) {
 			$: mesh.rotation.set(...rotation);
 		}
+
+		if ($$self.$$.dirty & /*translate*/ 32) {
+			$: geometry.translate(...translate);
+		}
 	};
 
-	return [Geometry, size, position, rotation, renderFn];
+	return [Geometry, size, position, rotation, renderFn, translate];
 }
 
 class Primitive extends SvelteComponent {
@@ -57,7 +63,8 @@ class Primitive extends SvelteComponent {
 			size: 1,
 			position: 2,
 			rotation: 3,
-			renderFn: 4
+			renderFn: 4,
+			translate: 5
 		});
 	}
 }

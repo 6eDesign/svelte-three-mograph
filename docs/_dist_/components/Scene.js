@@ -21,11 +21,14 @@ import { onMount, setContext, tick } from "../../web_modules/svelte.js";
 import { writable } from "../../web_modules/svelte/store.js";
 import { Scene, Color, PerspectiveCamera, WebGLRenderer } from "../../web_modules/three.js";
 import { Material } from "./index.js";
+const get_default_slot_changes = dirty => ({});
+const get_default_slot_context = ctx => ({ time: /*ctx*/ ctx[0].time });
 
+// (50:0) <Material>
 function create_default_slot(ctx) {
 	let current;
-	const default_slot_template = /*#slots*/ ctx[5].default;
-	const default_slot = create_slot(default_slot_template, ctx, /*$$scope*/ ctx[7], null);
+	const default_slot_template = /*#slots*/ ctx[6].default;
+	const default_slot = create_slot(default_slot_template, ctx, /*$$scope*/ ctx[8], get_default_slot_context);
 
 	return {
 		c() {
@@ -40,8 +43,8 @@ function create_default_slot(ctx) {
 		},
 		p(ctx, dirty) {
 			if (default_slot) {
-				if (default_slot.p && dirty & /*$$scope*/ 128) {
-					update_slot(default_slot, default_slot_template, ctx, /*$$scope*/ ctx[7], dirty, null, null);
+				if (default_slot.p && dirty & /*$$scope*/ 256) {
+					update_slot(default_slot, default_slot_template, ctx, /*$$scope*/ ctx[8], dirty, get_default_slot_changes, get_default_slot_context);
 				}
 			}
 		},
@@ -81,7 +84,7 @@ function create_fragment(ctx) {
 		},
 		m(target, anchor) {
 			insert(target, div, anchor);
-			/*div_binding*/ ctx[6](div);
+			/*div_binding*/ ctx[7](div);
 			insert(target, t, anchor);
 			mount_component(material, target, anchor);
 			current = true;
@@ -89,7 +92,7 @@ function create_fragment(ctx) {
 		p(ctx, [dirty]) {
 			const material_changes = {};
 
-			if (dirty & /*$$scope*/ 128) {
+			if (dirty & /*$$scope*/ 256) {
 				material_changes.$$scope = { dirty, ctx };
 			}
 
@@ -106,7 +109,7 @@ function create_fragment(ctx) {
 		},
 		d(detaching) {
 			if (detaching) detach(div);
-			/*div_binding*/ ctx[6](null);
+			/*div_binding*/ ctx[7](null);
 			if (detaching) detach(t);
 			destroy_component(material, detaching);
 		}
@@ -123,6 +126,7 @@ function instance($$self, $$props, $$invalidate) {
 	scene.background = new Color(background);
 	const camera = new PerspectiveCamera(75, width / height, 0.1, 1000);
 	const renderer = new WebGLRenderer({ alpha: true, antialias: true });
+	let { time = writable(Date.now()) } = $$props;
 	camera.position.z = 5;
 	renderer.setSize(width, height);
 
@@ -131,7 +135,7 @@ function instance($$self, $$props, $$invalidate) {
 		camera,
 		renderer,
 		renderFns: [],
-		time: writable(Date.now())
+		time
 	};
 
 	setContext("sceneCtx", ctx);
@@ -140,7 +144,7 @@ function instance($$self, $$props, $$invalidate) {
 		let rafId;
 
 		const animate = async () => {
-			ctx.time.set(Date.now());
+			time.set(Date.now());
 			renderer.render(scene, camera);
 			await tick();
 			rafId = requestAnimationFrame(animate);
@@ -153,24 +157,25 @@ function instance($$self, $$props, $$invalidate) {
 	function div_binding($$value) {
 		binding_callbacks[$$value ? "unshift" : "push"](() => {
 			target = $$value;
-			$$invalidate(0, target);
+			$$invalidate(1, target);
 		});
 	}
 
 	$$self.$$set = $$props => {
-		if ("width" in $$props) $$invalidate(1, width = $$props.width);
-		if ("height" in $$props) $$invalidate(2, height = $$props.height);
-		if ("background" in $$props) $$invalidate(3, background = $$props.background);
-		if ("$$scope" in $$props) $$invalidate(7, $$scope = $$props.$$scope);
+		if ("width" in $$props) $$invalidate(2, width = $$props.width);
+		if ("height" in $$props) $$invalidate(3, height = $$props.height);
+		if ("background" in $$props) $$invalidate(4, background = $$props.background);
+		if ("time" in $$props) $$invalidate(5, time = $$props.time);
+		if ("$$scope" in $$props) $$invalidate(8, $$scope = $$props.$$scope);
 	};
 
 	$$self.$$.update = () => {
-		if ($$self.$$.dirty & /*target*/ 1) {
+		if ($$self.$$.dirty & /*target*/ 2) {
 			$: target && target.appendChild(renderer.domElement);
 		}
 	};
 
-	return [target, width, height, background, ctx, slots, div_binding, $$scope];
+	return [ctx, target, width, height, background, time, slots, div_binding, $$scope];
 }
 
 class Scene_1 extends SvelteComponent {
@@ -178,15 +183,16 @@ class Scene_1 extends SvelteComponent {
 		super();
 
 		init(this, options, instance, create_fragment, safe_not_equal, {
-			width: 1,
-			height: 2,
-			background: 3,
-			ctx: 4
+			width: 2,
+			height: 3,
+			background: 4,
+			time: 5,
+			ctx: 0
 		});
 	}
 
 	get ctx() {
-		return this.$$.ctx[4];
+		return this.$$.ctx[0];
 	}
 }
 
