@@ -66,7 +66,7 @@ function create_default_slot_6(ctx) {
 	};
 }
 
-// (40:4) <GridCloner instances={[7, 7, 7]} {spaceBetween} {rotation} let:position>
+// (39:4) <GridCloner instances={[7, 7, 7]} {spaceBetween} {rotation} let:position>
 function create_default_slot_5(ctx) {
 	let material;
 	let current;
@@ -113,7 +113,7 @@ function create_default_slot_5(ctx) {
 	};
 }
 
-// (60:8) <Particle           rotationalVelocity={[             Math.random() * 0.03,             Math.random() * 0.03,             Math.random() * 0.03,           ]}           let:rotation         >
+// (59:8) <Particle           rotationalVelocity={[             Math.random() * 0.03,             Math.random() * 0.03,             Math.random() * 0.03,           ]}           let:rotation         >
 function create_default_slot_4(ctx) {
 	let torus;
 	let current;
@@ -121,7 +121,7 @@ function create_default_slot_4(ctx) {
 	torus = new /*Torus*/ ctx[5]({
 			props: {
 				position: /*position*/ ctx[12],
-				rotation: /*rotation*/ ctx[3],
+				rotation: /*rotation*/ ctx[2],
 				radialSegments: 4,
 				tubularSegments: 60,
 				radius: 4.7 * (1 - /*index*/ ctx[13] * 0.04),
@@ -140,7 +140,7 @@ function create_default_slot_4(ctx) {
 		p(ctx, dirty) {
 			const torus_changes = {};
 			if (dirty & /*position*/ 4096) torus_changes.position = /*position*/ ctx[12];
-			if (dirty & /*rotation*/ 8) torus_changes.rotation = /*rotation*/ ctx[3];
+			if (dirty & /*rotation*/ 4) torus_changes.rotation = /*rotation*/ ctx[2];
 			if (dirty & /*index*/ 8192) torus_changes.radius = 4.7 * (1 - /*index*/ ctx[13] * 0.04);
 			torus.$set(torus_changes);
 		},
@@ -159,7 +159,7 @@ function create_default_slot_4(ctx) {
 	};
 }
 
-// (53:6) <Material         color="#fff"         metalness={0.85}         roughness={0.7}         opacity={0.6}         transparent={true}       >
+// (52:6) <Material         color="#fff"         metalness={0.85}         roughness={0.7}         opacity={0.6}         transparent={true}       >
 function create_default_slot_3(ctx) {
 	let particle;
 	let current;
@@ -170,8 +170,8 @@ function create_default_slot_3(ctx) {
 				$$slots: {
 					default: [
 						create_default_slot_4,
-						({ rotation }) => ({ 3: rotation }),
-						({ rotation }) => rotation ? 8 : 0
+						({ rotation }) => ({ 2: rotation }),
+						({ rotation }) => rotation ? 4 : 0
 					]
 				},
 				$$scope: { ctx }
@@ -189,7 +189,7 @@ function create_default_slot_3(ctx) {
 		p(ctx, dirty) {
 			const particle_changes = {};
 
-			if (dirty & /*$$scope, position, rotation, index*/ 28680) {
+			if (dirty & /*$$scope, position, rotation, index*/ 28676) {
 				particle_changes.$$scope = { dirty, ctx };
 			}
 
@@ -210,7 +210,7 @@ function create_default_slot_3(ctx) {
 	};
 }
 
-// (46:4) <LinearCloner       instances={14}       spaceBetween={0}       direction={[0, 0, 1]}       let:position       let:index     >
+// (45:4) <LinearCloner       instances={14}       spaceBetween={0}       direction={[0, 0, 1]}       let:position       let:index     >
 function create_default_slot_2(ctx) {
 	let material;
 	let current;
@@ -238,7 +238,7 @@ function create_default_slot_2(ctx) {
 		p(ctx, dirty) {
 			const material_changes = {};
 
-			if (dirty & /*$$scope, position, rotation, index*/ 28680) {
+			if (dirty & /*$$scope, position, rotation, index*/ 28676) {
 				material_changes.$$scope = { dirty, ctx };
 			}
 
@@ -259,7 +259,7 @@ function create_default_slot_2(ctx) {
 	};
 }
 
-// (38:2) <Group position={[0, 0, 0]}>
+// (37:2) <Group position={[0, 0, 0]}>
 function create_default_slot_1(ctx) {
 	let orbitexample;
 	let t0;
@@ -272,8 +272,8 @@ function create_default_slot_1(ctx) {
 	gridcloner = new /*GridCloner*/ ctx[7]({
 			props: {
 				instances: [7, 7, 7],
-				spaceBetween: /*spaceBetween*/ ctx[1],
-				rotation: /*rotation*/ ctx[3],
+				spaceBetween: /*spaceBetween*/ ctx[3],
+				rotation: /*rotation*/ ctx[2],
 				$$slots: {
 					default: [
 						create_default_slot_5,
@@ -319,8 +319,8 @@ function create_default_slot_1(ctx) {
 		},
 		p(ctx, dirty) {
 			const gridcloner_changes = {};
-			if (dirty & /*spaceBetween*/ 2) gridcloner_changes.spaceBetween = /*spaceBetween*/ ctx[1];
-			if (dirty & /*rotation*/ 8) gridcloner_changes.rotation = /*rotation*/ ctx[3];
+			if (dirty & /*spaceBetween*/ 8) gridcloner_changes.spaceBetween = /*spaceBetween*/ ctx[3];
+			if (dirty & /*rotation*/ 4) gridcloner_changes.rotation = /*rotation*/ ctx[2];
 
 			if (dirty & /*$$scope, position*/ 20480) {
 				gridcloner_changes.$$scope = { dirty, ctx };
@@ -329,7 +329,7 @@ function create_default_slot_1(ctx) {
 			gridcloner.$set(gridcloner_changes);
 			const linearcloner_changes = {};
 
-			if (dirty & /*$$scope, position, rotation, index*/ 28680) {
+			if (dirty & /*$$scope, position, rotation, index*/ 28676) {
 				linearcloner_changes.$$scope = { dirty, ctx };
 			}
 
@@ -358,7 +358,7 @@ function create_default_slot_1(ctx) {
 	};
 }
 
-// (34:0) <Scene {width} height={450} bind:time background="#67727e">
+// (33:0) <Scene {width} height={450} bind:time background="#67727e">
 function create_default_slot(ctx) {
 	let ambientlight;
 	let t0;
@@ -396,7 +396,7 @@ function create_default_slot(ctx) {
 		p(ctx, dirty) {
 			const group_changes = {};
 
-			if (dirty & /*$$scope, rotation, spaceBetween*/ 16394) {
+			if (dirty & /*$$scope, rotation, spaceBetween*/ 16396) {
 				group_changes.$$scope = { dirty, ctx };
 			}
 
@@ -442,8 +442,8 @@ function create_fragment(ctx) {
 		$$scope: { ctx }
 	};
 
-	if (/*time*/ ctx[2] !== void 0) {
-		scene_props.time = /*time*/ ctx[2];
+	if (/*time*/ ctx[1] !== void 0) {
+		scene_props.time = /*time*/ ctx[1];
 	}
 
 	scene = new Scene({ props: scene_props });
@@ -461,13 +461,13 @@ function create_fragment(ctx) {
 			const scene_changes = {};
 			if (dirty & /*width*/ 1) scene_changes.width = /*width*/ ctx[0];
 
-			if (dirty & /*$$scope, rotation, spaceBetween*/ 16394) {
+			if (dirty & /*$$scope, rotation, spaceBetween*/ 16396) {
 				scene_changes.$$scope = { dirty, ctx };
 			}
 
-			if (!updating_time && dirty & /*time*/ 4) {
+			if (!updating_time && dirty & /*time*/ 2) {
 				updating_time = true;
-				scene_changes.time = /*time*/ ctx[2];
+				scene_changes.time = /*time*/ ctx[1];
 				add_flush_callback(() => updating_time = false);
 			}
 
@@ -509,7 +509,7 @@ function instance($$self, $$props, $$invalidate) {
 
 	function scene_time_binding(value) {
 		time = value;
-		$$subscribe_time($$invalidate(2, time));
+		$$subscribe_time($$invalidate(1, time));
 	}
 
 	$$self.$$set = $$props => {
@@ -518,15 +518,11 @@ function instance($$self, $$props, $$invalidate) {
 	};
 
 	$$self.$$.update = () => {
-		if ($$self.$$.dirty & /*time, medianSpaceBetween, rotation, $time*/ 1548) {
+		if ($$self.$$.dirty & /*time, medianSpaceBetween, rotation, $time*/ 1542) {
 			$: if (time && medianSpaceBetween) {
-				$$invalidate(3, rotation = rotation.map(n => n += 0.01));
-				$$invalidate(1, spaceBetween = medianSpaceBetween + Math.sin($time / 600) * spaceBetweenVariance);
+				$$invalidate(2, rotation = rotation.map(n => n += 0.01));
+				$$invalidate(3, spaceBetween = medianSpaceBetween + Math.sin($time / 600) * spaceBetweenVariance);
 			}
-		}
-
-		if ($$self.$$.dirty & /*spaceBetween*/ 2) {
-			$: console.log(spaceBetween);
 		}
 	};
 
@@ -534,9 +530,9 @@ function instance($$self, $$props, $$invalidate) {
 
 	return [
 		width,
-		spaceBetween,
 		time,
 		rotation,
+		spaceBetween,
 		Cube,
 		Torus,
 		LinearCloner,
