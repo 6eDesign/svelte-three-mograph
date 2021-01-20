@@ -28,7 +28,6 @@
     spaceBetween =
       medianSpaceBetween + Math.sin($time / 600) * spaceBetweenVariance;
   }
-  $: console.log(spaceBetween);
 </script>
 
 <Scene {width} height={450} bind:time background="#67727e">
