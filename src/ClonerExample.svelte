@@ -1,9 +1,12 @@
 <script>
   import { getContext, onDestroy } from 'svelte';
-  import { Material, mograph, primitives } from './components';
-
-  const { Cube, Torus } = primitives;
-  const { LinearCloner, GridCloner, Group } = mograph;
+  import {
+    Material,
+    LinearCloner,
+    GridCloner,
+    Cube,
+    Torus,
+  } from './components';
 
   let rotation = [0.8, 0.8, 0.8];
   let spaceBetween = 0.16;

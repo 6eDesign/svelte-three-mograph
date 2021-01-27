@@ -1,9 +1,5 @@
 <script>
-  import AmbientLight from '../../../components/lights/AmbientLight.svelte';
-  import Material from '../../../components/materials/Material.svelte';
-  import Group from '../../../components/mograph/Group.svelte';
-  import Cylinder from '../../../components/primitives/Cylinder.svelte';
-  import Scene from '../../../components/Scene.svelte';
+  import { AmbientLight, Material, Scene } from '../../../components';
   import Branch from './Branch.svelte';
 
   export let width;

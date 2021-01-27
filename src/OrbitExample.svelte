@@ -2,26 +2,14 @@
   import {
     Scene,
     Material,
-    numbers,
-    lights,
-    mograph,
-    primitives,
+    RandomColor,
+    PointLight,
+    Particle,
+    Icosahedron,
   } from './components';
+
   import { Vector3 } from 'three';
   import { random, addVariance } from './utils';
-
-  const { RandomColor } = numbers;
-  const { Emitter, Particle } = mograph;
-  const { PointLight } = lights;
-  const {
-    Cube,
-    Icosahedron,
-    Octahedron,
-    Sphere,
-    Tetrahedron,
-    Torus,
-    TorusKnot,
-  } = primitives;
 
   export let position = [0, 0, 0];
   export let radius = 1.2;

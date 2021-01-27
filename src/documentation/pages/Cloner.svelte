@@ -1,15 +1,18 @@
 <script>
   import { getContext, onDestroy } from 'svelte';
-  import { Material, mograph, primitives } from '../../components';
-  import AmbientLight from '../../components/lights/AmbientLight.svelte';
-  import DirectionalLight from '../../components/lights/DirectionalLight.svelte';
-  import Group from '../../components/mograph/Group.svelte';
-  import Particle from '../../components/mograph/Particle.svelte';
-  import Scene from '../../components/Scene.svelte';
+  import {
+    Material,
+    LinearCloner,
+    GridCloner,
+    Cube,
+    Torus,
+    AmbientLight,
+    DirectionalLight,
+    Group,
+    Particle,
+    Scene,
+  } from '../../components';
   import OrbitExample from '../../OrbitExample.svelte';
-
-  const { Cube, Torus } = primitives;
-  const { LinearCloner, GridCloner } = mograph;
 
   export let width;
   export let height;

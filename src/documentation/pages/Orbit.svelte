@@ -1,10 +1,8 @@
 <script>
-  import { Scene, Material, mograph, primitives } from '../../components';
+  import { Scene, Material, Particle, Icosahedron } from '../../components';
   import AmbientLight from '../../components/lights/AmbientLight.svelte';
   import DirectionalLight from '../../components/lights/DirectionalLight.svelte';
   import OrbitExample from '../../OrbitExample.svelte';
-  const { Particle } = mograph;
-  const { Icosahedron } = primitives;
   export let width;
 
   const opts = {
