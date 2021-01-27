@@ -15,7 +15,6 @@ function instance($$self, $$props, $$invalidate) {
 	sceneCtx.scene.add(light);
 
 	onDestroy(() => {
-		console.log("removing light");
 		sceneCtx.scene.remove(light);
 	});
 
